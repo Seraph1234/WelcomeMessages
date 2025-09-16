@@ -122,12 +122,6 @@ Code style: Just make it readable. I'm not picky.
 
 ## FAQ
 
-**Q: Why doesn't this hide from /plugins?**
-A: Because that's sketchy. Don't be sketchy.
-
-**Q: Can this show fake player counts?**
-A: No. That's literally against Minecraft's TOS.
-
 **Q: Performance impact?**
 A: Basically zero. I benchmarked it.
 
