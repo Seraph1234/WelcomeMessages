@@ -8,16 +8,27 @@
 # {joincount} - Player's join count
 # {time} - Time-based greeting (morning/afternoon/evening)
 # {ordinal} - Ordinal number (1st, 2nd, 3rd, etc.) for first joins
+#
+# Color Codes:
+# &c - Standard color codes (0-9, a-f, k-o, r)
+# &#RRGGBB - Hex colors (e.g., &#ff5555 for light red)
+# <gradient:#START:#END>text</gradient> - Gradient text
+# <rainbow>text</rainbow> - Rainbow text
+#
+# Examples:
+# <gradient:#ff0000:#00ff00>Welcome!</gradient> - Red to green gradient
+# <rainbow>EPIC PLAYER</rainbow> - Rainbow text
+# &#ff55ff{player} - Pink colored name
 
 messages:
   join:
     # Messages for first-time players
     first-time:
-      - "&8[&a+&8] &6Welcome &e{player} &6to the server! &7(#{ordinal} player)"
-      - "&8[&a+&8] &d✨ &6A new adventurer &e{player} &6has arrived! &d✨"
-      - "&8[&a+&8] &b🎉 &e{player} &bjoined for the first time! Welcome!"
-      - "&8[&a+&8] &6Everyone welcome &e{player} &6to our community!"
-      - "&8[&a+&8] &aFirst time here? &e{player} &ajust joined us!"
+      - "&8[&a+&8] <gradient:#FFD700:#FFA500>Welcome {player} to the server!</gradient> &7(#{ordinal} player)"
+      - "&8[&a+&8] &d✨ <rainbow>A new adventurer {player} has arrived!</rainbow> &d✨"
+      - "&8[&a+&8] &b🎉 <gradient:#00BFFF:#FF1493>{player}</gradient> &bjoined for the first time! Welcome!"
+      - "&8[&a+&8] <gradient:#FF6B6B:#4ECDC4>Everyone welcome {player} to our community!</gradient>"
+      - "&8[&a+&8] &aFirst time here? <rainbow>{player}</rainbow> &ajust joined us!"
 
     # Default join messages (randomly selected)
     default:
@@ -32,24 +43,24 @@ messages:
     # Rank-specific messages (requires permission: welcome.rank.<rank>)
     ranks:
       vip:
-        - "&8[&a+&8] &6[VIP] &e{player} &7joined the game"
-        - "&8[&a+&8] &6✦ VIP &e{player} &6has arrived! ✦"
-        - "&8[&a+&8] &7The VIP &e{player} &7is now online"
+        - "&8[&a+&8] <gradient:#FFD700:#FFED4E>[VIP] {player}</gradient> &7joined the game"
+        - "&8[&a+&8] &6✦ <gradient:#FFD700:#FFA500>VIP {player}</gradient> &6has arrived! ✦"
+        - "&8[&a+&8] &7The VIP <gradient:#FFFF00:#FFD700>{player}</gradient> &7is now online"
 
       mvp:
-        - "&8[&a+&8] &b[MVP] &e{player} &bjoined the server!"
-        - "&8[&a+&8] &b⚡ MVP &e{player} &bis here! ⚡"
-        - "&8[&a+&8] &bEveryone welcome MVP &e{player}!"
+        - "&8[&a+&8] <gradient:#00FFFF:#0080FF>[MVP] {player}</gradient> &bjoined the server!"
+        - "&8[&a+&8] &b⚡ <rainbow>MVP {player}</rainbow> &bis here! ⚡"
+        - "&8[&a+&8] &bEveryone welcome <gradient:#00BFFF:#FF1493>MVP {player}</gradient>!"
 
       admin:
-        - "&8[&a+&8] &c[Admin] &e{player} &cjoined the server"
-        - "&8[&a+&8] &c🛡 Administrator &e{player} &cis now online 🛡"
-        - "&8[&a+&8] &cStaff member &e{player} &chas connected"
+        - "&8[&a+&8] <gradient:#FF0000:#FF6B6B>[Admin] {player}</gradient> &cjoined the server"
+        - "&8[&a+&8] &c🛡 <gradient:#FF4444:#FFAAAA>Administrator {player}</gradient> &cis now online 🛡"
+        - "&8[&a+&8] &cStaff member <gradient:#FF0000:#FFA500>{player}</gradient> &chas connected"
 
       owner:
-        - "&8[&a+&8] &4[OWNER] &e{player} &4has joined!"
-        - "&8[&a+&8] &4👑 The Owner &e{player} &4is here! 👑"
-        - "&8[&a+&8] &4Server Owner &e{player} &4connected"
+        - "&8[&a+&8] <gradient:#AA00FF:#FF00FF>[OWNER] {player}</gradient> &4has joined!"
+        - "&8[&a+&8] &4👑 <rainbow>The Owner {player}</rainbow> &4is here! 👑"
+        - "&8[&a+&8] <gradient:#FF0000:#FFD700>Server Owner {player}</gradient> &4connected"
 
   quit:
     # Default quit messages (randomly selected)

@@ -11,14 +11,22 @@ import java.util.regex.Pattern;
 public class MessageUtils {
 
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    private static final Pattern GRADIENT_PATTERN = Pattern.compile("<gradient:(#[A-Fa-f0-9]{6}):(#[A-Fa-f0-9]{6})>(.*?)</gradient>");
+    private static final Pattern RAINBOW_PATTERN = Pattern.compile("<rainbow>(.*?)</rainbow>");
 
     /**
-     * Colorize a message with both legacy and hex color codes
+     * Colorize a message with legacy, hex, gradient, and rainbow color codes
      * @param message The message to colorize
      * @return The colorized message
      */
     public static String colorize(String message) {
         if (message == null) return "";
+
+        // Process gradients first
+        message = processGradients(message);
+
+        // Process rainbow text
+        message = processRainbow(message);
 
         // Convert hex color codes
         Matcher matcher = HEX_PATTERN.matcher(message);
@@ -33,6 +41,157 @@ public class MessageUtils {
 
         // Convert legacy color codes
         return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    /**
+     * Process gradient color patterns
+     * @param message The message containing gradient patterns
+     * @return The message with gradients applied
+     */
+    private static String processGradients(String message) {
+        Matcher matcher = GRADIENT_PATTERN.matcher(message);
+        StringBuffer buffer = new StringBuffer();
+
+        while (matcher.find()) {
+            String startColor = matcher.group(1);
+            String endColor = matcher.group(2);
+            String text = matcher.group(3);
+
+            // Strip any existing color codes from the text
+            text = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', text));
+
+            String gradientText = applyGradient(text, startColor, endColor);
+            matcher.appendReplacement(buffer, gradientText);
+        }
+
+        return matcher.appendTail(buffer).toString();
+    }
+
+    /**
+     * Process rainbow color patterns
+     * @param message The message containing rainbow patterns
+     * @return The message with rainbow applied
+     */
+    private static String processRainbow(String message) {
+        Matcher matcher = RAINBOW_PATTERN.matcher(message);
+        StringBuffer buffer = new StringBuffer();
+
+        while (matcher.find()) {
+            String text = matcher.group(1);
+
+            // Strip any existing color codes from the text
+            text = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', text));
+
+            String rainbowText = applyRainbow(text);
+            matcher.appendReplacement(buffer, rainbowText);
+        }
+
+        return matcher.appendTail(buffer).toString();
+    }
+
+    /**
+     * Apply a gradient between two colors to text
+     * @param text The text to apply gradient to
+     * @param startHex Starting color in hex format
+     * @param endHex Ending color in hex format
+     * @return The text with gradient applied
+     */
+    private static String applyGradient(String text, String startHex, String endHex) {
+        if (text.isEmpty()) return text;
+
+        // Parse colors
+        int startR = Integer.parseInt(startHex.substring(1, 3), 16);
+        int startG = Integer.parseInt(startHex.substring(3, 5), 16);
+        int startB = Integer.parseInt(startHex.substring(5, 7), 16);
+
+        int endR = Integer.parseInt(endHex.substring(1, 3), 16);
+        int endG = Integer.parseInt(endHex.substring(3, 5), 16);
+        int endB = Integer.parseInt(endHex.substring(5, 7), 16);
+
+        StringBuilder result = new StringBuilder();
+        int length = text.length();
+
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                result.append(' ');
+                continue;
+            }
+
+            float ratio = (float) i / Math.max(1, length - 1);
+
+            int r = Math.round(startR + (endR - startR) * ratio);
+            int g = Math.round(startG + (endG - startG) * ratio);
+            int b = Math.round(startB + (endB - startB) * ratio);
+
+            String hex = String.format("#%02x%02x%02x", r, g, b);
+            result.append(ChatColor.of(hex)).append(c);
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Apply rainbow colors to text
+     * @param text The text to apply rainbow to
+     * @return The text with rainbow colors
+     */
+    private static String applyRainbow(String text) {
+        if (text.isEmpty()) return text;
+
+        // Rainbow colors
+        String[] rainbowHex = {
+                "#ff0000", // Red
+                "#ff7f00", // Orange
+                "#ffff00", // Yellow
+                "#00ff00", // Green
+                "#0000ff", // Blue
+                "#4b0082", // Indigo
+                "#9400d3"  // Violet
+        };
+
+        StringBuilder result = new StringBuilder();
+        int length = text.length();
+
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                result.append(' ');
+                continue;
+            }
+
+            // Calculate position in rainbow
+            float position = (float) i / Math.max(1, length - 1) * (rainbowHex.length - 1);
+            int colorIndex = (int) position;
+            float colorRatio = position - colorIndex;
+
+            String color;
+            if (colorIndex >= rainbowHex.length - 1) {
+                color = rainbowHex[rainbowHex.length - 1];
+            } else {
+                // Interpolate between two rainbow colors
+                String startColor = rainbowHex[colorIndex];
+                String endColor = rainbowHex[colorIndex + 1];
+
+                int startR = Integer.parseInt(startColor.substring(1, 3), 16);
+                int startG = Integer.parseInt(startColor.substring(3, 5), 16);
+                int startB = Integer.parseInt(startColor.substring(5, 7), 16);
+
+                int endR = Integer.parseInt(endColor.substring(1, 3), 16);
+                int endG = Integer.parseInt(endColor.substring(3, 5), 16);
+                int endB = Integer.parseInt(endColor.substring(5, 7), 16);
+
+                int r = Math.round(startR + (endR - startR) * colorRatio);
+                int g = Math.round(startG + (endG - startG) * colorRatio);
+                int b = Math.round(startB + (endB - startB) * colorRatio);
+
+                color = String.format("#%02x%02x%02x", r, g, b);
+            }
+
+            result.append(ChatColor.of(color)).append(c);
+        }
+
+        return result.toString();
     }
 
     /**

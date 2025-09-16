@@ -121,8 +121,13 @@ public class MessageManager {
             message = message.replace("{ordinal}", getOrdinal(plugin.getDataManager().getTotalUniqueJoins()));
         }
 
-        // Apply color codes
-        return MessageUtils.colorize(message);
+        // Apply color codes (including gradients and rainbow if enabled)
+        if (plugin.getConfig().getBoolean("messages.rgb.enabled", true)) {
+            return MessageUtils.colorize(message);
+        } else {
+            // Fall back to basic color codes only
+            return ChatColor.translateAlternateColorCodes('&', message);
+        }
     }
 
     private String getOrdinal(int number) {

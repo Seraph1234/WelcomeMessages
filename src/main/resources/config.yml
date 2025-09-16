@@ -1,6 +1,6 @@
 # WelcomeMessages Configuration
 # Plugin by FiveDollaGobby
-# Version: 1.0.0
+# Version: 1.1.0
 
 # General Settings
 general:
@@ -31,6 +31,15 @@ messages:
 
   # Combine rank messages with default messages (random selection from both)
   combine-rank-default: false
+
+  # RGB and Gradient Settings
+  rgb:
+    # Enable RGB/Gradient support (requires 1.16+)
+    enabled: true
+    # Enable rainbow text processing
+    rainbow: true
+    # Enable gradient text processing
+    gradients: true
 
 # Visual and Audio Effects
 effects:
