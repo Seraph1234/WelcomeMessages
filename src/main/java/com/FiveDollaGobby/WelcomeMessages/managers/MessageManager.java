@@ -4,6 +4,7 @@ import com.FiveDollaGobby.WelcomeMessages.WelcomePlugin;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.ConfigurationSection;
+import net.md_5.bungee.api.ChatColor;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
