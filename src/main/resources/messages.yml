@@ -1,0 +1,100 @@
+# WelcomeMessages - Message Configuration
+# Placeholders:
+# {player} - Player name
+# {displayname} - Player display name
+# {world} - World name
+# {online} - Current online players
+# {max} - Max players
+# {joincount} - Player's join count
+# {time} - Time-based greeting (morning/afternoon/evening)
+# {ordinal} - Ordinal number (1st, 2nd, 3rd, etc.) for first joins
+
+messages:
+  join:
+    # Messages for first-time players
+    first-time:
+      - "&8[&a+&8] &6Welcome &e{player} &6to the server! &7(#{ordinal} player)"
+      - "&8[&a+&8] &d✨ &6A new adventurer &e{player} &6has arrived! &d✨"
+      - "&8[&a+&8] &b🎉 &e{player} &bjoined for the first time! Welcome!"
+      - "&8[&a+&8] &6Everyone welcome &e{player} &6to our community!"
+      - "&8[&a+&8] &aFirst time here? &e{player} &ajust joined us!"
+
+    # Default join messages (randomly selected)
+    default:
+      - "&8[&a+&8] &e{player} &7joined the game"
+      - "&8[&a+&8] &7Good {time}! &e{player} &7is here"
+      - "&8[&a+&8] &e{player} &7hopped online &8(&7{online}&8/&7{max}&8)"
+      - "&8[&a+&8] &7Welcome back, &e{player}&7!"
+      - "&8[&a+&8] &e{player} &7has connected"
+      - "&8[&a+&8] &7Look who's back! It's &e{player}"
+      - "&8[&a+&8] &e{player} &7joined from &a{world}"
+
+    # Rank-specific messages (requires permission: welcome.rank.<rank>)
+    ranks:
+      vip:
+        - "&8[&a+&8] &6[VIP] &e{player} &7joined the game"
+        - "&8[&a+&8] &6✦ VIP &e{player} &6has arrived! ✦"
+        - "&8[&a+&8] &7The VIP &e{player} &7is now online"
+
+      mvp:
+        - "&8[&a+&8] &b[MVP] &e{player} &bjoined the server!"
+        - "&8[&a+&8] &b⚡ MVP &e{player} &bis here! ⚡"
+        - "&8[&a+&8] &bEveryone welcome MVP &e{player}!"
+
+      admin:
+        - "&8[&a+&8] &c[Admin] &e{player} &cjoined the server"
+        - "&8[&a+&8] &c🛡 Administrator &e{player} &cis now online 🛡"
+        - "&8[&a+&8] &cStaff member &e{player} &chas connected"
+
+      owner:
+        - "&8[&a+&8] &4[OWNER] &e{player} &4has joined!"
+        - "&8[&a+&8] &4👑 The Owner &e{player} &4is here! 👑"
+        - "&8[&a+&8] &4Server Owner &e{player} &4connected"
+
+  quit:
+    # Default quit messages (randomly selected)
+    default:
+      - "&8[&c-&8] &e{player} &7left the game"
+      - "&8[&c-&8] &e{player} &7disconnected"
+      - "&8[&c-&8] &7See you later, &e{player}&7!"
+      - "&8[&c-&8] &e{player} &7went offline &8(&7{online}&8/&7{max}&8)"
+      - "&8[&c-&8] &e{player} &7has left"
+      - "&8[&c-&8] &7Goodbye &e{player}&7!"
+      - "&8[&c-&8] &e{player} &7logged out"
+
+    # Rank-specific quit messages
+    ranks:
+      vip:
+        - "&8[&c-&8] &6[VIP] &e{player} &7left the game"
+        - "&8[&c-&8] &6VIP &e{player} &6disconnected"
+
+      mvp:
+        - "&8[&c-&8] &b[MVP] &e{player} &bleft the server"
+        - "&8[&c-&8] &bMVP &e{player} &bwent offline"
+
+      admin:
+        - "&8[&c-&8] &c[Admin] &e{player} &cleft the server"
+        - "&8[&c-&8] &cAdministrator &e{player} &cdisconnected"
+
+      owner:
+        - "&8[&c-&8] &4[OWNER] &e{player} &4has left"
+        - "&8[&c-&8] &4Owner &e{player} &4disconnected"
+
+# Command Messages
+commands:
+  no-permission: "&cYou don't have permission to use this command!"
+  reload-success: "&aPlugin configuration reloaded successfully!"
+  reload-error: "&cAn error occurred while reloading the configuration!"
+  unknown-command: "&cUnknown subcommand. Use &e/welcome help &cfor help."
+  player-not-found: "&cPlayer &e{player} &cnot found!"
+
+  help:
+    header: "&6&l--- WelcomeMessages Help ---"
+    commands:
+      - "&e/welcome help &7- Show this help menu"
+      - "&e/welcome reload &7- Reload configuration"
+      - "&e/welcome test <player> &7- Test join message for player"
+      - "&e/welcome stats <player> &7- View player statistics"
+      - "&e/welcome reset <player> &7- Reset player data"
+      - "&e/welcome toggle &7- Toggle your join/quit messages"
+    footer: "&6&l-------------------------"
