@@ -110,7 +110,7 @@ Stuff I might add if people actually use this:
 - [ ] MySQL support (but why?)
 - [ ] Discord webhooks (maybe)
 - [ ] Custom sounds (when I figure out resource packs)
-- [ ] RGB gradient text (when I'm bored)
+- [X] RGB gradient text (when I'm bored)
 
 ## Contributing
 
@@ -150,6 +150,6 @@ MIT - Do whatever you want with it. Sell it, modify it, claim you made it, I don
 
 ---
 
-*Made with DDR3 and mild frustration by FiveDollaGobby*
+*Made with 🎮 and mild frustration by FiveDollaGobby*
 
 *If this saved you time, star the repo. If it didn't, tell me why.*

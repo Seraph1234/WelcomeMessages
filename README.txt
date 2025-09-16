@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.0.0
+    WelcomeMessages - v1.1.0
     For Minecraft 1.21.8
 =====================================================
 
@@ -94,4 +94,3 @@ If you like it, leave a star on GitHub. If you don't,
 tell me what sucks so I can fix it.
 
 - FiveDollaGobby
-

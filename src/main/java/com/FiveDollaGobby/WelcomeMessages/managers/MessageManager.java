@@ -57,11 +57,11 @@ public class MessageManager {
         if (isFirstJoin && !firstJoinMessages.isEmpty()) {
             possibleMessages = new ArrayList<>(firstJoinMessages);
         } else {
-            // Check for rank-based messages
-            for (Map.Entry<String, List<String>> entry : rankJoinMessages.entrySet()) {
-                if (player.hasPermission("welcome.rank." + entry.getKey())) {
-                    possibleMessages.addAll(entry.getValue());
-                }
+            // Check for rank-based messages with priority system
+            String highestRank = getHighestRank(player);
+
+            if (highestRank != null && rankJoinMessages.containsKey(highestRank)) {
+                possibleMessages.addAll(rankJoinMessages.get(highestRank));
             }
 
             // Add default messages if no rank messages or if configured to combine
@@ -82,11 +82,11 @@ public class MessageManager {
     public String getQuitMessage(Player player) {
         List<String> possibleMessages = new ArrayList<>();
 
-        // Check for rank-based messages
-        for (Map.Entry<String, List<String>> entry : rankQuitMessages.entrySet()) {
-            if (player.hasPermission("welcome.rank." + entry.getKey())) {
-                possibleMessages.addAll(entry.getValue());
-            }
+        // Check for rank-based messages with priority system
+        String highestRank = getHighestRank(player);
+
+        if (highestRank != null && rankQuitMessages.containsKey(highestRank)) {
+            possibleMessages.addAll(rankQuitMessages.get(highestRank));
         }
 
         // Add default messages if no rank messages or if configured to combine
@@ -98,6 +98,29 @@ public class MessageManager {
         if (!possibleMessages.isEmpty()) {
             String message = possibleMessages.get(ThreadLocalRandom.current().nextInt(possibleMessages.size()));
             return replacePlaceholders(message, player, false);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the highest priority rank for a player
+     * Priority: owner > admin > mvp > vip > default
+     */
+    private String getHighestRank(Player player) {
+        // Define rank priority (highest to lowest)
+        String[] rankPriority = {"owner", "admin", "mvp", "vip"};
+
+        // Special case: if player is OP and has explicit-ranks-only enabled
+        if (player.isOp() && plugin.getConfig().getBoolean("messages.op-uses-default", false)) {
+            return null; // Use default messages for OPs
+        }
+
+        // Check ranks in priority order
+        for (String rank : rankPriority) {
+            if (player.hasPermission("welcome.rank." + rank)) {
+                return rank;
+            }
         }
 
         return null;

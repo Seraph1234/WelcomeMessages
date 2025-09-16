@@ -32,6 +32,9 @@ messages:
   # Combine rank messages with default messages (random selection from both)
   combine-rank-default: false
 
+  # Should OPs use default messages instead of rank messages?
+  op-uses-default: false
+
   # RGB and Gradient Settings
   rgb:
     # Enable RGB/Gradient support (requires 1.16+)
