@@ -1,6 +1,6 @@
 # WelcomeMessages
 
-A clean, lightweight welcome plugin for Minecraft Paper servers that actually works.
+A clean, lightweight welcome plugin for Minecraft servers that actually works. No bloat, no premium features locked behind paywalls, just good old-fashioned join/quit messages done right.
 
 ## Why Another Welcome Plugin?
 
@@ -10,7 +10,9 @@ Look, I needed a welcome plugin that wasn't from 2018, didn't break every update
 
 - **Smart Messages** - Different messages for new players vs returning ones
 - **Rank Support** - VIPs get VIP treatment (if you want)
-- **Actual Effects** - Particles, sounds, titles, fireworks - all optional
+- **Fancy Effects** - Particles, sounds, titles, fireworks - all optional and configurable
+- **RGB & Gradients** - Support for modern color codes and rainbow text
+- **Config Validation** - Won't crash your server with bad settings
 - **Not Annoying** - Everything's configurable, nothing's forced
 
 ## Screenshots
@@ -32,21 +34,23 @@ But honestly, you'll customize these anyway.
 4. Edit configs if you want
 5. You're done
 
-Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
+Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me). Works on both Spigot and Paper.
 
 ## Features That Actually Matter
 
 ### For Players
-- Personal toggle command (finally)
+- Personal toggle command (finally!)
 - Join counter that actually saves
 - Effects that don't lag the server
 - Messages that make sense
+- RGB gradients and rainbow text support
 
 ### For Admins
 - Works with your permission plugin (all of them)
-- Config that's actually readable
+- Config that's actually readable and validated
 - Reload command that actually reloads
 - No random database files everywhere
+- Won't crash from bad configs anymore
 
 ### Performance
 - Async everything (your TPS will thank me)
@@ -65,13 +69,33 @@ All commands use `/welcome` or `/wm`:
 
 ## Permissions
 
-Basic stuff works without setup. For more:
-```yaml
-welcome.rank.vip     # VIP messages
-welcome.rank.mvp     # MVP messages
-welcome.admin        # Admin commands
-welcome.reload       # Just reload
-```
+**Basic permissions (work out of the box):**
+- `welcome.use` - Use basic welcome commands (default: true)
+- `welcome.see.join` - See join messages (default: true)
+- `welcome.see.quit` - See quit messages (default: true)
+- `welcome.toggle` - Toggle personal join/quit messages (default: true)
+
+**Admin permissions:**
+- `welcome.*` - All WelcomeMessages permissions (default: op)
+- `welcome.admin` - Access to all admin commands (default: op)
+- `welcome.reload` - Reload plugin configuration (default: op)
+- `welcome.test` - Test join messages (default: op)
+- `welcome.stats` - View player statistics (default: op)
+- `welcome.reset` - Reset player data (default: op)
+
+**Exemption permissions:**
+- `welcome.exempt.join` - Exempt from having join messages shown (default: false)
+- `welcome.exempt.quit` - Exempt from having quit messages shown (default: false)
+
+**Effect permissions:**
+- `welcome.effects.bypass` - Bypass effect cooldowns (default: op)
+
+**Rank permissions:**
+- `welcome.rank.*` - All rank permissions (default: false)
+- `welcome.rank.vip` - VIP rank messages (default: false)
+- `welcome.rank.mvp` - MVP rank messages (default: false)
+- `welcome.rank.admin` - Admin rank messages (default: false)
+- `welcome.rank.owner` - Owner rank messages (default: false)
 
 ## Config
 
@@ -82,9 +106,13 @@ Two files, both human-readable:
 
 Placeholders that work:
 - `{player}` - The player's name (obviously)
+- `{displayname}` - Player's display name
 - `{world}` - Current world
 - `{online}` - Online count
+- `{max}` - Max players
+- `{joincount}` - How many times they've joined
 - `{time}` - Morning/afternoon/evening
+- `{ordinal}` - First join position (1st, 2nd, 3rd, etc.)
 - More in the config comments
 
 ## Building From Source
@@ -102,6 +130,7 @@ The jar's in build/libs/
 - Fireworks might scare your pets (in-game ones)
 - Too many particles can lag potato clients (not the server)
 - Color codes are still using & because I'm oldschool
+- Some older permission plugins might not recognize the new permissions (just give them manually)
 
 ## Planned Features
 
@@ -110,7 +139,9 @@ Stuff I might add if people actually use this:
 - [ ] MySQL support (but why?)
 - [ ] Discord webhooks (maybe)
 - [ ] Custom sounds (when I figure out resource packs)
-- [X] RGB gradient text (when I'm bored)
+- [X] RGB gradient text (done!)
+- [X] Config validation (done!)
+- [ ] World-specific messages (maybe)
 
 ## Contributing
 
