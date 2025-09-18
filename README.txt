@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.1.9
+    WelcomeMessages - v1.2.0
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.1.9.jar into your plugins folder
+1. Drop the WelcomeMessages-1.2.0.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done! (Plugin validates your config so it won't crash)
@@ -18,7 +18,8 @@ Makes your server feel more alive with custom join/quit messages.
 First time players get a special welcome, regulars get their own
 messages, and your VIPs can have fancy entrances with fireworks
 and everything. Now with RGB gradients, rainbow text, config
-validation, PlaceholderAPI support, and full Spigot compatibility!
+validation, PlaceholderAPI support, custom rank system, and full 
+Spigot compatibility!
 
 COMMANDS
 --------
@@ -85,24 +86,6 @@ Server data:
 - %welcome_time_greeting% - Morning/afternoon/evening
 - %welcome_server_uptime% - Server uptime
 
-COMMON ISSUES
--------------
-"Effects not showing!"
-- Make sure you didn't disable them in config.yml
-- Check if the player has permission to see them
-
-"Messages look weird!"
-- You probably have a color code wrong, check your &'s
-- RGB colors need Paper/Spigot 1.16+ to work properly
-
-"Plugin not loading!"
-- Need Java 21 for MC 1.21.x
-- Check console for errors
-- Plugin now validates configs, so check for validation errors
-
-"Config validation failed!"
-- Fix the errors shown in console
-- Plugin will tell you exactly what's wrong
 
 PERFORMANCE
 -----------
@@ -121,6 +104,13 @@ Everything broken? ...yeah, GitHub.
 
 CHANGELOG
 ---------
+v1.2.0 - Custom Rank System
+- Added unlimited custom rank support
+- Define your own ranks in config.yml
+- Perfect for multiple VIP tiers or custom server ranks
+- Works with any permission plugin
+- Updated testall command to showcase custom ranks
+
 v1.1.9 - Spigot Compatibility Fix
 - Fixed all compatibility issues with Spigot servers
 - Plugin now works perfectly on both Spigot and Paper

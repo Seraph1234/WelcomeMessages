@@ -201,11 +201,40 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
         // Test 4: Rank Messages
         MessageUtils.sendMessage(sender, "&a&l4. Rank System:");
-        String[] ranks = {"owner", "admin", "mvp", "vip"};
-        for (String rank : ranks) {
-            if (target.hasPermission("welcome.rank." + rank)) {
-                MessageUtils.sendMessage(sender, "&7You have &e" + rank.toUpperCase() + " &7rank permissions");
-                break;
+        
+        // Check if custom ranks are enabled
+        if (plugin.getConfig().getBoolean("custom-ranks.enabled", true)) {
+            List<String> customRanks = plugin.getConfig().getStringList("custom-ranks.ranks");
+            
+            if (!customRanks.isEmpty()) {
+                MessageUtils.sendMessage(sender, "&7Custom ranks enabled. Checking permissions:");
+                boolean foundRank = false;
+                for (String rank : customRanks) {
+                    if (target.hasPermission("welcome.rank." + rank)) {
+                        MessageUtils.sendMessage(sender, "&7You have &e" + rank.toUpperCase() + " &7rank permissions");
+                        foundRank = true;
+                        break;
+                    }
+                }
+                if (!foundRank) {
+                    MessageUtils.sendMessage(sender, "&7No custom rank permissions found");
+                }
+            } else {
+                MessageUtils.sendMessage(sender, "&7Custom ranks enabled but no ranks configured");
+            }
+        } else {
+            MessageUtils.sendMessage(sender, "&7Custom ranks disabled, using default system:");
+            String[] defaultRanks = {"owner", "admin", "mvp", "vip"};
+            boolean foundRank = false;
+            for (String rank : defaultRanks) {
+                if (target.hasPermission("welcome.rank." + rank)) {
+                    MessageUtils.sendMessage(sender, "&7You have &e" + rank.toUpperCase() + " &7rank permissions");
+                    foundRank = true;
+                    break;
+                }
+            }
+            if (!foundRank) {
+                MessageUtils.sendMessage(sender, "&7No default rank permissions found");
             }
         }
         MessageUtils.sendMessage(sender, "");

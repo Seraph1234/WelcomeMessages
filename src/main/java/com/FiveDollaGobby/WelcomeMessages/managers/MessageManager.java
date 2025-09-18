@@ -103,17 +103,30 @@ public class MessageManager {
         return null;
     }
 
-    // get highest rank for player (owner > admin > mvp > vip)
+    // get highest rank for player using custom rank system
     private String getHighestRank(Player player) {
-        String[] rankPriority = {"owner", "admin", "mvp", "vip"};
-
         // ops use default if configured
         if (player.isOp() && plugin.getConfig().getBoolean("messages.op-uses-default", false)) {
             return null;
         }
 
-        // check ranks by priority
-        for (String rank : rankPriority) {
+        // check if custom ranks are enabled
+        if (plugin.getConfig().getBoolean("custom-ranks.enabled", true)) {
+            List<String> customRanks = plugin.getConfig().getStringList("custom-ranks.ranks");
+            
+            // if custom ranks are configured, use them
+            if (!customRanks.isEmpty()) {
+                for (String rank : customRanks) {
+                    if (player.hasPermission("welcome.rank." + rank)) {
+                        return rank;
+                    }
+                }
+            }
+        }
+
+        // fallback to default rank priority if custom ranks are disabled or empty
+        String[] defaultRankPriority = {"owner", "admin", "mvp", "vip"};
+        for (String rank : defaultRankPriority) {
             if (player.hasPermission("welcome.rank." + rank)) {
                 return rank;
             }

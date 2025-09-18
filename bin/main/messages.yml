@@ -62,6 +62,33 @@ messages:
         - "&8[&a+&8] &4👑 <rainbow>The Owner {player}</rainbow> &4is here! 👑"
         - "&8[&a+&8] <gradient:#FF0000:#FFD700>Server Owner {player}</gradient> &4connected"
 
+      # Custom rank examples (uncomment and modify as needed)
+      # moderator:
+      #   - "&8[&a+&8] <gradient:#00FF00:#32CD32>[MOD] {player}</gradient> &ahas joined!"
+      #   - "&8[&a+&8] &a🛡 Moderator {player} &ais now online 🛡"
+
+      # premium:
+      #   - "&8[&a+&8] <gradient:#FFD700:#FFA500>[PREMIUM] {player}</gradient> &6joined!"
+      #   - "&8[&a+&8] &6⭐ Premium member {player} &6is here! ⭐"
+
+      # donator:
+      #   - "&8[&a+&8] <gradient:#FF69B4:#FF1493>[DONATOR] {player}</gradient> &djoined!"
+      #   - "&8[&a+&8] &d💖 Donator {player} &dhas arrived! 💖"
+
+      # member:
+      #   - "&8[&a+&8] <gradient:#87CEEB:#4169E1>[MEMBER] {player}</gradient> &bjoined!"
+      #   - "&8[&a+&8] &b👋 Member {player} &bis online! 👋"
+
+      # Example for multiple VIP tiers:
+      # vip4:
+      #   - "&8[&a+&8] <gradient:#FFD700:#FFA500>[VIP4] {player}</gradient> &6joined!"
+      # vip3:
+      #   - "&8[&a+&8] <gradient:#C0C0C0:#808080>[VIP3] {player}</gradient> &7joined!"
+      # vip2:
+      #   - "&8[&a+&8] <gradient:#CD7F32:#B8860B>[VIP2] {player}</gradient> &6joined!"
+      # vip1:
+      #   - "&8[&a+&8] <gradient:#8B4513:#A0522D>[VIP1] {player}</gradient> &6joined!"
+
   quit:
     # Default quit messages (randomly selected)
     default:
@@ -90,6 +117,23 @@ messages:
       owner:
         - "&8[&c-&8] &4[OWNER] &e{player} &4has left"
         - "&8[&c-&8] &4Owner &e{player} &4disconnected"
+
+      # Custom rank quit message examples (uncomment and modify as needed)
+      # moderator:
+      #   - "&8[&c-&8] &a[MOD] &e{player} &aleft the server"
+      #   - "&8[&c-&8] &aModerator &e{player} &adisconnected"
+
+      # premium:
+      #   - "&8[&c-&8] &6[PREMIUM] &e{player} &6left"
+      #   - "&8[&c-&8] &6Premium member &e{player} &6went offline"
+
+      # donator:
+      #   - "&8[&c-&8] &d[DONATOR] &e{player} &dleft"
+      #   - "&8[&c-&8] &dDonator &e{player} &ddisconnected"
+
+      # member:
+      #   - "&8[&c-&8] &b[MEMBER] &e{player} &bleft"
+      #   - "&8[&c-&8] &bMember &e{player} &bwent offline"
 
 # Command Messages
 commands:

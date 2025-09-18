@@ -18,6 +18,7 @@ Look, I needed a welcome plugin that wasn't from 2018, didn't break every update
 - **RGB & Gradients** - Support for modern color codes and rainbow text
 - **Config Validation** - Won't crash your server with bad settings
 - **PlaceholderAPI Support** - Use data in other plugins and chat
+- **Custom Rank System** - Define unlimited custom ranks with any names
 - **Full Spigot Compatibility** - Works on both Spigot and Paper
 - **Not Annoying** - Everything's configurable, nothing's forced
 
@@ -51,6 +52,7 @@ Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 - Messages that make sense
 - RGB gradients and rainbow text support
 - PlaceholderAPI integration for other plugins
+- Custom rank system for unlimited rank flexibility
 - Full compatibility with both Spigot and Paper
 
 ### For Admins
@@ -59,6 +61,7 @@ Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 - Reload command that actually reloads
 - No random database files everywhere
 - Won't crash from bad configs anymore
+- Custom rank system for any server setup
 - Works perfectly on both Spigot and Paper servers
 
 ### Performance
@@ -147,6 +150,46 @@ If you have PlaceholderAPI installed, you can use these placeholders in other pl
 - `%welcome_status%` - Player status (New Player, Regular Player, etc.)
 - `%welcome_rank%` - Player's rank (VIP, MVP, ADMIN, OWNER, DEFAULT)
 
+## 🏆 Custom Rank System
+
+Define unlimited custom ranks in your `config.yml`:
+
+```yaml
+custom-ranks:
+  enabled: true
+  ranks:
+    - "founder"     # Highest rank
+    - "coowner"     # Second highest
+    - "manager"     # Third highest
+    - "moderator"   # Fourth highest
+    - "helper"      # Fifth highest
+    - "vip"         # Sixth highest
+    - "member"      # Lowest rank
+```
+
+**Perfect for:**
+- Multiple VIP tiers (VIP1, VIP2, VIP3, VIP4)
+- Custom server ranks (Builder, Helper, Moderator, etc.)
+- Any rank structure you want
+
+**How it works:**
+1. Define ranks in `config.yml` (in priority order)
+2. Add messages for each rank in `messages.yml`
+3. Give players `welcome.rank.<rankname>` permissions
+4. Plugin automatically detects and uses the highest rank
+
+**Example - Multiple VIP Tiers:**
+```yaml
+ranks:
+  - "owner"
+  - "admin"
+  - "vip4"      # Highest VIP
+  - "vip3"      # Second VIP
+  - "vip2"      # Third VIP
+  - "vip1"      # Lowest VIP
+  - "member"
+```
+
 ## Building From Source
 
 ```bash
@@ -158,6 +201,14 @@ cd WelcomeMessages
 The jar's in build/libs/
 
 ## Changelog
+
+### v1.2.0 - Custom Rank System
+- Added unlimited custom rank support
+- Define your own ranks in config.yml with any names
+- Perfect for multiple VIP tiers or custom server ranks
+- Works with any permission plugin (LuckPerms, PEX, etc.)
+- Updated testall command to showcase custom ranks
+- Backward compatible with existing rank systems
 
 ### v1.1.9 - Spigot Compatibility Fix
 - Fixed all compatibility issues with Spigot servers
@@ -195,6 +246,7 @@ Stuff I might add if people actually use this:
 - [X] Config validation (done!)
 - [X] PlaceholderAPI support (done!)
 - [X] Full Spigot compatibility (done!)
+- [X] Custom rank system (done!)
 - [ ] World-specific messages (maybe)
 
 ## Contributing

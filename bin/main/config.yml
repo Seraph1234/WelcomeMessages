@@ -1,6 +1,6 @@
 # WelcomeMessages Configuration
 # Plugin by FiveDollaGobby
-# Version: 1.1.9
+# Version: 1.2.0
 
 # General Settings
 general:
@@ -34,6 +34,33 @@ messages:
 
   # Should OPs use default messages instead of rank messages?
   op-uses-default: false
+
+# Custom Rank System
+# Define your own ranks here! The plugin will check for permissions in order.
+# Format: permission: "welcome.rank.<rankname>"
+# Example: If you have VIP1, VIP2, VIP3, VIP4 ranks, add them here in priority order
+custom-ranks:
+  enabled: true
+  # List your custom ranks in priority order (highest priority first)
+  # The plugin will use the first rank the player has permission for
+  ranks:
+    - "owner"      # Server owner
+    - "admin"      # Administrator  
+    - "moderator"  # Moderator
+    - "mvp"        # MVP rank
+    - "vip"        # VIP rank
+    - "premium"    # Premium rank
+    - "donator"    # Donator rank
+    - "member"     # Member rank
+  # Example for multiple VIP tiers:
+  # ranks:
+  #   - "owner"
+  #   - "admin" 
+  #   - "vip4"      # Highest VIP tier
+  #   - "vip3"      # Second VIP tier
+  #   - "vip2"      # Third VIP tier
+  #   - "vip1"      # Lowest VIP tier
+  #   - "member"
 
   # RGB and Gradient Settings
   rgb:

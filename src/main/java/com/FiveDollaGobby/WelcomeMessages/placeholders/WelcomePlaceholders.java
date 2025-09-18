@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class WelcomePlaceholders {
 
@@ -169,9 +170,23 @@ public class WelcomePlaceholders {
     }
 
     private String getPlayerRank(Player player) {
-        String[] rankPriority = {"owner", "admin", "mvp", "vip"};
+        // check if custom ranks are enabled
+        if (plugin.getConfig().getBoolean("custom-ranks.enabled", true)) {
+            List<String> customRanks = plugin.getConfig().getStringList("custom-ranks.ranks");
+            
+            // if custom ranks are configured, use them
+            if (!customRanks.isEmpty()) {
+                for (String rank : customRanks) {
+                    if (player.hasPermission("welcome.rank." + rank)) {
+                        return rank.toUpperCase();
+                    }
+                }
+            }
+        }
         
-        for (String rank : rankPriority) {
+        // fallback to default rank priority if custom ranks are disabled or empty
+        String[] defaultRankPriority = {"owner", "admin", "mvp", "vip"};
+        for (String rank : defaultRankPriority) {
             if (player.hasPermission("welcome.rank." + rank)) {
                 return rank.toUpperCase();
             }
