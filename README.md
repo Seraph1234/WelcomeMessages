@@ -238,7 +238,6 @@ The jar's in build/libs/
 ## Planned Features
 
 Stuff I might add if people actually use this:
-- [ ] PlaceholderAPI support (if enough people ask)
 - [ ] MySQL support (but why?)
 - [ ] Discord webhooks (maybe)
 - [ ] Custom sounds (when I figure out resource packs)
