@@ -32,7 +32,7 @@ But honestly, you'll customize these anyway.
 4. Edit configs if you want
 5. You're done
 
-Requires Paper/Spigot 1.21.8 and Java 21 (because Minecraft requires it, not me)
+Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 
 ## Features That Actually Matter
 
@@ -150,6 +150,6 @@ MIT - Do whatever you want with it. Sell it, modify it, claim you made it, I don
 
 ---
 
-*Made with 🎮 and mild frustration by FiveDollaGobby*
+*mild frustration by FiveDollaGobby*
 
 *If this saved you time, star the repo. If it didn't, tell me why.*

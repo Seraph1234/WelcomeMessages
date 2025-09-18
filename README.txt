@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.1.5
+    WelcomeMessages - v1.1.7
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.0.0.jar into your plugins folder
+1. Drop the WelcomeMessages.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done!
@@ -66,7 +66,7 @@ COMMON ISSUES
 - You probably have a color code wrong, check your &'s
 
 "Plugin not loading!"
-- Need Java 21 for MC 1.21.8
+- Need Java 21 for MC 1.21.x
 - Check console for errors
 
 PERFORMANCE

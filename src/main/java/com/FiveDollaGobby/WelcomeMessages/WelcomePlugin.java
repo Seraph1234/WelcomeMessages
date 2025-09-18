@@ -9,6 +9,7 @@ import com.FiveDollaGobby.WelcomeMessages.managers.MessageManager;
 import com.FiveDollaGobby.WelcomeMessages.managers.EffectManager;
 import com.FiveDollaGobby.WelcomeMessages.managers.DataManager;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
+import com.FiveDollaGobby.WelcomeMessages.utils.ConfigValidator;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +39,14 @@ public class WelcomePlugin extends JavaPlugin {
         saveDefaultConfig();
         loadMessagesConfig();
 
+        // validate configuration
+        ConfigValidator validator = new ConfigValidator(this);
+        if (!validator.validateConfig()) {
+            MessageUtils.sendConsole("&cPlugin disabled due to configuration errors!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         // init managers
         messageManager = new MessageManager(this);
         effectManager = new EffectManager(this);
@@ -50,7 +59,7 @@ public class WelcomePlugin extends JavaPlugin {
         getCommand("welcome").setExecutor(new WelcomeCommand(this));
         getCommand("welcome").setTabCompleter(new WelcomeCommand(this));
 
-        MessageUtils.sendConsole("&aWelcomeMessages v" + getDescription().getVersion() + " has been enabled!");
+        MessageUtils.sendConsole("&aWelcomeMessages v" + getPluginMeta().getVersion() + " has been enabled!");
 
         // bStats metrics if enabled
         if (getConfig().getBoolean("metrics.enabled", true)) {
@@ -124,6 +133,14 @@ public class WelcomePlugin extends JavaPlugin {
     public void reload() {
         reloadConfig();
         reloadMessagesConfig();
+        
+        // validate configuration after reload
+        ConfigValidator validator = new ConfigValidator(this);
+        if (!validator.validateConfig()) {
+            MessageUtils.sendConsole("&cReload failed due to configuration errors!");
+            return;
+        }
+        
         messageManager.reload();
         effectManager.reload();
         MessageUtils.sendConsole("&aConfiguration reloaded successfully!");

@@ -254,7 +254,7 @@ public class MessageUtils {
         Y('Y', 5), y('y', 5), Z('Z', 5), z('z', 5),
         NUM_1('1', 5), NUM_2('2', 5), NUM_3('3', 5), NUM_4('4', 5), NUM_5('5', 5),
         NUM_6('6', 5), NUM_7('7', 5), NUM_8('8', 5), NUM_9('9', 5), NUM_0('0', 5),
-        EXCLAMATION('!', 1), AT('@', 6), HASHTAG('#', 5), DOLLAR(',', 5),
+        EXCLAMATION('!', 1), AT('@', 6), HASHTAG('#', 5), DOLLAR('$', 5),
                 PERCENT('%', 5), AMPERSAND('&', 5), ASTERISK('*', 5), LEFT_PAREN('(', 4),
                 RIGHT_PAREN(')', 4), MINUS('-', 5), UNDERSCORE('_', 5), PLUS('+', 5),
                 EQUALS('=', 5), LEFT_BRACKET('[', 3), RIGHT_BRACKET(']', 3),
