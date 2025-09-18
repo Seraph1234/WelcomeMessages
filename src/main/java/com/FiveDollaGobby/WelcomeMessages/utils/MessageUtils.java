@@ -14,21 +14,17 @@ public class MessageUtils {
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("<gradient:(#[A-Fa-f0-9]{6}):(#[A-Fa-f0-9]{6})>(.*?)</gradient>");
     private static final Pattern RAINBOW_PATTERN = Pattern.compile("<rainbow>(.*?)</rainbow>");
 
-    /**
-     * Colorize a message with legacy, hex, gradient, and rainbow color codes
-     * @param message The message to colorize
-     * @return The colorized message
-     */
+    // colorize with hex, gradient, and rainbow support
     public static String colorize(String message) {
         if (message == null) return "";
 
-        // Process gradients first
+        // gradients first
         message = processGradients(message);
 
-        // Process rainbow text
+        // then rainbow
         message = processRainbow(message);
 
-        // Convert hex color codes
+        // hex colors
         Matcher matcher = HEX_PATTERN.matcher(message);
         StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
 
@@ -39,15 +35,11 @@ public class MessageUtils {
 
         message = matcher.appendTail(buffer).toString();
 
-        // Convert legacy color codes
+        // legacy colors
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    /**
-     * Process gradient color patterns
-     * @param message The message containing gradient patterns
-     * @return The message with gradients applied
-     */
+    // process gradient patterns
     private static String processGradients(String message) {
         Matcher matcher = GRADIENT_PATTERN.matcher(message);
         StringBuffer buffer = new StringBuffer();
@@ -57,7 +49,7 @@ public class MessageUtils {
             String endColor = matcher.group(2);
             String text = matcher.group(3);
 
-            // Strip any existing color codes from the text
+            // strip existing colors
             text = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', text));
 
             String gradientText = applyGradient(text, startColor, endColor);
@@ -67,11 +59,7 @@ public class MessageUtils {
         return matcher.appendTail(buffer).toString();
     }
 
-    /**
-     * Process rainbow color patterns
-     * @param message The message containing rainbow patterns
-     * @return The message with rainbow applied
-     */
+    // process rainbow patterns
     private static String processRainbow(String message) {
         Matcher matcher = RAINBOW_PATTERN.matcher(message);
         StringBuffer buffer = new StringBuffer();
@@ -79,7 +67,7 @@ public class MessageUtils {
         while (matcher.find()) {
             String text = matcher.group(1);
 
-            // Strip any existing color codes from the text
+            // strip existing colors
             text = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', text));
 
             String rainbowText = applyRainbow(text);
@@ -89,17 +77,11 @@ public class MessageUtils {
         return matcher.appendTail(buffer).toString();
     }
 
-    /**
-     * Apply a gradient between two colors to text
-     * @param text The text to apply gradient to
-     * @param startHex Starting color in hex format
-     * @param endHex Ending color in hex format
-     * @return The text with gradient applied
-     */
+    // apply gradient between two colors
     private static String applyGradient(String text, String startHex, String endHex) {
         if (text.isEmpty()) return text;
 
-        // Parse colors
+        // parse colors
         int startR = Integer.parseInt(startHex.substring(1, 3), 16);
         int startG = Integer.parseInt(startHex.substring(3, 5), 16);
         int startB = Integer.parseInt(startHex.substring(5, 7), 16);
@@ -131,23 +113,19 @@ public class MessageUtils {
         return result.toString();
     }
 
-    /**
-     * Apply rainbow colors to text
-     * @param text The text to apply rainbow to
-     * @return The text with rainbow colors
-     */
+    // apply rainbow colors
     private static String applyRainbow(String text) {
         if (text.isEmpty()) return text;
 
-        // Rainbow colors
+        // rainbow colors
         String[] rainbowHex = {
-                "#ff0000", // Red
-                "#ff7f00", // Orange
-                "#ffff00", // Yellow
-                "#00ff00", // Green
-                "#0000ff", // Blue
-                "#4b0082", // Indigo
-                "#9400d3"  // Violet
+                "#ff0000", // red
+                "#ff7f00", // orange
+                "#ffff00", // yellow
+                "#00ff00", // green
+                "#0000ff", // blue
+                "#4b0082", // indigo
+                "#9400d3"  // violet
         };
 
         StringBuilder result = new StringBuilder();
@@ -160,7 +138,7 @@ public class MessageUtils {
                 continue;
             }
 
-            // Calculate position in rainbow
+            // calculate position
             float position = (float) i / Math.max(1, length - 1) * (rainbowHex.length - 1);
             int colorIndex = (int) position;
             float colorRatio = position - colorIndex;
@@ -169,7 +147,7 @@ public class MessageUtils {
             if (colorIndex >= rainbowHex.length - 1) {
                 color = rainbowHex[rainbowHex.length - 1];
             } else {
-                // Interpolate between two rainbow colors
+                // interpolate between colors
                 String startColor = rainbowHex[colorIndex];
                 String endColor = rainbowHex[colorIndex + 1];
 
@@ -194,30 +172,19 @@ public class MessageUtils {
         return result.toString();
     }
 
-    /**
-     * Send a colorized message to a CommandSender
-     * @param sender The sender to send to
-     * @param message The message to send
-     */
+    // send colored message to sender
     public static void sendMessage(CommandSender sender, String message) {
         if (sender != null && message != null && !message.isEmpty()) {
             sender.sendMessage(colorize(message));
         }
     }
 
-    /**
-     * Send a message to console with prefix
-     * @param message The message to send
-     */
+    // send to console with prefix
     public static void sendConsole(String message) {
         Bukkit.getConsoleSender().sendMessage(colorize("[WelcomeMessages] " + message));
     }
 
-    /**
-     * Broadcast a message to all players with a specific permission
-     * @param message The message to broadcast
-     * @param permission The required permission (null for all players)
-     */
+    // broadcast to players with permission
     public static void broadcast(String message, String permission) {
         String colored = colorize(message);
 
@@ -228,11 +195,7 @@ public class MessageUtils {
         }
     }
 
-    /**
-     * Center a message in chat (approximately)
-     * @param message The message to center
-     * @return The centered message
-     */
+    // center message in chat (approximately)
     public static String centerMessage(String message) {
         if (message == null || message.isEmpty()) return "";
 
@@ -267,28 +230,18 @@ public class MessageUtils {
         return sb.toString() + message;
     }
 
-    /**
-     * Strip all color codes from a message
-     * @param message The message to strip
-     * @return The stripped message
-     */
+    // strip all colors
     public static String stripColors(String message) {
         if (message == null) return null;
         return ChatColor.stripColor(colorize(message));
     }
 
-    /**
-     * Check if a string is empty or null
-     * @param str The string to check
-     * @return true if empty or null
-     */
+    // check if empty
     public static boolean isEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
 
-    /**
-     * Default font character widths for centering
-     */
+    // font widths for centering
     private enum DefaultFontInfo {
         A('A', 5), a('a', 5), B('B', 5), b('b', 5), C('C', 5), c('c', 5),
         D('D', 5), d('d', 5), E('E', 5), e('e', 5), F('F', 5), f('f', 4),
@@ -301,15 +254,15 @@ public class MessageUtils {
         Y('Y', 5), y('y', 5), Z('Z', 5), z('z', 5),
         NUM_1('1', 5), NUM_2('2', 5), NUM_3('3', 5), NUM_4('4', 5), NUM_5('5', 5),
         NUM_6('6', 5), NUM_7('7', 5), NUM_8('8', 5), NUM_9('9', 5), NUM_0('0', 5),
-        EXCLAMATION('!', 1), AT('@', 6), HASHTAG('#', 5), DOLLAR('$', 5),
-        PERCENT('%', 5), AMPERSAND('&', 5), ASTERISK('*', 5), LEFT_PAREN('(', 4),
-        RIGHT_PAREN(')', 4), MINUS('-', 5), UNDERSCORE('_', 5), PLUS('+', 5),
-        EQUALS('=', 5), LEFT_BRACKET('[', 3), RIGHT_BRACKET(']', 3),
-        LEFT_BRACE('{', 4), RIGHT_BRACE('}', 4), COLON(':', 1), SEMICOLON(';', 1),
-        APOSTROPHE('\'', 1), QUOTE('"', 3), LEFT_ARROW('<', 4), RIGHT_ARROW('>', 4),
-        QUESTION('?', 5), SLASH('/', 5), BACKSLASH('\\', 5), PIPE('|', 1),
-        TILDE('~', 5), TICK('`', 2), PERIOD('.', 1), COMMA(',', 1), SPACE(' ', 3),
-        DEFAULT('█', 5);
+        EXCLAMATION('!', 1), AT('@', 6), HASHTAG('#', 5), DOLLAR(',', 5),
+                PERCENT('%', 5), AMPERSAND('&', 5), ASTERISK('*', 5), LEFT_PAREN('(', 4),
+                RIGHT_PAREN(')', 4), MINUS('-', 5), UNDERSCORE('_', 5), PLUS('+', 5),
+                EQUALS('=', 5), LEFT_BRACKET('[', 3), RIGHT_BRACKET(']', 3),
+                LEFT_BRACE('{', 4), RIGHT_BRACE('}', 4), COLON(':', 1), SEMICOLON(';', 1),
+                APOSTROPHE('\'', 1), QUOTE('"', 3), LEFT_ARROW('<', 4), RIGHT_ARROW('>', 4),
+                QUESTION('?', 5), SLASH('/', 5), BACKSLASH('\\', 5), PIPE('|', 1),
+                TILDE('~', 5), TICK('`', 2), PERIOD('.', 1), COMMA(',', 1), SPACE(' ', 3),
+                DEFAULT('█', 5);
 
         private final char character;
         private final int length;

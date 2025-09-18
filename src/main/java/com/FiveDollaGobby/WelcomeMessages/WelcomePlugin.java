@@ -29,40 +29,39 @@ public class WelcomePlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // Create plugin folder if it doesn't exist
+        // setup plugin folder
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
 
-        // Load configurations
+        // load configs
         saveDefaultConfig();
         loadMessagesConfig();
 
-        // Initialize managers
+        // init managers
         messageManager = new MessageManager(this);
         effectManager = new EffectManager(this);
         dataManager = new DataManager(this);
 
-        // Register listeners
+        // register stuff
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
-        // Register commands
+        // commands
         getCommand("welcome").setExecutor(new WelcomeCommand(this));
         getCommand("welcome").setTabCompleter(new WelcomeCommand(this));
 
-        // Log successful enable
         MessageUtils.sendConsole("&aWelcomeMessages v" + getDescription().getVersion() + " has been enabled!");
 
-        // Metrics (optional - using bStats)
+        // bStats metrics if enabled
         if (getConfig().getBoolean("metrics.enabled", true)) {
-            int pluginId = 20000; // Replace with your bStats plugin ID
+            int pluginId = 20000; // replace with actual bStats ID if you get one
             new Metrics(this, pluginId);
         }
     }
 
     @Override
     public void onDisable() {
-        // Save data
+        // save player data
         if (dataManager != null) {
             dataManager.saveData();
         }
@@ -79,7 +78,7 @@ public class WelcomePlugin extends JavaPlugin {
 
         messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
 
-        // Look for defaults in the jar
+        // set defaults from jar
         InputStream defConfigStream = getResource("messages.yml");
         if (defConfigStream != null) {
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
@@ -101,7 +100,7 @@ public class WelcomePlugin extends JavaPlugin {
         }
     }
 
-    // Getters
+    // getters
     public static WelcomePlugin getInstance() {
         return instance;
     }

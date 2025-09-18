@@ -75,7 +75,7 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
         List<String> commands = plugin.getMessagesConfig().getStringList("commands.help.commands");
         for (String cmd : commands) {
-            // Only show commands the sender has permission for
+            // only show commands player has permission for
             if (cmd.contains("reload") && !sender.hasPermission("welcome.reload")) continue;
             if (cmd.contains("test") && !sender.hasPermission("welcome.test")) continue;
             if (cmd.contains("stats") && !sender.hasPermission("welcome.stats")) continue;
@@ -123,19 +123,18 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        // Test join message
+        // test messages
         boolean isFirstJoin = plugin.getDataManager().isFirstJoin(target);
         String joinMessage = plugin.getMessageManager().getJoinMessage(target, isFirstJoin);
 
         MessageUtils.sendMessage(sender, "&6Testing join message for &e" + target.getName() + "&6:");
         MessageUtils.sendMessage(sender, joinMessage);
 
-        // Test quit message
         String quitMessage = plugin.getMessageManager().getQuitMessage(target);
         MessageUtils.sendMessage(sender, "&6Quit message:");
         MessageUtils.sendMessage(sender, quitMessage);
 
-        // Test effects if sender is the target
+        // test effects if sender is target
         if (sender.equals(target)) {
             MessageUtils.sendMessage(sender, "&6Testing effects in 2 seconds...");
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -156,7 +155,6 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         if (args.length > 1) {
             target = Bukkit.getPlayer(args[1]);
             if (target == null) {
-                // Try to get offline player data
                 MessageUtils.sendMessage(sender, "&cPlayer must be online to view stats!");
                 return;
             }
@@ -204,7 +202,7 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        // Check cooldown (5 seconds)
+        // cooldown check (5 seconds)
         UUID uuid = player.getUniqueId();
         long lastUse = commandCooldowns.getOrDefault(uuid, 0L);
         long currentTime = System.currentTimeMillis();

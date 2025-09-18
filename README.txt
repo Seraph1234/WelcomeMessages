@@ -1,6 +1,6 @@
 =====================================================
-    WelcomeMessages - v1.1.0
-    For Minecraft 1.21.8
+    WelcomeMessages - v1.1.5
+    For Minecraft 1.21.x
 =====================================================
 
 Hey! Thanks for downloading my plugin :)

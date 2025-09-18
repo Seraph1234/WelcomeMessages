@@ -21,7 +21,7 @@ public class EffectManager {
     }
 
     public void reload() {
-        // Reload any cached effect settings if needed
+        // nothing to reload yet
     }
 
     public void sendTitle(Player player, boolean isFirstJoin) {
@@ -38,7 +38,7 @@ public class EffectManager {
             subtitle = plugin.getConfig().getString("effects.title.regular.subtitle", "&7Good to see you again, {player}!");
         }
 
-        // Replace placeholders
+        // replace placeholders
         title = MessageUtils.colorize(title.replace("{player}", player.getName()));
         subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
 
@@ -57,12 +57,12 @@ public class EffectManager {
                 sound = Sound.valueOf(plugin.getConfig().getString("effects.sound.regular", "ENTITY_PLAYER_LEVELUP"));
             }
 
-            // Play sound to the joining player
+            // play to player
             if (plugin.getConfig().getBoolean("effects.sound.to-player", true)) {
                 player.playSound(player.getLocation(), sound, volume, pitch);
             }
 
-            // Play sound to nearby players
+            // play to nearby players
             if (plugin.getConfig().getBoolean("effects.sound.to-others", false)) {
                 int radius = plugin.getConfig().getInt("effects.sound.radius", 10);
                 player.getNearbyEntities(radius, radius, radius).stream()
@@ -90,11 +90,10 @@ public class EffectManager {
                 particle = Particle.valueOf(plugin.getConfig().getString("effects.particles.regular", "VILLAGER_HAPPY"));
             }
 
-            // Create particle effect
             Location loc = player.getLocation();
 
             if (plugin.getConfig().getBoolean("effects.particles.animated", true)) {
-                // Animated spiral effect
+                // animated spiral
                 new BukkitRunnable() {
                     int iteration = 0;
                     final int maxIterations = 20;
@@ -118,7 +117,7 @@ public class EffectManager {
                     }
                 }.runTaskTimer(plugin, 0L, 2L);
             } else {
-                // Static burst effect
+                // static burst
                 player.getWorld().spawnParticle(particle, loc.add(0, 1, 0), count, offsetX, offsetY, offsetZ, speed);
             }
 
@@ -142,7 +141,7 @@ public class EffectManager {
                 }
 
                 Location loc = player.getLocation();
-                // Randomize location slightly
+                // randomize location a bit
                 double offsetX = (random.nextDouble() - 0.5) * 4;
                 double offsetZ = (random.nextDouble() - 0.5) * 4;
                 loc.add(offsetX, 0, offsetZ);
@@ -150,7 +149,7 @@ public class EffectManager {
                 Firework fw = (Firework) player.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
                 FireworkMeta fwMeta = fw.getFireworkMeta();
 
-                // Random firework properties
+                // random firework stuff
                 FireworkEffect.Type type = FireworkEffect.Type.values()[random.nextInt(FireworkEffect.Type.values().length)];
                 Color color = getRandomColor();
                 Color fadeColor = getRandomColor();

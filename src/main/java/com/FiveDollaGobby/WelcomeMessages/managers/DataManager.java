@@ -38,10 +38,10 @@ public class DataManager {
 
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
 
-        // Load total unique joins
+        // load total joins
         totalUniqueJoins = dataConfig.getInt("total-unique-joins", 0);
 
-        // Load cached player data
+        // load player cache
         if (dataConfig.contains("players")) {
             for (String uuidStr : dataConfig.getConfigurationSection("players").getKeys(false)) {
                 try {
@@ -60,12 +60,12 @@ public class DataManager {
     }
 
     private void startAutoSave() {
-        int interval = plugin.getConfig().getInt("general.save-interval", 10) * 20 * 60; // Convert minutes to ticks
+        int interval = plugin.getConfig().getInt("general.save-interval", 10) * 20 * 60; // minutes to ticks
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::saveData, interval, interval);
     }
 
     public void saveData() {
-        // Save all cached data
+        // save all cached data
         for (Map.Entry<UUID, PlayerData> entry : playerCache.entrySet()) {
             String path = "players." + entry.getKey().toString();
             PlayerData data = entry.getValue();
@@ -125,13 +125,13 @@ public class DataManager {
     }
 
     public void resetPlayerData(String playerName) {
-        // Try to find player by name in cached data
+        // try online player first
         Player onlinePlayer = Bukkit.getPlayer(playerName);
         if (onlinePlayer != null) {
             playerCache.remove(onlinePlayer.getUniqueId());
             dataConfig.set("players." + onlinePlayer.getUniqueId().toString(), null);
         } else {
-            // Search through offline data
+            // search offline data
             for (String uuidStr : dataConfig.getConfigurationSection("players").getKeys(false)) {
                 String storedName = dataConfig.getString("players." + uuidStr + ".name");
                 if (playerName.equalsIgnoreCase(storedName)) {
@@ -152,7 +152,7 @@ public class DataManager {
         return playerCache.computeIfAbsent(player.getUniqueId(), k -> new PlayerData());
     }
 
-    // Clean up old cache entries periodically
+    // clean old cache entries
     public void cleanCache() {
         long maxCacheTime = plugin.getConfig().getInt("performance.cache-time", 5) * 60 * 1000L;
         long currentTime = System.currentTimeMillis();

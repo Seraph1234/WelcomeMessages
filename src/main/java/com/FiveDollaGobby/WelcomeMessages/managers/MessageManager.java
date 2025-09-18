@@ -27,12 +27,12 @@ public class MessageManager {
         rankJoinMessages.clear();
         rankQuitMessages.clear();
 
-        // Load default messages
+        // load messages from config
         defaultJoinMessages = plugin.getMessagesConfig().getStringList("messages.join.default");
         defaultQuitMessages = plugin.getMessagesConfig().getStringList("messages.quit.default");
         firstJoinMessages = plugin.getMessagesConfig().getStringList("messages.join.first-time");
 
-        // Load rank-based messages
+        // load rank messages
         ConfigurationSection joinRanks = plugin.getMessagesConfig().getConfigurationSection("messages.join.ranks");
         if (joinRanks != null) {
             for (String rank : joinRanks.getKeys(false)) {
@@ -53,24 +53,24 @@ public class MessageManager {
     public String getJoinMessage(Player player, boolean isFirstJoin) {
         List<String> possibleMessages = new ArrayList<>();
 
-        // First join takes priority
+        // first join gets special message
         if (isFirstJoin && !firstJoinMessages.isEmpty()) {
             possibleMessages = new ArrayList<>(firstJoinMessages);
         } else {
-            // Check for rank-based messages with priority system
+            // check rank with priority
             String highestRank = getHighestRank(player);
 
             if (highestRank != null && rankJoinMessages.containsKey(highestRank)) {
                 possibleMessages.addAll(rankJoinMessages.get(highestRank));
             }
 
-            // Add default messages if no rank messages or if configured to combine
+            // add defaults if needed
             if (possibleMessages.isEmpty() || plugin.getConfig().getBoolean("messages.combine-rank-default", false)) {
                 possibleMessages.addAll(defaultJoinMessages);
             }
         }
 
-        // Select random message
+        // pick random message
         if (!possibleMessages.isEmpty()) {
             String message = possibleMessages.get(ThreadLocalRandom.current().nextInt(possibleMessages.size()));
             return replacePlaceholders(message, player, isFirstJoin);
@@ -82,19 +82,19 @@ public class MessageManager {
     public String getQuitMessage(Player player) {
         List<String> possibleMessages = new ArrayList<>();
 
-        // Check for rank-based messages with priority system
+        // check rank with priority
         String highestRank = getHighestRank(player);
 
         if (highestRank != null && rankQuitMessages.containsKey(highestRank)) {
             possibleMessages.addAll(rankQuitMessages.get(highestRank));
         }
 
-        // Add default messages if no rank messages or if configured to combine
+        // add defaults if needed
         if (possibleMessages.isEmpty() || plugin.getConfig().getBoolean("messages.combine-rank-default", false)) {
             possibleMessages.addAll(defaultQuitMessages);
         }
 
-        // Select random message
+        // pick random message
         if (!possibleMessages.isEmpty()) {
             String message = possibleMessages.get(ThreadLocalRandom.current().nextInt(possibleMessages.size()));
             return replacePlaceholders(message, player, false);
@@ -103,20 +103,16 @@ public class MessageManager {
         return null;
     }
 
-    /**
-     * Get the highest priority rank for a player
-     * Priority: owner > admin > mvp > vip > default
-     */
+    // get highest rank for player (owner > admin > mvp > vip)
     private String getHighestRank(Player player) {
-        // Define rank priority (highest to lowest)
         String[] rankPriority = {"owner", "admin", "mvp", "vip"};
 
-        // Special case: if player is OP and has explicit-ranks-only enabled
+        // ops use default if configured
         if (player.isOp() && plugin.getConfig().getBoolean("messages.op-uses-default", false)) {
-            return null; // Use default messages for OPs
+            return null;
         }
 
-        // Check ranks in priority order
+        // check ranks by priority
         for (String rank : rankPriority) {
             if (player.hasPermission("welcome.rank." + rank)) {
                 return rank;
@@ -134,22 +130,22 @@ public class MessageManager {
                 .replace("{max}", String.valueOf(plugin.getServer().getMaxPlayers()))
                 .replace("{joincount}", String.valueOf(plugin.getDataManager().getJoinCount(player)));
 
-        // Time-based placeholders
+        // time greeting
         Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         String timeGreeting = hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening";
         message = message.replace("{time}", timeGreeting);
 
-        // First join specific
+        // first join ordinal
         if (isFirstJoin) {
             message = message.replace("{ordinal}", getOrdinal(plugin.getDataManager().getTotalUniqueJoins()));
         }
 
-        // Apply color codes (including gradients and rainbow if enabled)
+        // apply colors
         if (plugin.getConfig().getBoolean("messages.rgb.enabled", true)) {
             return MessageUtils.colorize(message);
         } else {
-            // Fall back to basic color codes only
+            // fallback to basic colors
             return ChatColor.translateAlternateColorCodes('&', message);
         }
     }
