@@ -1,0 +1,110 @@
+name: WelcomeMessages
+version: '${version}'
+main: com.FiveDollaGobby.WelcomeMessages.WelcomePlugin
+api-version: '1.21'
+authors: [FiveDollaGobby]
+description: Advanced welcome and quit messages with effects
+website: https://github.com/FiveDollaGobby/WelcomeMessages
+
+commands:
+  welcome:
+    description: Main command for WelcomeMessages
+    usage: /<command> [help|reload|test|stats|reset|toggle]
+    aliases: [wm, welcomemessages]
+    permission: welcome.use
+    permission-message: "&cYou don't have permission to use this command!"
+
+permissions:
+  welcome.*:
+    description: All WelcomeMessages permissions
+    default: op
+    children:
+      welcome.admin: true
+      welcome.reload: true
+      welcome.use: true
+      welcome.test: true
+      welcome.stats: true
+      welcome.reset: true
+      welcome.toggle: true
+      welcome.see.join: true
+      welcome.see.quit: true
+      welcome.effects.bypass: true
+      welcome.rank.*: true
+
+  welcome.admin:
+    description: Access to all admin commands
+    default: op
+    children:
+      welcome.reload: true
+      welcome.test: true
+      welcome.stats: true
+      welcome.reset: true
+
+  welcome.reload:
+    description: Reload plugin configuration
+    default: op
+
+  welcome.use:
+    description: Use basic welcome commands
+    default: true
+
+  welcome.test:
+    description: Test join messages
+    default: op
+
+  welcome.stats:
+    description: View player statistics
+    default: op
+
+  welcome.reset:
+    description: Reset player data
+    default: op
+
+  welcome.toggle:
+    description: Toggle personal join/quit messages
+    default: true
+
+  welcome.see.join:
+    description: See join messages
+    default: true
+
+  welcome.see.quit:
+    description: See quit messages
+    default: true
+
+  welcome.exempt.join:
+    description: Exempt from having join messages shown
+    default: false
+
+  welcome.exempt.quit:
+    description: Exempt from having quit messages shown
+    default: false
+
+  welcome.effects.bypass:
+    description: Bypass effect cooldowns
+    default: op
+
+  welcome.rank.*:
+    description: All rank permissions
+    default: false
+    children:
+      welcome.rank.vip: true
+      welcome.rank.mvp: true
+      welcome.rank.admin: true
+      welcome.rank.owner: true
+
+  welcome.rank.vip:
+    description: VIP rank messages
+    default: false
+
+  welcome.rank.mvp:
+    description: MVP rank messages
+    default: false
+
+  welcome.rank.admin:
+    description: Admin rank messages
+    default: false
+
+  welcome.rank.owner:
+    description: Owner rank messages
+    default: false

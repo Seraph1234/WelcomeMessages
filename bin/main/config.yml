@@ -1,0 +1,136 @@
+# WelcomeMessages Configuration
+# Plugin by FiveDollaGobby
+# Version: 1.1.7
+
+# General Settings
+general:
+  # Enable debug messages in console
+  debug: false
+  # Check for updates on startup
+  check-updates: true
+  # Save player data interval (in minutes)
+  save-interval: 10
+
+# Message Settings
+messages:
+  join:
+    # Enable join messages
+    enabled: true
+    # Disable vanilla join message
+    disable-vanilla: true
+    # Show join messages in console
+    console: true
+
+  quit:
+    # Enable quit messages
+    enabled: true
+    # Disable vanilla quit message
+    disable-vanilla: true
+    # Show quit messages in console
+    console: true
+
+  # Combine rank messages with default messages (random selection from both)
+  combine-rank-default: false
+
+  # Should OPs use default messages instead of rank messages?
+  op-uses-default: false
+
+  # RGB and Gradient Settings
+  rgb:
+    # Enable RGB/Gradient support (requires 1.16+)
+    enabled: true
+    # Enable rainbow text processing
+    rainbow: true
+    # Enable gradient text processing
+    gradients: true
+
+# Visual and Audio Effects
+effects:
+  # Delay before playing effects (in ticks, 20 ticks = 1 second)
+  delay-ticks: 20
+
+  title:
+    enabled: true
+    fade-in: 10
+    stay: 70
+    fade-out: 20
+    first-join:
+      title: "&6&lWELCOME!"
+      subtitle: "&eEnjoy your stay, {player}!"
+    regular:
+      title: "&a&lWelcome Back!"
+      subtitle: "&7Good to see you again, {player}!"
+
+  sound:
+    enabled: true
+    # Play sound to the joining player
+    to-player: true
+    # Play sound to nearby players
+    to-others: false
+    # Radius for nearby players (blocks)
+    radius: 10
+    # Sound volume (0.0 - 1.0)
+    volume: 1.0
+    # Sound pitch (0.5 - 2.0)
+    pitch: 1.0
+    # Sound for first-time joiners (Minecraft sound name)
+    first-join: "UI_TOAST_CHALLENGE_COMPLETE"
+    # Sound for regular joiners
+    regular: "ENTITY_PLAYER_LEVELUP"
+
+  particles:
+    enabled: true
+    # Use animated particle effects
+    animated: true
+    # Particle count (for non-animated)
+    count: 50
+    # Particle offset from player
+    offset:
+      x: 0.5
+      y: 1.0
+      z: 0.5
+    # Particle speed
+    speed: 0.1
+    # Particle type for first-time joiners
+    first-join: "TOTEM"
+    # Particle type for regular joiners
+    regular: "VILLAGER_HAPPY"
+
+  fireworks:
+    enabled: true
+    # Launch fireworks for all joins (false = first-time only)
+    all-joins: false
+    # Number of fireworks to launch
+    amount: 3
+    # Delay between each firework (ticks)
+    delay-between: 20
+
+# Data Storage
+storage:
+  # Storage type: 'yaml' or 'sqlite'
+  type: 'yaml'
+  # SQLite database name (if using sqlite)
+  database: 'welcomedata.db'
+
+# Performance Settings
+performance:
+  # Use async message processing
+  async-messages: true
+  # Cache player data for X minutes
+  cache-time: 5
+  # Maximum cached players
+  max-cache-size: 100
+
+# Metrics (bStats)
+metrics:
+  enabled: true
+
+# Permissions:
+# welcome.admin - Access to all admin commands
+# welcome.reload - Reload the plugin
+# welcome.see.join - See join messages
+# welcome.see.quit - See quit messages
+# welcome.exempt.join - Exempt from join messages
+# welcome.exempt.quit - Exempt from quit messages
+# welcome.rank.<rank> - Rank-based messages
+# welcome.effects.bypass - Bypass effect cooldowns

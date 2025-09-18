@@ -59,7 +59,7 @@ public class WelcomePlugin extends JavaPlugin {
         getCommand("welcome").setExecutor(new WelcomeCommand(this));
         getCommand("welcome").setTabCompleter(new WelcomeCommand(this));
 
-        MessageUtils.sendConsole("&aWelcomeMessages v" + getPluginMeta().getVersion() + " has been enabled!");
+        MessageUtils.sendConsole("&aWelcomeMessages v" + getDescription().getVersion() + " has been enabled!");
 
         // bStats metrics if enabled
         if (getConfig().getBoolean("metrics.enabled", true)) {
