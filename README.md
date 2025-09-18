@@ -8,7 +8,7 @@ A clean, lightweight welcome plugin for Minecraft servers that actually works. N
 
 Look, I needed a welcome plugin that wasn't from 2018, didn't break every update, and didn't try to do 500 things at once. Most welcome plugins are either abandoned, premium for basic features, or so bloated they cause lag. This one just works.
 
-![Screenshot](images/IMG1.png)
+![Screenshot](images/IMG1.PNG)
 
 ## What It Does
 
