@@ -9,7 +9,7 @@ website: https://github.com/FiveDollaGobby/WelcomeMessages
 commands:
   welcome:
     description: Main command for WelcomeMessages
-    usage: /<command> [help|reload|test|stats|reset|toggle]
+    usage: /<command> [help|reload|test|testall|stats|reset|toggle]
     aliases: [wm, welcomemessages]
     permission: welcome.use
     permission-message: "&cYou don't have permission to use this command!"

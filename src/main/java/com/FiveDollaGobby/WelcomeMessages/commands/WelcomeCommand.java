@@ -41,6 +41,10 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
                 handleTest(sender, args);
                 break;
 
+            case "testall":
+                handleTestAll(sender, args);
+                break;
+
             case "stats":
                 handleStats(sender, args);
                 break;
@@ -145,6 +149,111 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handleTestAll(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("welcome.test")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        Player target;
+        if (args.length > 1) {
+            target = Bukkit.getPlayer(args[1]);
+            if (target == null) {
+                String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
+                MessageUtils.sendMessage(sender, msg.replace("{player}", args[1]));
+                return;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        } else {
+            MessageUtils.sendMessage(sender, "&cPlease specify a player name!");
+            return;
+        }
+
+        MessageUtils.sendMessage(sender, "&6&l=== WelcomeMessages Feature Showcase ===");
+        MessageUtils.sendMessage(sender, "&7Testing all features for: &e" + target.getName());
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 1: Basic Messages
+        MessageUtils.sendMessage(sender, "&a&l1. Basic Messages:");
+        boolean isFirstJoin = plugin.getDataManager().isFirstJoin(target);
+        String joinMessage = plugin.getMessageManager().getJoinMessage(target, isFirstJoin);
+        String quitMessage = plugin.getMessageManager().getQuitMessage(target);
+        
+        MessageUtils.sendMessage(sender, "&7Join: " + joinMessage);
+        MessageUtils.sendMessage(sender, "&7Quit: " + quitMessage);
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 2: RGB and Gradient Text
+        MessageUtils.sendMessage(sender, "&a&l2. RGB & Gradient Text:");
+        MessageUtils.sendMessage(sender, "&7Basic RGB: &#FF6B6BHello &#4ECDC4World &#45B7D1Test");
+        MessageUtils.sendMessage(sender, "&7Gradient: <gradient:#FF6B6B:#4ECDC4>Welcome to our server!</gradient>");
+        MessageUtils.sendMessage(sender, "&7Rainbow: <rainbow>This is rainbow text!</rainbow>");
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 3: PlaceholderAPI Examples
+        MessageUtils.sendMessage(sender, "&a&l3. PlaceholderAPI Examples:");
+        MessageUtils.sendMessage(sender, "&7Join Count: &e" + plugin.getDataManager().getJoinCount(target));
+        MessageUtils.sendMessage(sender, "&7First Join: &e" + (isFirstJoin ? "Yes" : "No"));
+        MessageUtils.sendMessage(sender, "&7Messages Disabled: &e" + plugin.getDataManager().hasMessagesDisabled(target));
+        MessageUtils.sendMessage(sender, "&7Player Status: &e" + (isFirstJoin ? "New Player" : "Returning Player"));
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 4: Rank Messages
+        MessageUtils.sendMessage(sender, "&a&l4. Rank System:");
+        String[] ranks = {"owner", "admin", "mvp", "vip"};
+        for (String rank : ranks) {
+            if (target.hasPermission("welcome.rank." + rank)) {
+                MessageUtils.sendMessage(sender, "&7You have &e" + rank.toUpperCase() + " &7rank permissions");
+                break;
+            }
+        }
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 5: Effects (if sender is target)
+        if (sender.equals(target)) {
+            MessageUtils.sendMessage(sender, "&a&l5. Visual Effects (starting in 3 seconds):");
+            MessageUtils.sendMessage(sender, "&7- Title effects");
+            MessageUtils.sendMessage(sender, "&7- Sound effects");
+            MessageUtils.sendMessage(sender, "&7- Particle effects");
+            MessageUtils.sendMessage(sender, "&7- Firework effects");
+            MessageUtils.sendMessage(sender, "");
+
+            // Schedule effects with delays for better showcase
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                MessageUtils.sendMessage(target, "&6&l>>> Title Effect <<<");
+                plugin.getEffectManager().sendTitle(target, isFirstJoin);
+            }, 60L);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                MessageUtils.sendMessage(target, "&6&l>>> Sound Effect <<<");
+                plugin.getEffectManager().playJoinSound(target, isFirstJoin);
+            }, 80L);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                MessageUtils.sendMessage(target, "&6&l>>> Particle Effect <<<");
+                plugin.getEffectManager().playJoinParticles(target, isFirstJoin);
+            }, 100L);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                MessageUtils.sendMessage(target, "&6&l>>> Firework Effect <<<");
+                plugin.getEffectManager().launchFireworks(target);
+            }, 120L);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                MessageUtils.sendMessage(target, "&6&l=== Showcase Complete! ===");
+                MessageUtils.sendMessage(target, "&7All features have been demonstrated.");
+                MessageUtils.sendMessage(target, "&7Perfect for screenshots! 📸");
+            }, 140L);
+        } else {
+            MessageUtils.sendMessage(sender, "&a&l5. Visual Effects:");
+            MessageUtils.sendMessage(sender, "&7Effects can only be shown to the target player");
+            MessageUtils.sendMessage(sender, "&7Run &e/welcome testall &7on yourself to see effects");
+            MessageUtils.sendMessage(sender, "");
+            MessageUtils.sendMessage(sender, "&6&l=== Showcase Complete! ===");
+        }
+    }
+
     private void handleStats(CommandSender sender, String[] args) {
         if (!sender.hasPermission("welcome.stats")) {
             MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
@@ -232,12 +341,12 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("help", "reload", "test", "stats", "reset", "toggle", "version");
+            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "stats", "reset", "toggle", "version");
             StringUtil.copyPartialMatches(args[0], subCommands, completions);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
 
-            if (subCommand.equals("test") || subCommand.equals("stats") || subCommand.equals("reset")) {
+            if (subCommand.equals("test") || subCommand.equals("testall") || subCommand.equals("stats") || subCommand.equals("reset")) {
                 List<String> playerNames = Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .collect(Collectors.toList());

@@ -105,6 +105,7 @@ commands:
       - "&e/welcome help &7- Show this help menu"
       - "&e/welcome reload &7- Reload configuration"
       - "&e/welcome test <player> &7- Test join message for player"
+      - "&e/welcome testall <player> &7- Showcase all features for screenshots"
       - "&e/welcome stats <player> &7- View player statistics"
       - "&e/welcome reset <player> &7- Reset player data"
       - "&e/welcome toggle &7- Toggle your join/quit messages"
