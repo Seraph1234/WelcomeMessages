@@ -152,6 +152,11 @@ public class DataManager {
         return playerCache.computeIfAbsent(player.getUniqueId(), k -> new PlayerData());
     }
 
+    // Public method for PlaceholderAPI access
+    public PlayerData getPlayerDataPublic(Player player) {
+        return getPlayerData(player);
+    }
+
     // clean old cache entries
     public void cleanCache() {
         long maxCacheTime = plugin.getConfig().getInt("performance.cache-time", 5) * 60 * 1000L;
@@ -166,10 +171,10 @@ public class DataManager {
         });
     }
 
-    private static class PlayerData {
-        int joinCount = 0;
-        long firstJoinTime = 0;
-        long lastSeenTime = 0;
-        boolean messagesDisabled = false;
+    public static class PlayerData {
+        public int joinCount = 0;
+        public long firstJoinTime = 0;
+        public long lastSeenTime = 0;
+        public boolean messagesDisabled = false;
     }
 }

@@ -10,6 +10,7 @@ import com.FiveDollaGobby.WelcomeMessages.managers.EffectManager;
 import com.FiveDollaGobby.WelcomeMessages.managers.DataManager;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
 import com.FiveDollaGobby.WelcomeMessages.utils.ConfigValidator;
+import com.FiveDollaGobby.WelcomeMessages.placeholders.WelcomePlaceholders;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +66,14 @@ public class WelcomePlugin extends JavaPlugin {
         if (getConfig().getBoolean("metrics.enabled", true)) {
             int pluginId = 20000; // replace with actual bStats ID if you get one
             new Metrics(this, pluginId);
+        }
+
+        // PlaceholderAPI support
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new WelcomePlaceholders(this).register();
+            MessageUtils.sendConsole("&aPlaceholderAPI support enabled!");
+        } else {
+            MessageUtils.sendConsole("&ePlaceholderAPI not found - placeholders disabled");
         }
     }
 

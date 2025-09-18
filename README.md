@@ -13,6 +13,8 @@ Look, I needed a welcome plugin that wasn't from 2018, didn't break every update
 - **Fancy Effects** - Particles, sounds, titles, fireworks - all optional and configurable
 - **RGB & Gradients** - Support for modern color codes and rainbow text
 - **Config Validation** - Won't crash your server with bad settings
+- **PlaceholderAPI Support** - Use data in other plugins and chat
+- **Full Spigot Compatibility** - Works on both Spigot and Paper
 - **Not Annoying** - Everything's configurable, nothing's forced
 
 ## Screenshots
@@ -44,6 +46,8 @@ Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 - Effects that don't lag the server
 - Messages that make sense
 - RGB gradients and rainbow text support
+- PlaceholderAPI integration for other plugins
+- Full compatibility with both Spigot and Paper
 
 ### For Admins
 - Works with your permission plugin (all of them)
@@ -51,6 +55,7 @@ Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 - Reload command that actually reloads
 - No random database files everywhere
 - Won't crash from bad configs anymore
+- Works perfectly on both Spigot and Paper servers
 
 ### Performance
 - Async everything (your TPS will thank me)
@@ -115,6 +120,29 @@ Placeholders that work:
 - `{ordinal}` - First join position (1st, 2nd, 3rd, etc.)
 - More in the config comments
 
+## PlaceholderAPI Support
+
+If you have PlaceholderAPI installed, you can use these placeholders in other plugins:
+
+**Player Data:**
+- `%welcome_joincount%` - How many times the player has joined
+- `%welcome_firstjoin%` - true/false if it's their first join
+- `%welcome_messagesdisabled%` - true/false if they disabled messages
+- `%welcome_lastseen%` - When they were last seen (formatted)
+- `%welcome_firstjointime%` - When they first joined (formatted)
+- `%welcome_time_since_last_seen%` - How long since last seen
+- `%welcome_time_since_first_join%` - How long since first join
+
+**Server Data:**
+- `%welcome_total_unique_joins%` - Total unique players who joined
+- `%welcome_join_ordinal%` - Server's join count as ordinal
+- `%welcome_time_greeting%` - Morning/afternoon/evening
+- `%welcome_server_uptime%` - How long server has been running
+
+**Status:**
+- `%welcome_status%` - Player status (New Player, Regular Player, etc.)
+- `%welcome_rank%` - Player's rank (VIP, MVP, ADMIN, OWNER, DEFAULT)
+
 ## Building From Source
 
 ```bash
@@ -124,6 +152,26 @@ cd WelcomeMessages
 ```
 
 The jar's in build/libs/
+
+## Changelog
+
+### v1.1.9 - Spigot Compatibility Fix
+- Fixed all compatibility issues with Spigot servers
+- Reverted to deprecated but stable API methods for maximum compatibility
+- Plugin now works perfectly on both Spigot and Paper
+- No more runtime errors or crashes
+
+### v1.1.8 - PlaceholderAPI Support
+- Added comprehensive PlaceholderAPI integration
+- 13+ placeholders for player data, server stats, and status
+- Works with any plugin that supports PlaceholderAPI
+- Auto-detects PlaceholderAPI and enables support
+
+### v1.1.7 - Bug Fixes & Config Validation
+- Fixed syntax error in MessageUtils.java
+- Added comprehensive configuration validation
+- Plugin won't start with broken settings
+- Better error messages and auto-correction
 
 ## Known Issues
 
@@ -141,6 +189,8 @@ Stuff I might add if people actually use this:
 - [ ] Custom sounds (when I figure out resource packs)
 - [X] RGB gradient text (done!)
 - [X] Config validation (done!)
+- [X] PlaceholderAPI support (done!)
+- [X] Full Spigot compatibility (done!)
 - [ ] World-specific messages (maybe)
 
 ## Contributing

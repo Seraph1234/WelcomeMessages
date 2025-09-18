@@ -140,9 +140,9 @@ public class ConfigValidator {
     private void validateSound(FileConfiguration config, String path, String defaultValue) {
         String soundName = config.getString(path, defaultValue);
         try {
-            @SuppressWarnings("deprecation")
-            Sound sound = Sound.valueOf(soundName);
             // Just check if it exists, don't use the deprecated method
+            @SuppressWarnings({"deprecation", "unused"})
+            Sound sound = Sound.valueOf(soundName);
         } catch (IllegalArgumentException e) {
             errors.add("Invalid sound '" + soundName + "' in " + path + " - using default");
             config.set(path, defaultValue);

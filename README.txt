@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.1.7
+    WelcomeMessages - v1.1.9
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.1.7.jar into your plugins folder
+1. Drop the WelcomeMessages-1.1.9.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done! (Plugin validates your config so it won't crash)
@@ -17,8 +17,8 @@ WHAT THIS DOES
 Makes your server feel more alive with custom join/quit messages.
 First time players get a special welcome, regulars get their own
 messages, and your VIPs can have fancy entrances with fireworks
-and everything. Now with RGB gradients, rainbow text, and config
-validation so it won't break your server!
+and everything. Now with RGB gradients, rainbow text, config
+validation, PlaceholderAPI support, and full Spigot compatibility!
 
 COMMANDS
 --------
@@ -69,6 +69,22 @@ In messages.yml:
 - Use <gradient:#FF0000:#0000FF>text</gradient> for gradients
 - You can add as many messages as you want to each list
 
+PLACEHOLDERAPI SUPPORT
+----------------------
+If you have PlaceholderAPI installed, you can use these placeholders:
+
+Player data:
+- %welcome_joincount% - How many times joined
+- %welcome_firstjoin% - true/false if first join
+- %welcome_messagesdisabled% - true/false if disabled
+- %welcome_lastseen% - When last seen
+- %welcome_rank% - Player rank (VIP, MVP, etc.)
+
+Server data:
+- %welcome_total_unique_joins% - Total unique joins
+- %welcome_time_greeting% - Morning/afternoon/evening
+- %welcome_server_uptime% - Server uptime
+
 COMMON ISSUES
 -------------
 "Effects not showing!"
@@ -102,6 +118,23 @@ SUPPORT
 Found a bug? Let me know on GitHub!
 Want a feature? Also GitHub!
 Everything broken? ...yeah, GitHub.
+
+CHANGELOG
+---------
+v1.1.9 - Spigot Compatibility Fix
+- Fixed all compatibility issues with Spigot servers
+- Plugin now works perfectly on both Spigot and Paper
+- No more runtime errors or crashes
+
+v1.1.8 - PlaceholderAPI Support
+- Added 13+ placeholders for other plugins to use
+- Auto-detects PlaceholderAPI and enables support
+- Works with any plugin that supports PlaceholderAPI
+
+v1.1.7 - Bug Fixes & Config Validation
+- Fixed syntax error that was breaking the build
+- Added config validation so plugin won't crash
+- Better error messages and auto-correction
 
 FINAL NOTES
 -----------

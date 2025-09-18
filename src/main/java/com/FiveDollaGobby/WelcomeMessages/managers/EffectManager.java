@@ -42,6 +42,7 @@ public class EffectManager {
         title = MessageUtils.colorize(title.replace("{player}", player.getName()));
         subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
 
+        // Using deprecated method for compatibility
         player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
     }
 
@@ -52,9 +53,13 @@ public class EffectManager {
 
         try {
             if (isFirstJoin) {
-                sound = Sound.valueOf(plugin.getConfig().getString("effects.sound.first-join", "UI_TOAST_CHALLENGE_COMPLETE"));
+                @SuppressWarnings("deprecation")
+                Sound firstJoinSound = Sound.valueOf(plugin.getConfig().getString("effects.sound.first-join", "UI_TOAST_CHALLENGE_COMPLETE"));
+                sound = firstJoinSound;
             } else {
-                sound = Sound.valueOf(plugin.getConfig().getString("effects.sound.regular", "ENTITY_PLAYER_LEVELUP"));
+                @SuppressWarnings("deprecation")
+                Sound regularSound = Sound.valueOf(plugin.getConfig().getString("effects.sound.regular", "ENTITY_PLAYER_LEVELUP"));
+                sound = regularSound;
             }
 
             // play to player
