@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.2.0
+    WelcomeMessages - v1.2.5
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.2.0.jar into your plugins folder
+1. Drop the WelcomeMessages-1.2.5.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done! (Plugin validates your config so it won't crash)
@@ -17,7 +17,8 @@ WHAT THIS DOES
 Makes your server feel more alive with custom join/quit messages.
 First time players get a special welcome, regulars get their own
 messages, and your VIPs can have fancy entrances with fireworks
-and everything. Now with RGB gradients, rainbow text, config
+and everything. Now with 12 amazing text animations, RGB gradients,
+rainbow text, config
 validation, PlaceholderAPI support, custom rank system, and full 
 Spigot compatibility!
 
@@ -26,6 +27,8 @@ COMMANDS
 /welcome - Shows help (or /wm for short)
 /welcome reload - Reloads the config (with validation!)
 /welcome test - Preview your join message
+/welcome testall - Test all features including animations
+/welcome testanim <type> [player] - Test specific animation types
 /welcome toggle - Turn your messages on/off
 /welcome stats <player> - Check someone's join count
 /welcome reset <player> - Reset someone's data (admin only)
@@ -50,6 +53,37 @@ For players:
 - welcome.toggle - Turn messages on/off
 - welcome.see.join - See join messages
 - welcome.see.quit - See quit messages
+
+ANIMATIONS (NEW IN v1.2.5!)
+----------------------------
+WelcomeMessages now includes 12 amazing text animations:
+
+Animation Types:
+- typing - Character-by-character reveal
+- typewriter - Typewriter with blinking cursor
+- fade - Smooth fade-in effect
+- slide - Text slides in from side
+- wave - Text waves up and down
+- rainbow - Rainbow color cycling
+- glitch - Random characters appear/disappear
+- bounce - Text bounces up and down
+- shake - Text shakes left and right
+- pulse - Text pulses in brightness
+- matrix - Matrix-style falling characters
+- scramble - Text scrambles then reveals
+
+Features:
+- Animations display in action bar (private to player, no chat spam!)
+- Configurable duration for each animation
+- Different animations for join, quit, and first-join messages
+- Perfect color code preservation
+- Works on both Spigot and Paper
+
+Testing:
+/welcome testall - Test all features including animations
+/welcome testanim typing - Test specific animation type
+/welcome testanim bounce - Test bounce animation
+# ... and 10 more animation types!
 
 CONFIG TIPS
 -----------
@@ -104,6 +138,15 @@ Everything broken? ...yeah, GitHub.
 
 CHANGELOG
 ---------
+v1.2.5 - Animation System & Bug Fixes
+- NEW: 12 Text Animations (typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, scramble)
+- NEW: Action Bar Display (private animations, no chat spam!)
+- NEW: Animation Commands (/welcome testall and /welcome testanim <type>)
+- FIXED: Typing animations now work perfectly with color codes
+- FIXED: Typewriter animation with blinking cursor
+- FIXED: All linter errors and warnings
+- IMPROVED: Performance and compatibility
+
 v1.2.0 - Custom Rank System
 - Added unlimited custom rank support
 - Define your own ranks in config.yml

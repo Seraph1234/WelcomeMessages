@@ -2,6 +2,7 @@ package com.FiveDollaGobby.WelcomeMessages.managers;
 
 import com.FiveDollaGobby.WelcomeMessages.WelcomePlugin;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
+import com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.ConfigurationSection;
 import net.md_5.bungee.api.ChatColor;
@@ -12,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MessageManager {
 
     private final WelcomePlugin plugin;
+    private final AnimationUtils animationUtils;
     private final Map<String, List<String>> rankJoinMessages = new HashMap<>();
     private final Map<String, List<String>> rankQuitMessages = new HashMap<>();
     private List<String> defaultJoinMessages;
@@ -20,6 +22,7 @@ public class MessageManager {
 
     public MessageManager(WelcomePlugin plugin) {
         this.plugin = plugin;
+        this.animationUtils = new AnimationUtils(plugin);
         reload();
     }
 
@@ -73,7 +76,29 @@ public class MessageManager {
         // pick random message
         if (!possibleMessages.isEmpty()) {
             String message = possibleMessages.get(ThreadLocalRandom.current().nextInt(possibleMessages.size()));
-            return replacePlaceholders(message, player, isFirstJoin);
+            String finalMessage = replacePlaceholders(message, player, isFirstJoin);
+            
+            // Apply animation if enabled
+            if (plugin.getConfig().getBoolean("animations.enabled", true)) {
+                String animationType = getAnimationType("join", isFirstJoin);
+                int duration = getAnimationDuration("join", isFirstJoin);
+                boolean showFinalInChat = plugin.getConfig().getBoolean("animations.show-final-in-chat", true);
+                
+                if (animationType != null && !animationType.equals("none")) {
+                    animationUtils.animateMessage(player, finalMessage, animationType, duration);
+                    
+                    // Show final message in chat after animation if configured
+                    if (showFinalInChat) {
+                        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                            MessageUtils.sendMessage(player, finalMessage);
+                        }, duration + 20L); // Wait for animation to complete + 1 second
+                    }
+                    
+                    return null; // Don't send the message normally, animation will handle it
+                }
+            }
+            
+            return finalMessage;
         }
 
         return null;
@@ -97,7 +122,29 @@ public class MessageManager {
         // pick random message
         if (!possibleMessages.isEmpty()) {
             String message = possibleMessages.get(ThreadLocalRandom.current().nextInt(possibleMessages.size()));
-            return replacePlaceholders(message, player, false);
+            String finalMessage = replacePlaceholders(message, player, false);
+            
+            // Apply animation if enabled
+            if (plugin.getConfig().getBoolean("animations.enabled", true)) {
+                String animationType = getAnimationType("quit", false);
+                int duration = getAnimationDuration("quit", false);
+                boolean showFinalInChat = plugin.getConfig().getBoolean("animations.show-final-in-chat", true);
+                
+                if (animationType != null && !animationType.equals("none")) {
+                    animationUtils.animateMessage(player, finalMessage, animationType, duration);
+                    
+                    // Show final message in chat after animation if configured
+                    if (showFinalInChat) {
+                        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                            MessageUtils.sendMessage(player, finalMessage);
+                        }, duration + 20L); // Wait for animation to complete + 1 second
+                    }
+                    
+                    return null; // Don't send the message normally, animation will handle it
+                }
+            }
+            
+            return finalMessage;
         }
 
         return null;
@@ -137,7 +184,7 @@ public class MessageManager {
 
     private String replacePlaceholders(String message, Player player, boolean isFirstJoin) {
         message = message.replace("{player}", player.getName())
-                .replace("{displayname}", player.getDisplayName())
+                .replace("{displayname}", getDisplayName(player))
                 .replace("{world}", player.getWorld().getName())
                 .replace("{online}", String.valueOf(plugin.getServer().getOnlinePlayers().size()))
                 .replace("{max}", String.valueOf(plugin.getServer().getMaxPlayers()))
@@ -173,5 +220,36 @@ public class MessageManager {
             default:
                 return number + suffixes[number % 10];
         }
+    }
+
+    /**
+     * Get animation type for message type
+     */
+    private String getAnimationType(String messageType, boolean isFirstJoin) {
+        if (isFirstJoin && messageType.equals("join")) {
+            return plugin.getConfig().getString("animations.first-join.type", 
+                plugin.getConfig().getString("animations.default-type", "typing"));
+        }
+        
+        return plugin.getConfig().getString("animations." + messageType + ".type", 
+            plugin.getConfig().getString("animations.default-type", "typing"));
+    }
+
+    /**
+     * Get animation duration for message type
+     */
+    private int getAnimationDuration(String messageType, boolean isFirstJoin) {
+        if (isFirstJoin && messageType.equals("join")) {
+            return plugin.getConfig().getInt("animations.first-join.duration", 
+                plugin.getConfig().getInt("animations.default-duration", 60));
+        }
+        
+        return plugin.getConfig().getInt("animations." + messageType + ".duration", 
+            plugin.getConfig().getInt("animations.default-duration", 60));
+    }
+
+    @SuppressWarnings("deprecation")
+    private String getDisplayName(Player player) {
+        return player.getDisplayName();
     }
 }

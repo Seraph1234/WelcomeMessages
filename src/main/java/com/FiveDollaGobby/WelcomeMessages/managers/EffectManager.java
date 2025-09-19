@@ -24,6 +24,7 @@ public class EffectManager {
         // nothing to reload yet
     }
 
+    @SuppressWarnings("deprecation")
     public void sendTitle(Player player, boolean isFirstJoin) {
         String title, subtitle;
         int fadeIn = plugin.getConfig().getInt("effects.title.fade-in", 10);

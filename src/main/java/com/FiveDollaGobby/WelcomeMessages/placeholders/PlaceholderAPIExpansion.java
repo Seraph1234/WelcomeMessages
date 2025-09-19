@@ -22,7 +22,11 @@ public class PlaceholderAPIExpansion {
                 @SuppressWarnings("unused")
                 public String getAuthor() { return "FiveDollaGobby"; }
                 @SuppressWarnings("unused")
-                public String getVersion() { return plugin.getDescription().getVersion(); }
+                public String getVersion() { 
+                    @SuppressWarnings("deprecation")
+                    var version = plugin.getDescription().getVersion();
+                    return version;
+                }
                 @SuppressWarnings("unused")
                 public boolean persist() { return true; }
                 @SuppressWarnings("unused")

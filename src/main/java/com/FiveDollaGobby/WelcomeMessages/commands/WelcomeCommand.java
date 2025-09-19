@@ -45,6 +45,10 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
                 handleTestAll(sender, args);
                 break;
 
+            case "testanim":
+                handleTestAnim(sender, args);
+                break;
+
             case "stats":
                 handleStats(sender, args);
                 break;
@@ -191,6 +195,27 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         MessageUtils.sendMessage(sender, "&7Rainbow: <rainbow>This is rainbow text!</rainbow>");
         MessageUtils.sendMessage(sender, "");
 
+        // Test 2.5: Animation System
+        MessageUtils.sendMessage(sender, "&a&l2.5. Animation System:");
+        if (plugin.getConfig().getBoolean("animations.enabled", true)) {
+            MessageUtils.sendMessage(sender, "&7Animations enabled! Available types:");
+            MessageUtils.sendMessage(sender, "&7- &etyping &7- Character by character reveal");
+            MessageUtils.sendMessage(sender, "&7- &efade &7- Fade in effect");
+            MessageUtils.sendMessage(sender, "&7- &eslide &7- Slide in from side");
+            MessageUtils.sendMessage(sender, "&7- &ewave &7- Wave up and down");
+            MessageUtils.sendMessage(sender, "&7- &erainbow &7- Rainbow color cycling");
+            MessageUtils.sendMessage(sender, "&7- &eglitch &7- Glitch effect");
+            MessageUtils.sendMessage(sender, "&7- &etypewriter &7- Typewriter with cursor");
+            MessageUtils.sendMessage(sender, "&7- &ebounce &7- Bounce up and down");
+            MessageUtils.sendMessage(sender, "&7- &eshake &7- Shake left and right");
+            MessageUtils.sendMessage(sender, "&7- &epulse &7- Pulse brightness");
+            MessageUtils.sendMessage(sender, "&7- &ematrix &7- Matrix-style falling characters");
+            MessageUtils.sendMessage(sender, "&7- &escramble &7- Scramble and reveal");
+        } else {
+            MessageUtils.sendMessage(sender, "&7Animations disabled in config");
+        }
+        MessageUtils.sendMessage(sender, "");
+
         // Test 3: PlaceholderAPI Examples
         MessageUtils.sendMessage(sender, "&a&l3. PlaceholderAPI Examples:");
         MessageUtils.sendMessage(sender, "&7Join Count: &e" + plugin.getDataManager().getJoinCount(target));
@@ -283,6 +308,47 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handleTestAnim(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("welcome.test")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        if (args.length < 2) {
+            MessageUtils.sendMessage(sender, "&cUsage: /welcome testanim <animation_type> [player]");
+            MessageUtils.sendMessage(sender, "&7Available animations: typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, scramble");
+            return;
+        }
+
+        String animationType = args[1].toLowerCase();
+        Player target;
+        
+        if (args.length > 2) {
+            target = Bukkit.getPlayer(args[2]);
+            if (target == null) {
+                String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
+                MessageUtils.sendMessage(sender, msg.replace("{player}", args[2]));
+                return;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        } else {
+            MessageUtils.sendMessage(sender, "&cPlease specify a player name!");
+            return;
+        }
+
+        // Test message
+        String testMessage = "&6&lWelcome to our server, &e" + target.getName() + "&6&l!";
+        int duration = 60; // 3 seconds
+
+        MessageUtils.sendMessage(sender, "&6Testing &e" + animationType + " &6animation for &e" + target.getName() + "&6...");
+        
+        // Use AnimationUtils directly
+        com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils animationUtils = 
+            new com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils(plugin);
+        animationUtils.animateMessage(target, testMessage, animationType, duration);
+    }
+
     private void handleStats(CommandSender sender, String[] args) {
         if (!sender.hasPermission("welcome.stats")) {
             MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
@@ -361,7 +427,9 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleVersion(CommandSender sender) {
-        MessageUtils.sendMessage(sender, "&6WelcomeMessages &ev" + plugin.getDescription().getVersion());
+        @SuppressWarnings("deprecation")
+        var version = plugin.getDescription().getVersion();
+        MessageUtils.sendMessage(sender, "&6WelcomeMessages &ev" + version);
         MessageUtils.sendMessage(sender, "&7Created by &eFiveDollaGobby");
     }
 
@@ -370,7 +438,7 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "stats", "reset", "toggle", "version");
+            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "testanim", "stats", "reset", "toggle", "version");
             StringUtil.copyPartialMatches(args[0], subCommands, completions);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
@@ -380,6 +448,17 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
                         .map(Player::getName)
                         .collect(Collectors.toList());
                 StringUtil.copyPartialMatches(args[1], playerNames, completions);
+            } else if (subCommand.equals("testanim")) {
+                List<String> animations = Arrays.asList("typing", "fade", "slide", "wave", "rainbow", "glitch", "typewriter", "bounce", "shake", "pulse", "matrix", "scramble");
+                StringUtil.copyPartialMatches(args[1], animations, completions);
+            }
+        } else if (args.length == 3) {
+            String subCommand = args[0].toLowerCase();
+            if (subCommand.equals("testanim")) {
+                List<String> playerNames = Bukkit.getOnlinePlayers().stream()
+                        .map(Player::getName)
+                        .collect(Collectors.toList());
+                StringUtil.copyPartialMatches(args[2], playerNames, completions);
             }
         }
 

@@ -1,6 +1,6 @@
 # WelcomeMessages Configuration
 # Plugin by FiveDollaGobby
-# Version: 1.2.0
+# Version: 1.2.5
 
 # General Settings
 general:
@@ -70,6 +70,35 @@ custom-ranks:
     rainbow: true
     # Enable gradient text processing
     gradients: true
+
+# Animation Settings
+animations:
+  # Enable text animations
+  enabled: true
+  # Default animation duration (in ticks, 20 ticks = 1 second)
+  default-duration: 60
+  # Animation types: typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, scramble
+  default-type: "typing"
+  
+  # Animation display settings
+  # Use action bar for animations (only visible to target player, prevents chat spam)
+  use-action-bar: true
+  # Show final message in chat after animation completes
+  show-final-in-chat: true
+  
+  # Per-message-type animation settings
+  join:
+    enabled: false  # Disabled by default to prevent chat spam
+    type: "typing"
+    duration: 60
+  quit:
+    enabled: false  # Disabled by default to prevent chat spam
+    type: "fade"
+    duration: 40
+  first-join:
+    enabled: true   # First join animations are special, keep enabled
+    type: "rainbow"
+    duration: 80
 
 # Visual and Audio Effects
 effects:
