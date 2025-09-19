@@ -76,6 +76,8 @@ Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me)
 
 ## Text Animations
 
+![Screenshot](images/Rainbow.gif)
+
 WelcomeMessages v1.2.5 introduces **12 amazing text animations** that make your welcome messages truly special:
 
 ### Animation Types
