@@ -2,21 +2,72 @@ package com.FiveDollaGobby.WelcomeMessages.commands;
 
 import com.FiveDollaGobby.WelcomeMessages.WelcomePlugin;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
+import com.FiveDollaGobby.WelcomeMessages.utils.SecurityUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
     private final WelcomePlugin plugin;
     private final Map<UUID, Long> commandCooldowns = new HashMap<>();
+    private final Map<UUID, Map<String, Long>> commandRateLimits = new HashMap<>();
+    private final Map<String, Integer> commandCooldownTimes = new HashMap<>();
 
     public WelcomeCommand(WelcomePlugin plugin) {
         this.plugin = plugin;
+        initializeRateLimits();
+    }
+    
+    private void initializeRateLimits() {
+        // Set cooldown times for different commands (in seconds)
+        commandCooldownTimes.put("test", 2);
+        commandCooldownTimes.put("testall", 5);
+        commandCooldownTimes.put("testanim", 3);
+        commandCooldownTimes.put("testtheme", 3);
+        commandCooldownTimes.put("testmilestone", 2);
+        commandCooldownTimes.put("testplaytime", 2);
+        commandCooldownTimes.put("stats", 1);
+        commandCooldownTimes.put("reset", 10);
+        commandCooldownTimes.put("toggle", 5);
+        commandCooldownTimes.put("reload", 30);
+    }
+    
+    private boolean checkRateLimit(CommandSender sender, String command) {
+        if (!(sender instanceof Player)) {
+            return true; // Console can bypass rate limits
+        }
+        
+        Player player = (Player) sender;
+        UUID uuid = player.getUniqueId();
+        
+        // Check if player has bypass permission
+        if (player.hasPermission("welcome.effects.bypass")) {
+            return true;
+        }
+        
+        int cooldownTime = commandCooldownTimes.getOrDefault(command, 1);
+        long currentTime = System.currentTimeMillis();
+        
+        // Get or create rate limit map for player
+        Map<String, Long> playerLimits = commandRateLimits.computeIfAbsent(uuid, k -> new HashMap<>());
+        
+        // Check if command is on cooldown
+        Long lastUsed = playerLimits.get(command);
+        if (lastUsed != null && currentTime - lastUsed < (cooldownTime * 1000L)) {
+            long remaining = (cooldownTime * 1000L) - (currentTime - lastUsed);
+            MessageUtils.sendMessage(sender, "&cPlease wait &e" + (remaining / 1000 + 1) + " &cseconds before using this command again!");
+            return false;
+        }
+        
+        // Update last used time
+        playerLimits.put(command, currentTime);
+        return true;
     }
 
     @Override
@@ -47,6 +98,18 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
             case "testanim":
                 handleTestAnim(sender, args);
+                break;
+
+            case "testtheme":
+                handleTestTheme(sender, args);
+                break;
+
+            case "testmilestone":
+                handleTestMilestone(sender, args);
+                break;
+
+            case "testplaytime":
+                handleTestPlaytime(sender, args);
                 break;
 
             case "stats":
@@ -100,6 +163,10 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
             return;
         }
+        
+        if (!checkRateLimit(sender, "reload")) {
+            return;
+        }
 
         try {
             plugin.reload();
@@ -115,13 +182,23 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
             return;
         }
+        
+        if (!checkRateLimit(sender, "test")) {
+            return;
+        }
 
         Player target;
         if (args.length > 1) {
-            target = Bukkit.getPlayer(args[1]);
+            String playerName = SecurityUtils.sanitizePlayerName(args[1]);
+            if (playerName == null) {
+                MessageUtils.sendMessage(sender, "&cInvalid player name format!");
+                return;
+            }
+            
+            target = Bukkit.getPlayer(playerName);
             if (target == null) {
                 String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
-                MessageUtils.sendMessage(sender, msg.replace("{player}", args[1]));
+                MessageUtils.sendMessage(sender, msg.replace("{player}", SecurityUtils.sanitizeText(playerName)));
                 return;
             }
         } else if (sender instanceof Player) {
@@ -211,8 +288,52 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             MessageUtils.sendMessage(sender, "&7- &epulse &7- Pulse brightness");
             MessageUtils.sendMessage(sender, "&7- &ematrix &7- Matrix-style falling characters");
             MessageUtils.sendMessage(sender, "&7- &escramble &7- Scramble and reveal");
+            
+            // Multi-layer animations
+            if (plugin.getConfig().getBoolean("animations.multi-layer.enabled", true)) {
+                MessageUtils.sendMessage(sender, "");
+                MessageUtils.sendMessage(sender, "&e&lMulti-Layer Animations:");
+                MessageUtils.sendMessage(sender, "&7- &eepic_welcome &7- Rainbow + Wave + Bounce");
+                MessageUtils.sendMessage(sender, "&7- &emysterious_join &7- Glitch + Fade + Matrix");
+                MessageUtils.sendMessage(sender, "&7- &efestive_celebration &7- Rainbow + Pulse + Shake");
+                MessageUtils.sendMessage(sender, "&7- &esmooth_entrance &7- Fade + Slide + Typing");
+                MessageUtils.sendMessage(sender, "&7- &eparty_time &7- Bounce + Pulse + Rainbow + Wave");
+                MessageUtils.sendMessage(sender, "&7- &emilestone_celebration &7- All effects combined!");
+            }
         } else {
             MessageUtils.sendMessage(sender, "&7Animations disabled in config");
+        }
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 2.6: Dynamic Themes System
+        MessageUtils.sendMessage(sender, "&a&l2.6. Dynamic Themes System:");
+        if (plugin.getConfig().getBoolean("themes.enabled", true)) {
+            String currentTheme = plugin.getMessageManager().getThemeManager().getCurrentTheme();
+            String themeInfo = plugin.getMessageManager().getThemeManager().getThemeInfo();
+            MessageUtils.sendMessage(sender, "&7Current Theme: &e" + currentTheme.toUpperCase());
+            MessageUtils.sendMessage(sender, "&7Theme Info: &f" + themeInfo);
+            MessageUtils.sendMessage(sender, "&7Available Themes:");
+            MessageUtils.sendMessage(sender, "&7- &eSeasonal: &fHalloween, Christmas, Valentine, Easter, Summer, Winter");
+            MessageUtils.sendMessage(sender, "&7- &eTime-based: &fMorning, Afternoon, Evening, Night");
+            MessageUtils.sendMessage(sender, "&7- &eAuto-detection: &f" + (plugin.getConfig().getBoolean("themes.auto-detect", true) ? "Enabled" : "Disabled"));
+        } else {
+            MessageUtils.sendMessage(sender, "&7Themes disabled in config");
+        }
+        MessageUtils.sendMessage(sender, "");
+
+        // Test 2.7: Smart Player Recognition
+        MessageUtils.sendMessage(sender, "&a&l2.7. Smart Player Recognition:");
+        if (plugin.getConfig().getBoolean("smart-recognition.enabled", true)) {
+            MessageUtils.sendMessage(sender, "&7Smart recognition enabled! Features:");
+            MessageUtils.sendMessage(sender, "&7- &eMilestone Detection: &fJoin count, playtime, streak milestones");
+            MessageUtils.sendMessage(sender, "&7- &eReturning Players: &fDifferent messages based on absence duration");
+            MessageUtils.sendMessage(sender, "&7- &eBehavior Analysis: &fPeak activity, favorite world, join patterns");
+            
+            // Show player's milestone info
+            String milestoneInfo = plugin.getMessageManager().getSmartRecognitionManager().getMilestoneInfo(target);
+            MessageUtils.sendMessage(sender, "&7Player Data: &f" + milestoneInfo);
+        } else {
+            MessageUtils.sendMessage(sender, "&7Smart recognition disabled in config");
         }
         MessageUtils.sendMessage(sender, "");
 
@@ -320,14 +441,25 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        String animationType = args[1].toLowerCase();
+        String animationType = SecurityUtils.sanitizeAnimationType(args[1]);
+        if (animationType == null) {
+            MessageUtils.sendMessage(sender, "&cInvalid animation type format!");
+            return;
+        }
+        
         Player target;
         
         if (args.length > 2) {
-            target = Bukkit.getPlayer(args[2]);
+            String playerName = SecurityUtils.sanitizePlayerName(args[2]);
+            if (playerName == null) {
+                MessageUtils.sendMessage(sender, "&cInvalid player name format!");
+                return;
+            }
+            
+            target = Bukkit.getPlayer(playerName);
             if (target == null) {
                 String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
-                MessageUtils.sendMessage(sender, msg.replace("{player}", args[2]));
+                MessageUtils.sendMessage(sender, msg.replace("{player}", SecurityUtils.sanitizeText(playerName)));
                 return;
             }
         } else if (sender instanceof Player) {
@@ -347,6 +479,173 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils animationUtils = 
             new com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils(plugin);
         animationUtils.animateMessage(target, testMessage, animationType, duration);
+    }
+
+    private void handleTestTheme(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("welcome.test")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        if (args.length < 2) {
+            MessageUtils.sendMessage(sender, "&cUsage: /welcome testtheme <theme> [player]");
+            MessageUtils.sendMessage(sender, "&7Available themes: " + String.join(", ", plugin.getMessageManager().getThemeManager().getAvailableThemes()));
+            return;
+        }
+
+        String theme = SecurityUtils.sanitizeThemeName(args[1]);
+        if (theme == null) {
+            MessageUtils.sendMessage(sender, "&cInvalid theme name format!");
+            return;
+        }
+        
+        Player target;
+        
+        if (args.length > 2) {
+            String playerName = SecurityUtils.sanitizePlayerName(args[2]);
+            if (playerName == null) {
+                MessageUtils.sendMessage(sender, "&cInvalid player name format!");
+                return;
+            }
+            
+            target = Bukkit.getPlayer(playerName);
+            if (target == null) {
+                String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
+                MessageUtils.sendMessage(sender, msg.replace("{player}", SecurityUtils.sanitizeText(playerName)));
+                return;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        } else {
+            MessageUtils.sendMessage(sender, "&cPlease specify a player name!");
+            return;
+        }
+
+        // Set theme temporarily
+        plugin.getMessageManager().getThemeManager().setTheme(theme);
+        
+        // Test messages
+        boolean isFirstJoin = plugin.getDataManager().isFirstJoin(target);
+        List<String> themeMessages = plugin.getMessageManager().getThemeManager().getThemeMessages("join", isFirstJoin);
+        
+        MessageUtils.sendMessage(sender, "&6Testing &e" + theme + " &6theme for &e" + target.getName() + "&6...");
+        
+        if (themeMessages != null && !themeMessages.isEmpty()) {
+            String message = themeMessages.get(ThreadLocalRandom.current().nextInt(themeMessages.size()));
+            String finalMessage = message.replace("{player}", target.getName())
+                                       .replace("{displayname}", target.getName()) // Using getName() instead of deprecated getDisplayName()
+                                       .replace("{world}", target.getWorld() != null ? target.getWorld().getName() : "unknown")
+                                       .replace("{online}", String.valueOf(plugin.getServer().getOnlinePlayers().size()))
+                                       .replace("{max}", String.valueOf(plugin.getServer().getMaxPlayers()))
+                                       .replace("{joincount}", String.valueOf(plugin.getDataManager().getJoinCount(target)));
+            
+            MessageUtils.sendMessage(sender, "&7Theme message: " + finalMessage);
+        } else {
+            MessageUtils.sendMessage(sender, "&7No theme messages found for " + theme);
+        }
+        
+        // Reset theme
+        plugin.getMessageManager().getThemeManager().setTheme("auto");
+    }
+
+    private void handleTestMilestone(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("welcome.test")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        Player target;
+        if (args.length > 1) {
+            target = Bukkit.getPlayer(args[1]);
+            if (target == null) {
+                String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
+                MessageUtils.sendMessage(sender, msg.replace("{player}", args[1]));
+                return;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        } else {
+            MessageUtils.sendMessage(sender, "&cPlease specify a player name!");
+            return;
+        }
+
+        MessageUtils.sendMessage(sender, "&6Testing milestone detection for &e" + target.getName() + "&6...");
+        
+        // Show current milestone info
+        String milestoneInfo = plugin.getMessageManager().getSmartRecognitionManager().getMilestoneInfo(target);
+        MessageUtils.sendMessage(sender, "&7Current data: &f" + milestoneInfo);
+        
+        // Test milestone messages
+        String milestoneMessage = plugin.getMessageManager().getSmartRecognitionManager().checkMilestones(target, false);
+        if (milestoneMessage != null) {
+            MessageUtils.sendMessage(sender, "&7Milestone message: " + milestoneMessage);
+        } else {
+            MessageUtils.sendMessage(sender, "&7No milestone reached");
+        }
+        
+        // Test returning player message
+        String returningMessage = plugin.getMessageManager().getSmartRecognitionManager().getReturningPlayerMessage(target);
+        if (returningMessage != null) {
+            MessageUtils.sendMessage(sender, "&7Returning player message: " + returningMessage);
+        } else {
+            MessageUtils.sendMessage(sender, "&7No returning player message");
+        }
+    }
+
+    private void handleTestPlaytime(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("welcome.test")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        Player target;
+        if (args.length > 1) {
+            target = Bukkit.getPlayer(args[1]);
+            if (target == null) {
+                String msg = plugin.getMessagesConfig().getString("commands.player-not-found");
+                MessageUtils.sendMessage(sender, msg.replace("{player}", args[1]));
+                return;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        } else {
+            MessageUtils.sendMessage(sender, "&cPlease specify a player name!");
+            return;
+        }
+
+        MessageUtils.sendMessage(sender, "&6&l=== Playtime Testing for " + target.getName() + " ===");
+        
+        // Get playtime data
+        long totalPlaytime = plugin.getDataManager().getTotalPlaytime(target);
+        long sessionTime = plugin.getDataManager().getCurrentSessionTime(target);
+        int joinCount = plugin.getDataManager().getJoinCount(target);
+        
+        MessageUtils.sendMessage(sender, "&7Total Playtime: &e" + totalPlaytime + " hours");
+        MessageUtils.sendMessage(sender, "&7Current Session: &e" + sessionTime + " minutes");
+        MessageUtils.sendMessage(sender, "&7Join Count: &e" + joinCount);
+        MessageUtils.sendMessage(sender, "");
+        
+        // Test playtime milestones
+        MessageUtils.sendMessage(sender, "&a&lTesting Playtime Milestones:");
+        List<Integer> milestones = plugin.getConfig().getIntegerList("smart-recognition.milestones.playtime-milestones");
+        MessageUtils.sendMessage(sender, "&7Configured milestones: &e" + milestones.toString());
+        
+        boolean reachedMilestone = false;
+        for (int milestone : milestones) {
+            if (totalPlaytime >= milestone) {
+                MessageUtils.sendMessage(sender, "&a✓ Reached " + milestone + " hour milestone!");
+                reachedMilestone = true;
+            }
+        }
+        
+        if (!reachedMilestone) {
+            MessageUtils.sendMessage(sender, "&7No playtime milestones reached yet");
+        }
+        
+        MessageUtils.sendMessage(sender, "");
+        MessageUtils.sendMessage(sender, "&6&l=== Playtime Test Complete ===");
+        MessageUtils.sendMessage(sender, "&7Playtime is now tracked accurately!");
+        MessageUtils.sendMessage(sender, "&7Session time updates every 5 minutes automatically.");
     }
 
     private void handleStats(CommandSender sender, String[] args) {
@@ -374,6 +673,8 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         MessageUtils.sendMessage(sender, "&eJoin Count: &f" + plugin.getDataManager().getJoinCount(target));
         MessageUtils.sendMessage(sender, "&eFirst Join: &f" + (plugin.getDataManager().isFirstJoin(target) ? "Never" : "Yes"));
         MessageUtils.sendMessage(sender, "&eMessages Enabled: &f" + !plugin.getDataManager().hasMessagesDisabled(target));
+        MessageUtils.sendMessage(sender, "&eTotal Playtime: &f" + plugin.getDataManager().getTotalPlaytime(target) + " hours");
+        MessageUtils.sendMessage(sender, "&eCurrent Session: &f" + plugin.getDataManager().getCurrentSessionTime(target) + " minutes");
         MessageUtils.sendMessage(sender, "&6&l----------------------");
     }
 
@@ -382,15 +683,24 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
             MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
             return;
         }
+        
+        if (!checkRateLimit(sender, "reset")) {
+            return;
+        }
 
         if (args.length < 2) {
             MessageUtils.sendMessage(sender, "&cUsage: /welcome reset <player>");
             return;
         }
 
-        String playerName = args[1];
+        String playerName = SecurityUtils.sanitizePlayerName(args[1]);
+        if (playerName == null) {
+            MessageUtils.sendMessage(sender, "&cInvalid player name format!");
+            return;
+        }
+        
         plugin.getDataManager().resetPlayerData(playerName);
-        MessageUtils.sendMessage(sender, "&aPlayer data reset for &e" + playerName);
+        MessageUtils.sendMessage(sender, "&aPlayer data reset for &e" + SecurityUtils.sanitizeText(playerName));
     }
 
     private void handleToggle(CommandSender sender) {
@@ -438,23 +748,26 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "testanim", "stats", "reset", "toggle", "version");
+            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "testanim", "testtheme", "testmilestone", "testplaytime", "stats", "reset", "toggle", "version");
             StringUtil.copyPartialMatches(args[0], subCommands, completions);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
 
-            if (subCommand.equals("test") || subCommand.equals("testall") || subCommand.equals("stats") || subCommand.equals("reset")) {
+            if (subCommand.equals("test") || subCommand.equals("testall") || subCommand.equals("stats") || subCommand.equals("reset") || subCommand.equals("testmilestone") || subCommand.equals("testplaytime")) {
                 List<String> playerNames = Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .collect(Collectors.toList());
                 StringUtil.copyPartialMatches(args[1], playerNames, completions);
             } else if (subCommand.equals("testanim")) {
-                List<String> animations = Arrays.asList("typing", "fade", "slide", "wave", "rainbow", "glitch", "typewriter", "bounce", "shake", "pulse", "matrix", "scramble");
+                List<String> animations = Arrays.asList("typing", "fade", "slide", "wave", "rainbow", "glitch", "typewriter", "bounce", "shake", "pulse", "matrix", "scramble", "epic_welcome", "mysterious_join", "festive_celebration", "smooth_entrance", "party_time", "milestone_celebration");
                 StringUtil.copyPartialMatches(args[1], animations, completions);
+            } else if (subCommand.equals("testtheme")) {
+                List<String> themes = plugin.getMessageManager().getThemeManager().getAvailableThemes();
+                StringUtil.copyPartialMatches(args[1], themes, completions);
             }
         } else if (args.length == 3) {
             String subCommand = args[0].toLowerCase();
-            if (subCommand.equals("testanim")) {
+            if (subCommand.equals("testanim") || subCommand.equals("testtheme")) {
                 List<String> playerNames = Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .collect(Collectors.toList());

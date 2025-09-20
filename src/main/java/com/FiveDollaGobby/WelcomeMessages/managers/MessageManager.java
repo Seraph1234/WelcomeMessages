@@ -14,6 +14,8 @@ public class MessageManager {
 
     private final WelcomePlugin plugin;
     private final AnimationUtils animationUtils;
+    private final ThemeManager themeManager;
+    private final SmartRecognitionManager smartRecognitionManager;
     private final Map<String, List<String>> rankJoinMessages = new HashMap<>();
     private final Map<String, List<String>> rankQuitMessages = new HashMap<>();
     private List<String> defaultJoinMessages;
@@ -23,6 +25,8 @@ public class MessageManager {
     public MessageManager(WelcomePlugin plugin) {
         this.plugin = plugin;
         this.animationUtils = new AnimationUtils(plugin);
+        this.themeManager = new ThemeManager(plugin);
+        this.smartRecognitionManager = new SmartRecognitionManager(plugin);
         reload();
     }
 
@@ -54,8 +58,31 @@ public class MessageManager {
     }
 
     public String getJoinMessage(Player player, boolean isFirstJoin) {
-        List<String> possibleMessages = new ArrayList<>();
+        // Check for milestone messages first (highest priority)
+        String milestoneMessage = smartRecognitionManager.checkMilestones(player, isFirstJoin);
+        if (milestoneMessage != null) {
+            String finalMessage = replacePlaceholders(milestoneMessage, player, isFirstJoin);
+            return handleAnimation(finalMessage, player, isFirstJoin);
+        }
 
+        // Check for returning player messages (second priority)
+        String returningMessage = smartRecognitionManager.getReturningPlayerMessage(player);
+        if (returningMessage != null) {
+            String finalMessage = replacePlaceholders(returningMessage, player, isFirstJoin);
+            return handleAnimation(finalMessage, player, isFirstJoin);
+        }
+
+        // Check for theme-based messages (third priority)
+        List<String> themeMessages = themeManager.getThemeMessages("join", isFirstJoin);
+        if (themeMessages != null && !themeMessages.isEmpty()) {
+            String message = themeMessages.get(ThreadLocalRandom.current().nextInt(themeMessages.size()));
+            String finalMessage = replacePlaceholders(message, player, isFirstJoin);
+            return handleAnimation(finalMessage, player, isFirstJoin);
+        }
+
+        // If no special messages, use normal logic
+        List<String> possibleMessages = new ArrayList<>();
+        
         // first join gets special message
         if (isFirstJoin && !firstJoinMessages.isEmpty()) {
             possibleMessages = new ArrayList<>(firstJoinMessages);
@@ -84,6 +111,13 @@ public class MessageManager {
                 int duration = getAnimationDuration("join", isFirstJoin);
                 boolean showFinalInChat = plugin.getConfig().getBoolean("animations.show-final-in-chat", true);
                 
+                // Check if we should use multi-layer animation
+                boolean useMultiLayer = plugin.getConfig().getBoolean("animations.join.use-multi-layer", false);
+                if (useMultiLayer) {
+                    String multiLayerType = plugin.getConfig().getString("animations.join.multi-layer-type", "smooth_entrance");
+                    animationType = multiLayerType;
+                }
+                
                 if (animationType != null && !animationType.equals("none")) {
                     animationUtils.animateMessage(player, finalMessage, animationType, duration);
                     
@@ -102,6 +136,40 @@ public class MessageManager {
         }
 
         return null;
+    }
+
+    /**
+     * Handle animation for a message
+     */
+    private String handleAnimation(String message, Player player, boolean isFirstJoin) {
+        // Apply animation if enabled
+        if (plugin.getConfig().getBoolean("animations.enabled", true)) {
+            String animationType = getAnimationType("join", isFirstJoin);
+            int duration = getAnimationDuration("join", isFirstJoin);
+            boolean showFinalInChat = plugin.getConfig().getBoolean("animations.show-final-in-chat", true);
+            
+            // Check if we should use multi-layer animation
+            boolean useMultiLayer = plugin.getConfig().getBoolean("animations.join.use-multi-layer", false);
+            if (useMultiLayer) {
+                String multiLayerType = plugin.getConfig().getString("animations.join.multi-layer-type", "smooth_entrance");
+                animationType = multiLayerType;
+            }
+            
+            if (animationType != null && !animationType.equals("none")) {
+                animationUtils.animateMessage(player, message, animationType, duration);
+                
+                // Show final message in chat after animation if configured
+                if (showFinalInChat) {
+                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        MessageUtils.sendMessage(player, message);
+                    }, duration + 20L); // Wait for animation to complete + 1 second
+                }
+                
+                return null; // Don't send the message normally, animation will handle it
+            }
+        }
+        
+        return message;
     }
 
     public String getQuitMessage(Player player) {
@@ -185,7 +253,7 @@ public class MessageManager {
     private String replacePlaceholders(String message, Player player, boolean isFirstJoin) {
         message = message.replace("{player}", player.getName())
                 .replace("{displayname}", getDisplayName(player))
-                .replace("{world}", player.getWorld().getName())
+                .replace("{world}", player.getWorld() != null ? player.getWorld().getName() : "unknown")
                 .replace("{online}", String.valueOf(plugin.getServer().getOnlinePlayers().size()))
                 .replace("{max}", String.valueOf(plugin.getServer().getMaxPlayers()))
                 .replace("{joincount}", String.valueOf(plugin.getDataManager().getJoinCount(player)));
@@ -251,5 +319,19 @@ public class MessageManager {
     @SuppressWarnings("deprecation")
     private String getDisplayName(Player player) {
         return player.getDisplayName();
+    }
+
+    /**
+     * Get the theme manager
+     */
+    public ThemeManager getThemeManager() {
+        return themeManager;
+    }
+
+    /**
+     * Get the smart recognition manager
+     */
+    public SmartRecognitionManager getSmartRecognitionManager() {
+        return smartRecognitionManager;
     }
 }

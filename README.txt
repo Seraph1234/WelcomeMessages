@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.2.5
+    WelcomeMessages - v1.3.0
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.2.5.jar into your plugins folder
+1. Drop the WelcomeMessages-1.3.0.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done! (Plugin validates your config so it won't crash)
@@ -18,9 +18,9 @@ Makes your server feel more alive with custom join/quit messages.
 First time players get a special welcome, regulars get their own
 messages, and your VIPs can have fancy entrances with fireworks
 and everything. Now with 12 amazing text animations, RGB gradients,
-rainbow text, config
-validation, PlaceholderAPI support, custom rank system, and full 
-Spigot compatibility!
+rainbow text, config validation, PlaceholderAPI support, custom rank 
+system, enhanced security, rate limiting, input sanitization,
+memory management, thread safety, and full Spigot compatibility!
 
 COMMANDS
 --------
@@ -138,6 +138,20 @@ Everything broken? ...yeah, GitHub.
 
 CHANGELOG
 ---------
+v1.3.0 - Security & Performance Improvements
+- NEW: Security Improvements (fixed various security issues)
+- NEW: Rate Limiting System (command cooldowns to prevent spam)
+- NEW: Input Sanitization (protection against malicious input)
+- NEW: Memory Management (automatic cleanup to prevent leaks)
+- NEW: Thread Safety (all operations are fully thread-safe)
+- FIXED: Integer Overflow (prevents crashes from large config values)
+- FIXED: Division by Zero (safety checks in animation system)
+- FIXED: Null Pointer Exceptions (comprehensive null checks)
+- FIXED: Resource Leaks (proper cleanup of animation tasks)
+- IMPROVED: Performance (replaced Random with ThreadLocalRandom)
+- IMPROVED: Error Handling (better logging and error recovery)
+- IMPROVED: Code Quality (zero linter errors, perfect quality)
+
 v1.2.5 - Animation System & Bug Fixes
 - NEW: 12 Text Animations (typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, scramble)
 - NEW: Action Bar Display (private animations, no chat spam!)

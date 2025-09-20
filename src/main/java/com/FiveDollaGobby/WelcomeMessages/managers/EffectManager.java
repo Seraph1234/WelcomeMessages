@@ -9,12 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EffectManager {
 
     private final WelcomePlugin plugin;
-    private final Random random = new Random();
+    // Using ThreadLocalRandom for better performance
 
     public EffectManager(WelcomePlugin plugin) {
         this.plugin = plugin;
@@ -148,15 +148,15 @@ public class EffectManager {
 
                 Location loc = player.getLocation();
                 // randomize location a bit
-                double offsetX = (random.nextDouble() - 0.5) * 4;
-                double offsetZ = (random.nextDouble() - 0.5) * 4;
+                double offsetX = (ThreadLocalRandom.current().nextDouble() - 0.5) * 4;
+                double offsetZ = (ThreadLocalRandom.current().nextDouble() - 0.5) * 4;
                 loc.add(offsetX, 0, offsetZ);
 
                 Firework fw = (Firework) player.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
                 FireworkMeta fwMeta = fw.getFireworkMeta();
 
                 // random firework stuff
-                FireworkEffect.Type type = FireworkEffect.Type.values()[random.nextInt(FireworkEffect.Type.values().length)];
+                FireworkEffect.Type type = FireworkEffect.Type.values()[ThreadLocalRandom.current().nextInt(FireworkEffect.Type.values().length)];
                 Color color = getRandomColor();
                 Color fadeColor = getRandomColor();
 
@@ -164,12 +164,12 @@ public class EffectManager {
                         .withColor(color)
                         .withFade(fadeColor)
                         .with(type)
-                        .trail(random.nextBoolean())
-                        .flicker(random.nextBoolean())
+                        .trail(ThreadLocalRandom.current().nextBoolean())
+                        .flicker(ThreadLocalRandom.current().nextBoolean())
                         .build();
 
                 fwMeta.addEffect(effect);
-                fwMeta.setPower(random.nextInt(2) + 1);
+                fwMeta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
                 fw.setFireworkMeta(fwMeta);
 
                 launched++;
@@ -183,6 +183,6 @@ public class EffectManager {
                 Color.PURPLE, Color.ORANGE, Color.WHITE, Color.AQUA,
                 Color.FUCHSIA, Color.LIME, Color.TEAL, Color.SILVER
         };
-        return colors[random.nextInt(colors.length)];
+        return colors[ThreadLocalRandom.current().nextInt(colors.length)];
     }
 }

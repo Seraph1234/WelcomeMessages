@@ -1,4 +1,5 @@
-# WelcomeMessages v1.2.5
+![https://i.postimg.cc/VLwf7Mjw/screenshot.png](https://i.postimg.cc/VLwf7Mjw/screenshot.png "https://i.postimg.cc/VLwf7Mjw/screenshot.png")
+# WelcomeMessages v1.3.0
 
 **The Ultimate Welcome Plugin for Minecraft Servers**
 
@@ -11,7 +12,31 @@
 
 ---
 
-## 🎉 What's New in v1.2.5
+## 🎉 What's New in v1.3.0
+
+### 🔒 **Security Improvements**
+WelcomeMessages v1.3.0 includes various security improvements:
+
+- **Security Fixes** - Fixed various security issues and improved code safety
+- **Rate Limiting** - Built-in command cooldowns to prevent spam and abuse
+- **Input Sanitization** - Protection against malicious input and injection attacks
+- **Memory Management** - Automatic cleanup system to prevent memory leaks
+- **Thread Safety** - All operations are now fully thread-safe
+- **Integer Overflow Protection** - Prevents crashes from large configuration values
+- **Null Pointer Safety** - Comprehensive null checks throughout the codebase
+- **Resource Leak Prevention** - Proper cleanup of all resources
+
+### 🚀 **Performance Improvements**
+- **ThreadLocalRandom** - Replaced all Random usage for better performance
+- **Memory Optimization** - Automatic cleanup of old data and animation tasks
+- **Error Handling** - Improved logging and error recovery
+- **Code Quality** - Zero linter errors, perfect code quality
+
+---
+
+## 🎉 Previous Features (v1.2.5)
+
+![https://i.postimg.cc/wTk6nvVm/Rainbow.gif](https://i.postimg.cc/wTk6nvVm/Rainbow.gif "https://i.postimg.cc/wTk6nvVm/Rainbow.gif")
 
 ### ✨ **12 Amazing Text Animations**
 WelcomeMessages now includes a complete animation system with 12 different effects:
@@ -47,6 +72,8 @@ WelcomeMessages now includes a complete animation system with 12 different effec
 
 ## 🚀 Key Features
 
+![https://i.postimg.cc/sgV22SXm/IMG1.png](https://i.postimg.cc/sgV22SXm/IMG1.png "https://i.postimg.cc/sgV22SXm/IMG1.png")
+
 ### 🎨 **Visual Excellence**
 - **RGB & Gradient Support** - Modern color codes and rainbow text
 - **12 Text Animations** - Make your messages truly special
@@ -77,7 +104,7 @@ WelcomeMessages now includes a complete animation system with 12 different effec
 | `/welcome reload` | Reload configuration | `welcome.reload` |
 | `/welcome test` | Preview your join message | `welcome.test` |
 | `/welcome testall` | Test all features including animations | `welcome.testall` |
-| `/welcome testanim <type> [player]` | Test specific animation types | `welcome.testanim` |
+| `/welcome testanim &lt;type&gt; [player]` | Test specific animation types | `welcome.testanim` |
 | `/welcome toggle` | Turn your messages on/off | `welcome.toggle` |
 | `/welcome stats [player]` | Check join count statistics | `welcome.stats` |
 | `/welcome reset [player]` | Reset player data | `welcome.reset` |

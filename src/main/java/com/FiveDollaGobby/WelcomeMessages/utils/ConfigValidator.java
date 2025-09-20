@@ -48,7 +48,7 @@ public class ConfigValidator {
         int saveInterval = config.getInt("general.save-interval", 10);
         if (saveInterval < 1) {
             errors.add("general.save-interval must be at least 1 minute");
-        } else if (saveInterval > 60) {
+        } else if (saveInterval > 1440) { // 24 hours max
             warnings.add("general.save-interval is very high (" + saveInterval + " minutes) - consider reducing for better data safety");
         }
     }

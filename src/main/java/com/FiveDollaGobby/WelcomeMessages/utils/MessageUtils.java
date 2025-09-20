@@ -17,6 +17,11 @@ public class MessageUtils {
     // colorize with hex, gradient, and rainbow support
     public static String colorize(String message) {
         if (message == null) return "";
+        
+        // Basic security check - limit message length to prevent memory issues
+        if (message.length() > 10000) {
+            message = message.substring(0, 10000) + "...";
+        }
 
         // gradients first
         message = processGradients(message);
@@ -30,7 +35,12 @@ public class MessageUtils {
 
         while (matcher.find()) {
             String group = matcher.group(1);
-            matcher.appendReplacement(buffer, ChatColor.of("#" + group).toString());
+            try {
+                matcher.appendReplacement(buffer, ChatColor.of("#" + group).toString());
+            } catch (IllegalArgumentException e) {
+                // Invalid hex color, skip it
+                matcher.appendReplacement(buffer, matcher.group(0));
+            }
         }
 
         message = matcher.appendTail(buffer).toString();
@@ -81,36 +91,45 @@ public class MessageUtils {
     private static String applyGradient(String text, String startHex, String endHex) {
         if (text.isEmpty()) return text;
 
-        // parse colors
-        int startR = Integer.parseInt(startHex.substring(1, 3), 16);
-        int startG = Integer.parseInt(startHex.substring(3, 5), 16);
-        int startB = Integer.parseInt(startHex.substring(5, 7), 16);
+        try {
+            // parse colors with validation
+            if (startHex.length() != 7 || endHex.length() != 7) {
+                return text; // Invalid hex format
+            }
+            
+            int startR = Integer.parseInt(startHex.substring(1, 3), 16);
+            int startG = Integer.parseInt(startHex.substring(3, 5), 16);
+            int startB = Integer.parseInt(startHex.substring(5, 7), 16);
 
-        int endR = Integer.parseInt(endHex.substring(1, 3), 16);
-        int endG = Integer.parseInt(endHex.substring(3, 5), 16);
-        int endB = Integer.parseInt(endHex.substring(5, 7), 16);
+            int endR = Integer.parseInt(endHex.substring(1, 3), 16);
+            int endG = Integer.parseInt(endHex.substring(3, 5), 16);
+            int endB = Integer.parseInt(endHex.substring(5, 7), 16);
 
-        StringBuilder result = new StringBuilder();
-        int length = text.length();
+            StringBuilder result = new StringBuilder();
+            int length = text.length();
 
-        for (int i = 0; i < length; i++) {
-            char c = text.charAt(i);
-            if (c == ' ') {
-                result.append(' ');
-                continue;
+            for (int i = 0; i < length; i++) {
+                char c = text.charAt(i);
+                if (c == ' ') {
+                    result.append(' ');
+                    continue;
+                }
+
+                float ratio = (float) i / Math.max(1, length - 1);
+
+                int r = Math.round(startR + (endR - startR) * ratio);
+                int g = Math.round(startG + (endG - startG) * ratio);
+                int b = Math.round(startB + (endB - startB) * ratio);
+
+                String hex = String.format("#%02x%02x%02x", r, g, b);
+                result.append(ChatColor.of(hex)).append(c);
             }
 
-            float ratio = (float) i / Math.max(1, length - 1);
-
-            int r = Math.round(startR + (endR - startR) * ratio);
-            int g = Math.round(startG + (endG - startG) * ratio);
-            int b = Math.round(startB + (endB - startB) * ratio);
-
-            String hex = String.format("#%02x%02x%02x", r, g, b);
-            result.append(ChatColor.of(hex)).append(c);
+            return result.toString();
+        } catch (IllegalArgumentException e) {
+            // Invalid hex color, return original text
+            return text;
         }
-
-        return result.toString();
     }
 
     // apply rainbow colors

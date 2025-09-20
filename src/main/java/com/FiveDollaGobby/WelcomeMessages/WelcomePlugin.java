@@ -99,12 +99,15 @@ public class WelcomePlugin extends JavaPlugin {
         messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
 
         // set defaults from jar
-        InputStream defConfigStream = getResource("messages.yml");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
-                    new InputStreamReader(defConfigStream)
-            );
-            messagesConfig.setDefaults(defConfig);
+        try (InputStream defConfigStream = getResource("messages.yml")) {
+            if (defConfigStream != null) {
+                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
+                        new InputStreamReader(defConfigStream)
+                );
+                messagesConfig.setDefaults(defConfig);
+            }
+        } catch (Exception e) {
+            getLogger().warning("Could not load default messages configuration: " + e.getMessage());
         }
     }
 

@@ -31,6 +31,9 @@ public class PlaceholderAPIExpansion {
                 public boolean persist() { return true; }
                 @SuppressWarnings("unused")
                 public String onPlaceholderRequest(Player player, String params) {
+                    if (player == null || params == null) {
+                        return "";
+                    }
                     return placeholders.getPlaceholder(player, params);
                 }
             };

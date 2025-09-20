@@ -2,15 +2,20 @@ package com.FiveDollaGobby.WelcomeMessages.utils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.configuration.ConfigurationSection;
 import com.FiveDollaGobby.WelcomeMessages.WelcomePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimationUtils {
 
     private final WelcomePlugin plugin;
+    private final Map<UUID, List<BukkitRunnable>> activeAnimations = new ConcurrentHashMap<>();
 
     public AnimationUtils(WelcomePlugin plugin) {
         this.plugin = plugin;
@@ -21,6 +26,12 @@ public class AnimationUtils {
      */
     public void animateMessage(Player player, String message, String animationType, int duration) {
         if (message == null || message.isEmpty()) {
+            return;
+        }
+
+        // Check if this is a multi-layer animation
+        if (isMultiLayerAnimation(animationType)) {
+            animateMultiLayer(player, message, animationType, duration);
             return;
         }
 
@@ -63,6 +74,118 @@ public class AnimationUtils {
                 break;
             default:
                 // Default to typing if unknown animation
+                animateTyping(player, message, duration);
+                break;
+        }
+    }
+
+    /**
+     * Check if the animation type is a multi-layer animation
+     */
+    private boolean isMultiLayerAnimation(String animationType) {
+        if (!plugin.getConfig().getBoolean("animations.multi-layer.enabled", true)) {
+            return false;
+        }
+        
+        ConfigurationSection combinations = plugin.getConfig().getConfigurationSection("animations.multi-layer.combinations");
+        if (combinations == null) {
+            return false;
+        }
+        
+        return combinations.getKeys(false).contains(animationType.toLowerCase());
+    }
+
+    /**
+     * Animate a message with multiple effects combined
+     */
+    private void animateMultiLayer(Player player, String message, String animationType, int duration) {
+        String path = "animations.multi-layer.combinations." + animationType.toLowerCase();
+        List<String> effects = plugin.getConfig().getStringList(path + ".effects");
+        int configDuration = plugin.getConfig().getInt(path + ".duration", duration);
+        
+        if (effects.isEmpty()) {
+            // Fallback to single animation
+            animateTyping(player, message, duration);
+            return;
+        }
+
+        // Use configured duration if available
+        if (configDuration > 0) {
+            duration = configDuration;
+        }
+
+        // Calculate duration per effect with safety check
+        int effectDuration = effects.size() > 0 ? duration / effects.size() : duration;
+        
+        // Run effects in sequence with proper cleanup
+        List<BukkitRunnable> runningTasks = new ArrayList<>();
+        UUID playerId = player.getUniqueId();
+        
+        // Clean up any existing animations for this player
+        cleanupPlayerAnimations(playerId);
+        
+        for (int i = 0; i < effects.size(); i++) {
+            final String effect = effects.get(i);
+            final int delay = i * effectDuration;
+            
+            BukkitRunnable task = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    animateSingleEffect(player, message, effect, effectDuration);
+                }
+            };
+            
+            runningTasks.add(task);
+            task.runTaskLater(plugin, delay);
+        }
+        
+        // Store tasks for cleanup
+        activeAnimations.put(playerId, runningTasks);
+    }
+
+    /**
+     * Animate a single effect (used by multi-layer)
+     */
+    private void animateSingleEffect(Player player, String message, String effect, int duration) {
+        switch (effect.toLowerCase()) {
+            case "typing":
+                animateTyping(player, message, duration);
+                break;
+            case "fade":
+                animateFade(player, message, duration);
+                break;
+            case "slide":
+                animateSlide(player, message, duration);
+                break;
+            case "wave":
+                animateWave(player, message, duration);
+                break;
+            case "rainbow":
+                animateRainbow(player, message, duration);
+                break;
+            case "glitch":
+                animateGlitch(player, message, duration);
+                break;
+            case "typewriter":
+                animateTypewriter(player, message, duration);
+                break;
+            case "bounce":
+                animateBounce(player, message, duration);
+                break;
+            case "shake":
+                animateShake(player, message, duration);
+                break;
+            case "pulse":
+                animatePulse(player, message, duration);
+                break;
+            case "matrix":
+                animateMatrix(player, message, duration);
+                break;
+            case "scramble":
+                animateScramble(player, message, duration);
+                break;
+            default:
+                // Default to typing if unknown effect
                 animateTyping(player, message, duration);
                 break;
         }
@@ -590,5 +713,33 @@ public class AnimationUtils {
         animations.add("matrix");
         animations.add("scramble");
         return animations;
+    }
+    
+    /**
+     * Clean up animations for a specific player
+     */
+    public void cleanupPlayerAnimations(UUID playerId) {
+        List<BukkitRunnable> tasks = activeAnimations.remove(playerId);
+        if (tasks != null) {
+            for (BukkitRunnable task : tasks) {
+                if (!task.isCancelled()) {
+                    task.cancel();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Clean up all active animations
+     */
+    public void cleanupAllAnimations() {
+        for (List<BukkitRunnable> tasks : activeAnimations.values()) {
+            for (BukkitRunnable task : tasks) {
+                if (!task.isCancelled()) {
+                    task.cancel();
+                }
+            }
+        }
+        activeAnimations.clear();
     }
 }

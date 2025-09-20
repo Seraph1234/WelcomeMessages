@@ -93,6 +93,138 @@ messages:
       # vip1:
       #   - "&8[&a+&8] <gradient:#8B4513:#A0522D>[VIP1] {player}</gradient> &6joined!"
 
+    # Theme-based messages (seasonal and time-based)
+    themes:
+      halloween:
+        first-time:
+          - "&8[&a+&8] &c🎃 <gradient:#FF4500:#FF8C00>Welcome {player} to our spooky server!</gradient> &c🎃"
+          - "&8[&a+&8] &5👻 <rainbow>A new ghost {player} has entered the haunted realm!</rainbow> &5👻"
+        default:
+          - "&8[&a+&8] &c🦇 {player} &7joined the haunted server &c🦇"
+          - "&8[&a+&8] &5💀 {player} &7has risen from the grave! &5💀"
+      
+      christmas:
+        first-time:
+          - "&8[&a+&8] &c🎄 <gradient:#FF0000:#00FF00>Welcome {player} to our festive server!</gradient> &c🎄"
+          - "&8[&a+&8] &b❄️ <rainbow>Santa's new helper {player} has arrived!</rainbow> &b❄️"
+        default:
+          - "&8[&a+&8] &c🎅 {player} &7joined the winter wonderland &c🎅"
+          - "&8[&a+&8] &b⛄ {player} &7has returned to spread holiday cheer! &b⛄"
+      
+      valentine:
+        first-time:
+          - "&8[&a+&8] &d💕 <gradient:#FF69B4:#FF1493>Welcome {player} to our loving server!</gradient> &d💕"
+          - "&8[&a+&8] &c❤️ <rainbow>Love is in the air as {player} joins us!</rainbow> &c❤️"
+        default:
+          - "&8[&a+&8] &d💖 {player} &7joined with love &d💖"
+          - "&8[&a+&8] &c💝 {player} &7has returned to share the love! &c💝"
+      
+      easter:
+        first-time:
+          - "&8[&a+&8] &a🐰 <gradient:#00FF00:#FFFF00>Welcome {player} to our egg-citing server!</gradient> &a🐰"
+          - "&8[&a+&8] &e🥚 <rainbow>Easter bunny {player} has hopped in!</rainbow> &e🥚"
+        default:
+          - "&8[&a+&8] &a🐣 {player} &7joined the spring celebration &a🐣"
+          - "&8[&a+&8] &e🌷 {player} &7has returned to hunt for eggs! &e🌷"
+      
+      summer:
+        first-time:
+          - "&8[&a+&8] &e☀️ <gradient:#FFD700:#FFA500>Welcome {player} to our sunny server!</gradient> &e☀️"
+          - "&8[&a+&8] &b🏖️ <rainbow>Summer vibes as {player} joins the beach!</rainbow> &b🏖️"
+        default:
+          - "&8[&a+&8] &e🌞 {player} &7joined the summer fun &e🌞"
+          - "&8[&a+&8] &b🌊 {player} &7has returned to catch some waves! &b🌊"
+      
+      winter:
+        first-time:
+          - "&8[&a+&8] &b❄️ <gradient:#87CEEB:#4169E1>Welcome {player} to our winter wonderland!</gradient> &b❄️"
+          - "&8[&a+&8] &f⛄ <rainbow>Snow is falling as {player} joins us!</rainbow> &f⛄"
+        default:
+          - "&8[&a+&8] &b🌨️ {player} &7joined the winter realm &b🌨️"
+          - "&8[&a+&8] &f🏔️ {player} &7has returned to the snowy peaks! &f🏔️"
+      
+      # Time-based themes
+      morning:
+        first-time:
+          - "&8[&a+&8] &e🌅 <gradient:#FFD700:#FFA500>Good morning {player}! Welcome to our server!</gradient> &e🌅"
+        default:
+          - "&8[&a+&8] &e☀️ Good morning {player}! &7Starting the day right &e☀️"
+      
+      afternoon:
+        first-time:
+          - "&8[&a+&8] &6🌞 <gradient:#FF8C00:#FF4500>Good afternoon {player}! Welcome aboard!</gradient> &6🌞"
+        default:
+          - "&8[&a+&8] &6☀️ Good afternoon {player}! &7Hope you're having a great day &6☀️"
+      
+      evening:
+        first-time:
+          - "&8[&a+&8] &d🌆 <gradient:#FF69B4:#8A2BE2>Good evening {player}! Welcome to the night shift!</gradient> &d🌆"
+        default:
+          - "&8[&a+&8] &d🌃 Good evening {player}! &7The night is young &d🌃"
+      
+      night:
+        first-time:
+          - "&8[&a+&8] &9🌙 <gradient:#4169E1:#000080>Welcome {player} to the midnight server!</gradient> &9🌙"
+        default:
+          - "&8[&a+&8] &9🌚 Late night gaming with {player}! &7The night owls are here &9🌚"
+    
+    # Milestone messages
+    milestones:
+      join-milestones:
+        10:
+          - "&8[&a+&8] &6🎉 <gradient:#FFD700:#FFA500>Milestone Alert!</gradient> &6{player} &7has joined &e10 times! &6🎉"
+          - "&8[&a+&8] &a🏆 <rainbow>Double digits for {player}!</rainbow> &a10 joins and counting! &a🏆"
+        25:
+          - "&8[&a+&8] &b⭐ <gradient:#00BFFF:#FF1493>Quarter Century!</gradient> &b{player} &7has joined &e25 times! &b⭐"
+          - "&8[&a+&8] &d💫 <rainbow>25 joins for {player}!</rainbow> &dYou're becoming a regular! &d💫"
+        50:
+          - "&8[&a+&8] &e🎊 <gradient:#FFD700:#FF6B6B>Half Century!</gradient> &e{player} &7has joined &e50 times! &e🎊"
+          - "&8[&a+&8] &c🔥 <rainbow>50 joins! {player} is on fire!</rainbow> &cKeep it up! &c🔥"
+        100:
+          - "&8[&a+&8] &6🏅 <gradient:#FFD700:#FF8C00>Century Club!</gradient> &6{player} &7has joined &e100 times! &6🏅"
+          - "&8[&a+&8] &a💯 <rainbow>100 joins! {player} is a true veteran!</rainbow> &aAmazing dedication! &a💯"
+        500:
+          - "&8[&a+&8] &b🌟 <gradient:#00FFFF:#0080FF>Half Thousand!</gradient> &b{player} &7has joined &e500 times! &b🌟"
+          - "&8[&a+&8] &d🎆 <rainbow>500 joins! {player} is a legend!</rainbow> &dIncredible commitment! &d🎆"
+        1000:
+          - "&8[&a+&8] &c👑 <gradient:#FF0000:#FFD700>THOUSAND CLUB!</gradient> &c{player} &7has joined &e1000 times! &c👑"
+          - "&8[&a+&8] &4💎 <rainbow>1000 JOINS! {player} is a server LEGEND!</rainbow> &4Diamond status achieved! &4💎"
+      
+      playtime-milestones:
+        1:
+          - "&8[&a+&8] &a⏰ <gradient:#00FF00:#32CD32>Time Milestone!</gradient> &a{player} &7has played for &e1 hour! &a⏰"
+        10:
+          - "&8[&a+&8] &b⏱️ <gradient:#00BFFF:#4169E1>Double Digits!</gradient> &b{player} &7has played for &e10 hours! &b⏱️"
+        100:
+          - "&8[&a+&8] &e🕐 <gradient:#FFD700:#FFA500>Century Hours!</gradient> &e{player} &7has played for &e100 hours! &e🕐"
+        1000:
+          - "&8[&a+&8] &c⏳ <gradient:#FF0000:#FF6B6B>THOUSAND HOURS!</gradient> &c{player} &7has played for &e1000 hours! &c⏳"
+      
+      streak-milestones:
+        3:
+          - "&8[&a+&8] &a🔥 <gradient:#00FF00:#32CD32>Streak Alert!</gradient> &a{player} &7has a &e3-day streak! &a🔥"
+        7:
+          - "&8[&a+&8] &b⚡ <gradient:#00BFFF:#4169E1>Week Warrior!</gradient> &b{player} &7has a &e7-day streak! &b⚡"
+        30:
+          - "&8[&a+&8] &e🏆 <gradient:#FFD700:#FFA500>Monthly Master!</gradient> &e{player} &7has a &e30-day streak! &e🏆"
+        365:
+          - "&8[&a+&8] &c👑 <gradient:#FF0000:#FFD700>YEAR STREAK!</gradient> &c{player} &7has a &e365-day streak! &c👑"
+    
+    # Returning player messages
+    returning:
+      short-absence:
+        - "&8[&a+&8] &a👋 <gradient:#00FF00:#32CD32>Welcome back {player}!</gradient> &aYou were only gone for a day! &a👋"
+        - "&8[&a+&8] &a🔄 {player} &7is back after a short break! &aMissed you! &a🔄"
+      medium-absence:
+        - "&8[&a+&8] &b🌊 <gradient:#00BFFF:#4169E1>Welcome back {player}!</gradient> &bYou were gone for a week! &b🌊"
+        - "&8[&a+&8] &b⏰ {player} &7returns after a week away! &bGood to see you again! &b⏰"
+      long-absence:
+        - "&8[&a+&8] &e🌙 <gradient:#FFD700:#FFA500>Welcome back {player}!</gradient> &eYou were gone for a month! &e🌙"
+        - "&8[&a+&8] &e📅 {player} &7is back after a month! &eWe thought you were lost! &e📅"
+      very-long-absence:
+        - "&8[&a+&8] &c🌟 <gradient:#FF0000:#FF6B6B>LEGEND RETURNS!</gradient> &c{player} &7is back after 3+ months! &c🌟"
+        - "&8[&a+&8] &c👻 {player} &7has risen from the dead! &cWelcome back, ghost! &c👻"
+
   quit:
     # Default quit messages (randomly selected)
     default:
@@ -155,6 +287,8 @@ commands:
       - "&e/welcome test <player> &7- Test join message for player"
       - "&e/welcome testall <player> &7- Showcase all features for screenshots"
       - "&e/welcome testanim <type> [player] &7- Test animation effects"
+      - "&e/welcome testtheme <theme> [player] &7- Test theme messages"
+      - "&e/welcome testmilestone [player] &7- Test milestone detection"
       - "&e/welcome stats <player> &7- View player statistics"
       - "&e/welcome reset <player> &7- Reset player data"
       - "&e/welcome toggle &7- Toggle your join/quit messages"

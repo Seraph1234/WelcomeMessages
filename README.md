@@ -1,8 +1,8 @@
-# WelcomeMessages v1.2.5
+# WelcomeMessages v1.3.0
 ![Screenshot](images/screenshot.png)
 
 
-A clean, lightweight welcome plugin for Minecraft servers that actually works. No bloat, no premium features locked behind paywalls, just good old-fashioned join/quit messages done right. Now with 12 amazing text animations and perfect compatibility!
+A clean, lightweight welcome plugin for Minecraft servers that actually works. No bloat, no premium features locked behind paywalls, just good old-fashioned join/quit messages done right. Now with 12 amazing text animations, enhanced security, and perfect compatibility!
 
 ## Why Another Welcome Plugin?
 
@@ -22,6 +22,11 @@ Look, I needed a welcome plugin that wasn't from 2018, didn't break every update
 - **Custom Rank System** - Define unlimited custom ranks with any names
 - **Full Spigot Compatibility** - Works on both Spigot and Paper
 - **Action Bar Animations** - Private animations that don't spam chat
+- **Enhanced Security** - Improved security with input validation and rate limiting
+- **Rate Limiting** - Built-in command cooldowns to prevent spam
+- **Input Sanitization** - Protection against malicious input and injection
+- **Memory Management** - Automatic cleanup to prevent memory leaks
+- **Thread Safety** - Fully thread-safe operations for maximum stability
 - **Not Annoying** - Everything's configurable, nothing's forced
 
 ## Screenshots
@@ -250,6 +255,20 @@ cd WelcomeMessages
 The jar's in build/libs/
 
 ## Changelog
+
+### v1.3.0 - Security & Performance Improvements
+- **NEW: Security Improvements** - Fixed various security issues and improved code safety
+- **NEW: Rate Limiting System** - Built-in command cooldowns to prevent spam and abuse
+- **NEW: Input Sanitization** - Protection against malicious input and injection attacks
+- **NEW: Memory Management** - Automatic cleanup system to prevent memory leaks
+- **NEW: Thread Safety** - All operations are now fully thread-safe
+- **FIXED: Integer Overflow** - Prevented potential crashes from large configuration values
+- **FIXED: Division by Zero** - Added safety checks in animation system
+- **FIXED: Null Pointer Exceptions** - Comprehensive null checks throughout codebase
+- **FIXED: Resource Leaks** - Proper cleanup of animation tasks and file handles
+- **IMPROVED: Performance** - Replaced Random with ThreadLocalRandom for better performance
+- **IMPROVED: Error Handling** - Better logging and error recovery
+- **IMPROVED: Code Quality** - Zero linter errors, perfect code quality
 
 ### v1.2.5 - Animation System & Bug Fixes
 - **NEW: 12 Text Animations** - Added typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, and scramble animations

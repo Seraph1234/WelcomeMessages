@@ -28,6 +28,11 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
+        // check if player has disabled their messages
+        if (plugin.getDataManager().hasMessagesDisabled(player)) {
+            return;
+        }
+
         // cancel vanilla message if needed
         if (plugin.getConfig().getBoolean("messages.join.disable-vanilla", true)) {
             event.setJoinMessage(null);
@@ -97,6 +102,11 @@ public class PlayerJoinListener implements Listener {
 
         // check if quit messages enabled
         if (!plugin.getConfig().getBoolean("messages.quit.enabled", true)) {
+            return;
+        }
+
+        // check if player has disabled their messages
+        if (plugin.getDataManager().hasMessagesDisabled(player)) {
             return;
         }
 

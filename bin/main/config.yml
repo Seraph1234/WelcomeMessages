@@ -1,6 +1,6 @@
 # WelcomeMessages Configuration
 # Plugin by FiveDollaGobby
-# Version: 1.2.5
+# Version: 1.3.0
 
 # General Settings
 general:
@@ -35,6 +35,15 @@ messages:
   # Should OPs use default messages instead of rank messages?
   op-uses-default: false
 
+  # RGB and Gradient Settings
+  rgb:
+    # Enable RGB/Gradient support (requires 1.16+)
+    enabled: true
+    # Enable rainbow text processing
+    rainbow: true
+    # Enable gradient text processing
+    gradients: true
+
 # Custom Rank System
 # Define your own ranks here! The plugin will check for permissions in order.
 # Format: permission: "welcome.rank.<rankname>"
@@ -62,14 +71,97 @@ custom-ranks:
   #   - "vip1"      # Lowest VIP tier
   #   - "member"
 
-  # RGB and Gradient Settings
-  rgb:
-    # Enable RGB/Gradient support (requires 1.16+)
+# Dynamic Themes System
+themes:
+  enabled: true
+  # Current active theme (auto-detected or manually set)
+  current: "auto"  # auto, default, halloween, christmas, valentine, easter, summer, winter
+  
+  # Theme detection settings
+  auto-detect: true
+  # Check for theme changes every X minutes
+  check-interval: 60
+  
+  # Seasonal themes with date ranges
+  seasonal:
+    halloween:
+      start: "10-01"  # MM-DD format
+      end: "11-01"
+      priority: 10
+    christmas:
+      start: "12-01"
+      end: "12-31"
+      priority: 10
+    valentine:
+      start: "02-01"
+      end: "02-14"
+      priority: 5
+    easter:
+      start: "04-01"
+      end: "04-30"
+      priority: 5
+    summer:
+      start: "06-01"
+      end: "08-31"
+      priority: 3
+    winter:
+      start: "01-01"
+      end: "02-28"
+      priority: 3
+  
+  # Time-based themes
+  time-based:
     enabled: true
-    # Enable rainbow text processing
-    rainbow: true
-    # Enable gradient text processing
-    gradients: true
+    morning:
+      start: "06:00"
+      end: "12:00"
+      priority: 1
+    afternoon:
+      start: "12:00"
+      end: "18:00"
+      priority: 1
+    evening:
+      start: "18:00"
+      end: "22:00"
+      priority: 1
+    night:
+      start: "22:00"
+      end: "06:00"
+      priority: 1
+
+# Smart Player Recognition System
+smart-recognition:
+  enabled: true
+  
+  # Milestone detection
+  milestones:
+    enabled: true
+    # Join count milestones
+    join-milestones: [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000]
+    # Playtime milestones (in hours)
+    playtime-milestones: [1, 5, 10, 25, 50, 100, 250, 500, 1000]
+    # Streak milestones (consecutive days)
+    streak-milestones: [3, 7, 14, 30, 60, 100, 365]
+  
+  # Returning player detection
+  returning-player:
+    enabled: true
+    # Time thresholds for different "returning" categories
+    thresholds:
+      short-absence: 24    # hours
+      medium-absence: 168  # 1 week
+      long-absence: 720    # 1 month
+      very-long-absence: 2160  # 3 months
+  
+  # Behavior-based recognition
+  behavior:
+    enabled: true
+    # Detect peak activity times
+    peak-activity: true
+    # Detect favorite world
+    favorite-world: true
+    # Detect join patterns
+    join-patterns: true
 
 # Animation Settings
 animations:
@@ -86,19 +178,57 @@ animations:
   # Show final message in chat after animation completes
   show-final-in-chat: true
   
+  # Multi-Layer Animation System
+  multi-layer:
+    enabled: true
+    # Pre-defined animation combinations
+    combinations:
+      epic_welcome:
+        effects: ["rainbow", "wave", "bounce"]
+        duration: 100
+        description: "Epic rainbow wave with bounce effect"
+      mysterious_join:
+        effects: ["glitch", "fade", "matrix"]
+        duration: 80
+        description: "Mysterious glitch with matrix effect"
+      festive_celebration:
+        effects: ["rainbow", "pulse", "shake"]
+        duration: 120
+        description: "Festive rainbow with pulsing shake"
+      smooth_entrance:
+        effects: ["fade", "slide", "typing"]
+        duration: 90
+        description: "Smooth fade with slide and typing"
+      party_time:
+        effects: ["bounce", "pulse", "rainbow", "wave"]
+        duration: 150
+        description: "Full party mode with all effects"
+      milestone_celebration:
+        effects: ["rainbow", "bounce", "pulse", "shake", "wave"]
+        duration: 200
+        description: "Special celebration for milestones"
+  
   # Per-message-type animation settings
   join:
-    enabled: false  # Disabled by default to prevent chat spam
+    enabled: true   # Enable join animations by default
     type: "typing"
     duration: 60
+    # Use multi-layer animations
+    use-multi-layer: false
+    multi-layer-type: "smooth_entrance"
   quit:
-    enabled: false  # Disabled by default to prevent chat spam
+    enabled: true   # Enable quit animations by default
     type: "fade"
     duration: 40
+    use-multi-layer: false
+    multi-layer-type: "mysterious_join"
+  
   first-join:
     enabled: true   # First join animations are special, keep enabled
     type: "rainbow"
     duration: 80
+    use-multi-layer: true
+    multi-layer-type: "epic_welcome"
 
 # Visual and Audio Effects
 effects:
