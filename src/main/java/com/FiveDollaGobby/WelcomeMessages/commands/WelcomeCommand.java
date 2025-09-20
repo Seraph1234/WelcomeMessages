@@ -72,7 +72,7 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0) {
+        if (args == null || args.length == 0) {
             sendHelp(sender);
             return true;
         }
@@ -126,6 +126,11 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
 
             case "version":
                 handleVersion(sender);
+                break;
+
+            case "performance":
+            case "metrics":
+                handlePerformance(sender);
                 break;
 
             default:
@@ -219,11 +224,11 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         MessageUtils.sendMessage(sender, "&6Quit message:");
         MessageUtils.sendMessage(sender, quitMessage);
 
-        // test effects if sender is target
+        // test effects if sender is target (but skip title to avoid flashing)
         if (sender.equals(target)) {
             MessageUtils.sendMessage(sender, "&6Testing effects in 2 seconds...");
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                plugin.getEffectManager().sendTitle(target, isFirstJoin);
+                // Skip title effect to prevent flashing, only test sound and particles
                 plugin.getEffectManager().playJoinSound(target, isFirstJoin);
                 plugin.getEffectManager().playJoinParticles(target, isFirstJoin);
             }, 40L);
@@ -261,8 +266,8 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         String joinMessage = plugin.getMessageManager().getJoinMessage(target, isFirstJoin);
         String quitMessage = plugin.getMessageManager().getQuitMessage(target);
         
-        MessageUtils.sendMessage(sender, "&7Join: " + joinMessage);
-        MessageUtils.sendMessage(sender, "&7Quit: " + quitMessage);
+        MessageUtils.sendMessage(sender, "&7Join: " + (joinMessage != null ? joinMessage : "No message"));
+        MessageUtils.sendMessage(sender, "&7Quit: " + (quitMessage != null ? quitMessage : "No message"));
         MessageUtils.sendMessage(sender, "");
 
         // Test 2: RGB and Gradient Text
@@ -388,38 +393,32 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         // Test 5: Effects (if sender is target)
         if (sender.equals(target)) {
             MessageUtils.sendMessage(sender, "&a&l5. Visual Effects (starting in 3 seconds):");
-            MessageUtils.sendMessage(sender, "&7- Title effects");
             MessageUtils.sendMessage(sender, "&7- Sound effects");
             MessageUtils.sendMessage(sender, "&7- Particle effects");
             MessageUtils.sendMessage(sender, "&7- Firework effects");
             MessageUtils.sendMessage(sender, "");
 
             // Schedule effects with delays for better showcase
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                MessageUtils.sendMessage(target, "&6&l>>> Title Effect <<<");
-                plugin.getEffectManager().sendTitle(target, isFirstJoin);
-            }, 60L);
-
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 MessageUtils.sendMessage(target, "&6&l>>> Sound Effect <<<");
                 plugin.getEffectManager().playJoinSound(target, isFirstJoin);
-            }, 80L);
+            }, 60L);
 
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 MessageUtils.sendMessage(target, "&6&l>>> Particle Effect <<<");
                 plugin.getEffectManager().playJoinParticles(target, isFirstJoin);
-            }, 100L);
+            }, 80L);
 
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 MessageUtils.sendMessage(target, "&6&l>>> Firework Effect <<<");
                 plugin.getEffectManager().launchFireworks(target);
-            }, 120L);
+            }, 100L);
 
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 MessageUtils.sendMessage(target, "&6&l=== Showcase Complete! ===");
                 MessageUtils.sendMessage(target, "&7All features have been demonstrated.");
                 MessageUtils.sendMessage(target, "&7Perfect for screenshots! 📸");
-            }, 140L);
+            }, 120L);
         } else {
             MessageUtils.sendMessage(sender, "&a&l5. Visual Effects:");
             MessageUtils.sendMessage(sender, "&7Effects can only be shown to the target player");
@@ -540,6 +539,14 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
                                        .replace("{joincount}", String.valueOf(plugin.getDataManager().getJoinCount(target)));
             
             MessageUtils.sendMessage(sender, "&7Theme message: " + finalMessage);
+            
+            // Show title effect for theme testing
+            if (sender.equals(target)) {
+                MessageUtils.sendMessage(sender, "&6Testing title effect in 2 seconds...");
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    plugin.getEffectManager().sendTitle(target, isFirstJoin, theme);
+                }, 40L);
+            }
         } else {
             MessageUtils.sendMessage(sender, "&7No theme messages found for " + theme);
         }
@@ -743,12 +750,39 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         MessageUtils.sendMessage(sender, "&7Created by &eFiveDollaGobby");
     }
 
+    private void handlePerformance(CommandSender sender) {
+        if (!sender.hasPermission("welcome.admin")) {
+            MessageUtils.sendMessage(sender, plugin.getMessagesConfig().getString("commands.no-permission"));
+            return;
+        }
+
+        if (!checkRateLimit(sender, "performance")) {
+            return;
+        }
+
+        MessageUtils.sendMessage(sender, "&6&l=== Performance Monitor ===");
+        String summary = plugin.getPerformanceMonitor().getPerformanceSummary();
+        MessageUtils.sendMessage(sender, summary);
+    }
+
+
+    private String formatBytes(long bytes) {
+        if (bytes < 1024) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(1024));
+        String pre = "KMGTPE".charAt(exp - 1) + "";
+        return String.format("%.1f %sB", bytes / Math.pow(1024, exp), pre);
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
+        if (args == null || args.length == 0) {
+            return completions;
+        }
+
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "testanim", "testtheme", "testmilestone", "testplaytime", "stats", "reset", "toggle", "version");
+            List<String> subCommands = Arrays.asList("help", "reload", "test", "testall", "testanim", "testtheme", "testmilestone", "testplaytime", "stats", "reset", "toggle", "version", "performance");
             StringUtil.copyPartialMatches(args[0], subCommands, completions);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();

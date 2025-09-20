@@ -9,7 +9,7 @@ website: https://github.com/FiveDollaGobby/WelcomeMessages
 commands:
   welcome:
     description: Main command for WelcomeMessages
-    usage: /<command> [help|reload|test|testall|stats|reset|toggle]
+    usage: /<command> [help|reload|test|testall|testanim|testtheme|testmilestone|testplaytime|stats|reset|toggle|version]
     aliases: [wm, welcomemessages]
     permission: welcome.use
     permission-message: "&cYou don't have permission to use this command!"
@@ -39,6 +39,8 @@ permissions:
       welcome.test: true
       welcome.stats: true
       welcome.reset: true
+      welcome.performance: true
+      welcome.metrics: true
 
   welcome.reload:
     description: Reload plugin configuration
@@ -108,3 +110,11 @@ permissions:
   welcome.rank.owner:
     description: Owner rank messages
     default: false
+
+  welcome.performance:
+    description: View performance summary
+    default: op
+
+  welcome.metrics:
+    description: View detailed performance metrics
+    default: op

@@ -1,5 +1,5 @@
 =====================================================
-    WelcomeMessages - v1.3.0
+    WelcomeMessages - v1.3.1
     For Minecraft 1.21.x
 =====================================================
 
@@ -7,7 +7,7 @@ Hey! Thanks for downloading my plugin :)
 
 QUICK START
 -----------
-1. Drop the WelcomeMessages-1.3.0.jar into your plugins folder
+1. Drop the WelcomeMessages-1.3.1.jar into your plugins folder
 2. Restart your server (or reload if you're feeling risky)
 3. Edit the config files to your liking
 4. Done! (Plugin validates your config so it won't crash)
@@ -138,7 +138,7 @@ Everything broken? ...yeah, GitHub.
 
 CHANGELOG
 ---------
-v1.3.0 - Security & Performance Improvements
+v1.3.1 - Security & Performance Improvements
 - NEW: Security Improvements (fixed various security issues)
 - NEW: Rate Limiting System (command cooldowns to prevent spam)
 - NEW: Input Sanitization (protection against malicious input)

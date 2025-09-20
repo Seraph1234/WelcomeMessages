@@ -55,7 +55,7 @@ public class SecurityUtils {
         
         // Limit length to prevent memory issues
         if (sanitized.length() > 1000) {
-            sanitized = sanitized.substring(0, 1000);
+            sanitized = sanitized.substring(0, 997) + "...";
         }
         
         return sanitized;

@@ -10,6 +10,7 @@ import com.FiveDollaGobby.WelcomeMessages.managers.EffectManager;
 import com.FiveDollaGobby.WelcomeMessages.managers.DataManager;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
 import com.FiveDollaGobby.WelcomeMessages.utils.ConfigValidator;
+import com.FiveDollaGobby.WelcomeMessages.utils.PerformanceMonitor;
 import com.FiveDollaGobby.WelcomeMessages.placeholders.WelcomePlaceholders;
 
 import java.io.File;
@@ -24,6 +25,7 @@ public class WelcomePlugin extends JavaPlugin {
     private MessageManager messageManager;
     private EffectManager effectManager;
     private DataManager dataManager;
+    private PerformanceMonitor performanceMonitor;
     private FileConfiguration messagesConfig;
     private File messagesFile;
 
@@ -52,6 +54,7 @@ public class WelcomePlugin extends JavaPlugin {
         messageManager = new MessageManager(this);
         effectManager = new EffectManager(this);
         dataManager = new DataManager(this);
+        performanceMonitor = new PerformanceMonitor(this);
 
         // register stuff
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
@@ -138,6 +141,10 @@ public class WelcomePlugin extends JavaPlugin {
 
     public DataManager getDataManager() {
         return dataManager;
+    }
+
+    public PerformanceMonitor getPerformanceMonitor() {
+        return performanceMonitor;
     }
 
     public FileConfiguration getMessagesConfig() {

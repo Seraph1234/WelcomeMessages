@@ -25,7 +25,7 @@ A **simple, lightweight** welcome message plugin that actually works and doesn't
 
 ## 🎮 What It Does
 
-Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.0:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
+Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.1:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
 
 ![IMG3](https://cdn.modrinth.com/data/cached_images/fa6e007fb779d4f6e34b805751654e39f44b5469.png)
 
@@ -151,7 +151,7 @@ Works with any plugin that supports PlaceholderAPI:
 
 ## 📋 Changelog
 
-### v1.3.0 - Security & Performance Improvements
+### v1.3.1 - Security & Performance Improvements
 - **🔒 Security Improvements** - Fixed various security issues and improved code safety
 - **⚡ Rate Limiting System** - Built-in command cooldowns to prevent spam and abuse
 - **🛡️ Input Sanitization** - Protection against malicious input and injection attacks

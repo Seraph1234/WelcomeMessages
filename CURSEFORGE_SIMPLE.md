@@ -1,5 +1,5 @@
 ![https://i.postimg.cc/VLwf7Mjw/screenshot.png](https://i.postimg.cc/VLwf7Mjw/screenshot.png "https://i.postimg.cc/VLwf7Mjw/screenshot.png")
-# WelcomeMessages v1.3.0
+# WelcomeMessages v1.3.1
 
 **The Ultimate Welcome Plugin for Minecraft Servers**
 
@@ -12,10 +12,10 @@
 
 ---
 
-## 🎉 What's New in v1.3.0
+## 🎉 What's New in v1.3.1
 
 ### 🔒 **Security Improvements**
-WelcomeMessages v1.3.0 includes various security improvements:
+WelcomeMessages v1.3.1 includes various security improvements:
 
 - **Security Fixes** - Fixed various security issues and improved code safety
 - **Rate Limiting** - Built-in command cooldowns to prevent spam and abuse

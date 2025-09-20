@@ -31,17 +31,68 @@ public class EffectManager {
         int stay = plugin.getConfig().getInt("effects.title.stay", 70);
         int fadeOut = plugin.getConfig().getInt("effects.title.fade-out", 20);
 
-        if (isFirstJoin) {
-            title = plugin.getConfig().getString("effects.title.first-join.title", "&6&lWELCOME!");
-            subtitle = plugin.getConfig().getString("effects.title.first-join.subtitle", "&eEnjoy your stay, {player}!");
+        // Get current theme
+        String currentTheme = plugin.getMessageManager().getThemeManager().getCurrentTheme();
+        
+        // Check if theme-specific titles exist in config
+        String themeTitlePath = "effects.title.themes." + currentTheme + "." + (isFirstJoin ? "first-join" : "regular");
+        String configTitle = plugin.getConfig().getString(themeTitlePath + ".title");
+        String configSubtitle = plugin.getConfig().getString(themeTitlePath + ".subtitle");
+        
+        if (configTitle != null && !configTitle.isEmpty()) {
+            // Use theme-specific titles from config
+            title = MessageUtils.colorize(configTitle.replace("{player}", player.getName()));
+            subtitle = MessageUtils.colorize(configSubtitle.replace("{player}", player.getName()));
         } else {
-            title = plugin.getConfig().getString("effects.title.regular.title", "&a&lWelcome Back!");
-            subtitle = plugin.getConfig().getString("effects.title.regular.subtitle", "&7Good to see you again, {player}!");
+            // Use default titles
+            if (isFirstJoin) {
+                title = plugin.getConfig().getString("effects.title.first-join.title", "&6&lWELCOME!");
+                subtitle = plugin.getConfig().getString("effects.title.first-join.subtitle", "&eEnjoy your stay, {player}!");
+            } else {
+                title = plugin.getConfig().getString("effects.title.regular.title", "&a&lWelcome Back!");
+                subtitle = plugin.getConfig().getString("effects.title.regular.subtitle", "&7Good to see you again, {player}!");
+            }
+            
+            // Replace placeholders
+            title = MessageUtils.colorize(title.replace("{player}", player.getName()));
+            subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
         }
 
-        // replace placeholders
-        title = MessageUtils.colorize(title.replace("{player}", player.getName()));
-        subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
+        // Send the title
+        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void sendTitle(Player player, boolean isFirstJoin, String theme) {
+        String title, subtitle;
+        // Use smaller, faster title effects for theme testing
+        int fadeIn = 5;   // Faster fade in
+        int stay = 40;    // Shorter display time
+        int fadeOut = 10; // Faster fade out
+
+        // Check if theme-specific titles exist in config (same as normal join)
+        String themeTitlePath = "effects.title.themes." + theme + "." + (isFirstJoin ? "first-join" : "regular");
+        String configTitle = plugin.getConfig().getString(themeTitlePath + ".title");
+        String configSubtitle = plugin.getConfig().getString(themeTitlePath + ".subtitle");
+        
+        if (configTitle != null && !configTitle.isEmpty()) {
+            // Use theme-specific titles from config (same as normal join)
+            title = MessageUtils.colorize(configTitle.replace("{player}", player.getName()));
+            subtitle = MessageUtils.colorize(configSubtitle.replace("{player}", player.getName()));
+        } else {
+            // Fallback to default titles if no theme messages exist
+            if (isFirstJoin) {
+                title = plugin.getConfig().getString("effects.title.first-join.title", "&6&lWELCOME!");
+                subtitle = plugin.getConfig().getString("effects.title.first-join.subtitle", "&eEnjoy your stay, {player}!");
+            } else {
+                title = plugin.getConfig().getString("effects.title.regular.title", "&a&lWelcome Back!");
+                subtitle = plugin.getConfig().getString("effects.title.regular.subtitle", "&7Good to see you again, {player}!");
+            }
+            
+            // Replace placeholders
+            title = MessageUtils.colorize(title.replace("{player}", player.getName()));
+            subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
+        }
 
         // Using deprecated method for compatibility
         player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
@@ -185,4 +236,6 @@ public class EffectManager {
         };
         return colors[ThreadLocalRandom.current().nextInt(colors.length)];
     }
+    
+    
 }

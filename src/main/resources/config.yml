@@ -1,6 +1,6 @@
 # WelcomeMessages Configuration
 # Plugin by FiveDollaGobby
-# Version: 1.3.0
+# Version: 1.3.1
 
 # General Settings
 general:
@@ -246,6 +246,88 @@ effects:
     regular:
       title: "&a&lWelcome Back!"
       subtitle: "&7Good to see you again, {player}!"
+    
+    # Theme-specific titles
+    themes:
+      halloween:
+        first-join:
+          title: "&c&l🎃 WELCOME! 🎃"
+          subtitle: "&5&lEnter the haunted realm, {player}!"
+        regular:
+          title: "&c&l🦇 Welcome Back! 🦇"
+          subtitle: "&5&lThe spirits await, {player}!"
+      
+      christmas:
+        first-join:
+          title: "&c&l🎄 WELCOME! 🎄"
+          subtitle: "&b&lMerry Christmas, {player}!"
+        regular:
+          title: "&c&l🎅 Welcome Back! 🎅"
+          subtitle: "&b&lHo ho ho, {player}!"
+      
+      summer:
+        first-join:
+          title: "&e&l☀️ WELCOME! ☀️"
+          subtitle: "&b&lSummer vibes, {player}!"
+        regular:
+          title: "&e&l🌞 Welcome Back! 🌞"
+          subtitle: "&b&lCatch some waves, {player}!"
+      
+      winter:
+        first-join:
+          title: "&b&l❄️ WELCOME! ❄️"
+          subtitle: "&f&lWinter wonderland, {player}!"
+        regular:
+          title: "&b&l🌨️ Welcome Back! 🌨️"
+          subtitle: "&f&lSnow is falling, {player}!"
+      
+      night:
+        first-join:
+          title: "&9&l🌙 WELCOME! 🌙"
+          subtitle: "&5&lMidnight server, {player}!"
+        regular:
+          title: "&9&l🌚 Welcome Back! 🌚"
+          subtitle: "&5&lNight owls unite, {player}!"
+      
+      valentine:
+        first-join:
+          title: "&d&l💕 WELCOME! 💕"
+          subtitle: "&c&lLove is in the air, {player}!"
+        regular:
+          title: "&d&l❤️ Welcome Back! ❤️"
+          subtitle: "&c&lSweet reunion, {player}!"
+      
+      easter:
+        first-join:
+          title: "&e&l🐰 WELCOME! 🐰"
+          subtitle: "&a&lEaster joy, {player}!"
+        regular:
+          title: "&e&l🥚 Welcome Back! 🥚"
+          subtitle: "&a&lEgg-citing return, {player}!"
+      
+      morning:
+        first-join:
+          title: "&e&l🌅 WELCOME! 🌅"
+          subtitle: "&6&lGood morning, {player}!"
+        regular:
+          title: "&e&l☀️ Welcome Back! ☀️"
+          subtitle: "&6&lRise and shine, {player}!"
+      
+      afternoon:
+        first-join:
+          title: "&6&l☀️ WELCOME! ☀️"
+          subtitle: "&e&lGood afternoon, {player}!"
+        regular:
+          title: "&6&l🌞 Welcome Back! 🌞"
+          subtitle: "&e&lAfternoon delight, {player}!"
+      
+      evening:
+        first-join:
+          title: "&d&l🌆 WELCOME! 🌆"
+          subtitle: "&5&lGood evening, {player}!"
+        regular:
+          title: "&d&l🌃 Welcome Back! 🌃"
+          subtitle: "&5&lEvening vibes, {player}!"
 
   sound:
     enabled: true
@@ -306,6 +388,20 @@ performance:
   cache-time: 5
   # Maximum cached players
   max-cache-size: 100
+  
+  # Performance monitoring
+  monitoring:
+    enabled: true
+    log-interval: 60  # Log performance report every 60 minutes
+    memory-check-interval: 5  # Check memory usage every 5 minutes
+    thresholds:
+      message-time: 50  # Warning threshold for message processing (ms)
+      animation-time: 100  # Warning threshold for animations (ms)
+      effect-time: 200  # Warning threshold for effects (ms)
+      milestone-time: 30  # Warning threshold for milestones (ms)
+      theme-time: 20  # Warning threshold for themes (ms)
+      placeholder-time: 10  # Warning threshold for placeholders (ms)
+      memory-usage: 80  # Warning threshold for memory usage (%)
 
 # Metrics (bStats)
 metrics:

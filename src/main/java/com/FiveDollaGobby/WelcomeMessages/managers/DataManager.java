@@ -265,6 +265,9 @@ public class DataManager {
     }
 
     private PlayerData getPlayerData(Player player) {
+        if (player == null) {
+            return new PlayerData(); // Return empty data for null player
+        }
         return playerCache.computeIfAbsent(player.getUniqueId(), k -> new PlayerData());
     }
 

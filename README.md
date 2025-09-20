@@ -1,4 +1,4 @@
-# WelcomeMessages v1.3.0
+# WelcomeMessages v1.3.1
 ![Screenshot](images/screenshot.png)
 
 
@@ -256,7 +256,7 @@ The jar's in build/libs/
 
 ## Changelog
 
-### v1.3.0 - Security & Performance Improvements
+### v1.3.1 - Security & Performance Improvements
 - **NEW: Security Improvements** - Fixed various security issues and improved code safety
 - **NEW: Rate Limiting System** - Built-in command cooldowns to prevent spam and abuse
 - **NEW: Input Sanitization** - Protection against malicious input and injection attacks

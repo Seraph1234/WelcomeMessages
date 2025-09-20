@@ -26,6 +26,10 @@ public class SmartRecognitionManager {
      * Check if a player has reached a milestone
      */
     public String checkMilestones(Player player, boolean isFirstJoin) {
+        if (player == null) {
+            return null;
+        }
+        
         if (!plugin.getConfig().getBoolean("smart-recognition.enabled", true)) {
             return null;
         }
@@ -77,7 +81,7 @@ public class SmartRecognitionManager {
         if (highestUnnotifiedMilestone > 0) {
             markMilestoneReached(player, "join", highestUnnotifiedMilestone);
             List<String> messages = plugin.getMessagesConfig().getStringList("messages.join.milestones.join-milestones." + highestUnnotifiedMilestone);
-            if (!messages.isEmpty()) {
+            if (messages != null && !messages.isEmpty()) {
                 String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
                 return message.replace("{player}", player.getName())
                              .replace("{milestone}", String.valueOf(highestUnnotifiedMilestone));
@@ -110,7 +114,7 @@ public class SmartRecognitionManager {
         if (highestUnnotifiedMilestone > 0) {
             markMilestoneReached(player, "playtime", highestUnnotifiedMilestone);
             List<String> messages = plugin.getMessagesConfig().getStringList("messages.join.milestones.playtime-milestones." + highestUnnotifiedMilestone);
-            if (!messages.isEmpty()) {
+            if (messages != null && !messages.isEmpty()) {
                 String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
                 return message.replace("{player}", player.getName())
                              .replace("{milestone}", String.valueOf(highestUnnotifiedMilestone));
@@ -163,7 +167,7 @@ public class SmartRecognitionManager {
         if (highestUnnotifiedMilestone > 0) {
             markMilestoneReached(player, "streak", highestUnnotifiedMilestone);
             List<String> messages = plugin.getMessagesConfig().getStringList("messages.join.milestones.streak-milestones." + highestUnnotifiedMilestone);
-            if (!messages.isEmpty()) {
+            if (messages != null && !messages.isEmpty()) {
                 String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
                 return message.replace("{player}", player.getName())
                              .replace("{milestone}", String.valueOf(highestUnnotifiedMilestone));
@@ -177,6 +181,10 @@ public class SmartRecognitionManager {
      * Get returning player message based on absence duration
      */
     public String getReturningPlayerMessage(Player player) {
+        if (player == null) {
+            return null;
+        }
+        
         if (!plugin.getConfig().getBoolean("smart-recognition.enabled", true)) {
             return null;
         }
@@ -204,7 +212,7 @@ public class SmartRecognitionManager {
         }
 
         List<String> messages = plugin.getMessagesConfig().getStringList("messages.join.returning." + absenceType);
-        if (messages.isEmpty()) {
+        if (messages == null || messages.isEmpty()) {
             return null;
         }
 
@@ -240,6 +248,10 @@ public class SmartRecognitionManager {
      */
     public Map<String, Object> getPlayerBehavior(Player player) {
         Map<String, Object> behavior = new HashMap<>();
+        
+        if (player == null) {
+            return behavior;
+        }
         
         if (!plugin.getConfig().getBoolean("smart-recognition.behavior.enabled", true)) {
             return behavior;
@@ -278,6 +290,10 @@ public class SmartRecognitionManager {
      * Get milestone information for a player
      */
     public String getMilestoneInfo(Player player) {
+        if (player == null) {
+            return null;
+        }
+        
         UUID uuid = player.getUniqueId();
         int joinCount = plugin.getDataManager().getJoinCount(player);
         int streak = streakData.getOrDefault(uuid, 0);
