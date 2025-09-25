@@ -19,6 +19,37 @@ public class AnimationUtils {
 
     public AnimationUtils(WelcomePlugin plugin) {
         this.plugin = plugin;
+        startPeriodicCleanup();
+    }
+    
+    /**
+     * Start periodic cleanup of old animations
+     */
+    private void startPeriodicCleanup() {
+        // Clean up every 5 minutes
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cleanupOldAnimations();
+            }
+        }.runTaskTimerAsynchronously(plugin, 20 * 60 * 5, 20 * 60 * 5); // Every 5 minutes
+    }
+    
+    /**
+     * Clean up old animations that may have been left running
+     */
+    private void cleanupOldAnimations() {
+        activeAnimations.entrySet().removeIf(entry -> {
+            List<BukkitRunnable> tasks = entry.getValue();
+            boolean allCancelled = true;
+            for (BukkitRunnable task : tasks) {
+                if (!task.isCancelled()) {
+                    allCancelled = false;
+                    break;
+                }
+            }
+            return allCancelled;
+        });
     }
 
     /**

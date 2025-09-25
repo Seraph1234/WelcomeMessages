@@ -239,7 +239,8 @@ public class EffectManager implements Listener {
                 double offsetZ = (ThreadLocalRandom.current().nextDouble() - 0.5) * 4;
                 loc.add(offsetX, 0, offsetZ);
 
-                Firework fw = (Firework) player.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
+                try {
+                    Firework fw = (Firework) player.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
                 FireworkMeta fwMeta = fw.getFireworkMeta();
 
                 // random firework stuff
@@ -266,6 +267,10 @@ public class EffectManager implements Listener {
                 EffectManager.this.addSafeFirework(fw);
 
                 launched++;
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Failed to spawn firework for player " + player.getName() + ": " + e.getMessage());
+                    // Continue with next firework attempt
+                }
             }
         }.runTaskTimer(plugin, 0L, delayBetween);
     }

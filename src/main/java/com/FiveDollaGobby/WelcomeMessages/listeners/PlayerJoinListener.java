@@ -134,5 +134,8 @@ public class PlayerJoinListener implements Listener {
 
         // save last seen
         plugin.getDataManager().setLastSeen(player);
+        
+        // cleanup animations for this player
+        plugin.getAnimationUtils().cleanupPlayerAnimations(player.getUniqueId());
     }
 }

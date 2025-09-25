@@ -765,14 +765,6 @@ public class WelcomeCommand implements CommandExecutor, TabCompleter {
         MessageUtils.sendMessage(sender, summary);
     }
 
-
-    private String formatBytes(long bytes) {
-        if (bytes < 1024) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(1024));
-        String pre = "KMGTPE".charAt(exp - 1) + "";
-        return String.format("%.1f %sB", bytes / Math.pow(1024, exp), pre);
-    }
-
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();

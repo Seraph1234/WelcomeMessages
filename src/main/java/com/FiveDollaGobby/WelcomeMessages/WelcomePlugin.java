@@ -11,6 +11,7 @@ import com.FiveDollaGobby.WelcomeMessages.managers.DataManager;
 import com.FiveDollaGobby.WelcomeMessages.utils.MessageUtils;
 import com.FiveDollaGobby.WelcomeMessages.utils.ConfigValidator;
 import com.FiveDollaGobby.WelcomeMessages.utils.PerformanceMonitor;
+import com.FiveDollaGobby.WelcomeMessages.utils.AnimationUtils;
 import com.FiveDollaGobby.WelcomeMessages.placeholders.WelcomePlaceholders;
 
 import java.io.File;
@@ -145,6 +146,10 @@ public class WelcomePlugin extends JavaPlugin {
 
     public PerformanceMonitor getPerformanceMonitor() {
         return performanceMonitor;
+    }
+    
+    public AnimationUtils getAnimationUtils() {
+        return messageManager.getAnimationUtils();
     }
 
     public FileConfiguration getMessagesConfig() {

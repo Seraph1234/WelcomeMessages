@@ -334,4 +334,11 @@ public class MessageManager {
     public SmartRecognitionManager getSmartRecognitionManager() {
         return smartRecognitionManager;
     }
+    
+    /**
+     * Get the animation utils
+     */
+    public AnimationUtils getAnimationUtils() {
+        return animationUtils;
+    }
 }

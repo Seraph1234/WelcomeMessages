@@ -156,4 +156,29 @@ public class SecurityUtils {
         
         return true;
     }
+    
+    /**
+     * Sanitize message content for safe display
+     * @param input Raw input string
+     * @return Sanitized message content
+     */
+    public static String sanitizeMessageContent(String input) {
+        if (input == null) {
+            return "";
+        }
+        
+        // Remove control characters and limit length
+        String sanitized = input.replaceAll("[\\p{Cntrl}&&[^\r\n\t]]", "")
+                               .trim();
+        
+        // Limit length to prevent memory issues
+        if (sanitized.length() > 1000) {
+            sanitized = sanitized.substring(0, 997) + "...";
+        }
+        
+        // Escape HTML-like characters
+        sanitized = escapeHtml(sanitized);
+        
+        return sanitized;
+    }
 }

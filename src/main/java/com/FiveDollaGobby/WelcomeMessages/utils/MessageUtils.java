@@ -18,7 +18,10 @@ public class MessageUtils {
     public static String colorize(String message) {
         if (message == null) return "";
         
-        // Basic security check - limit message length to prevent memory issues
+        // Enhanced security check using SecurityUtils
+        message = SecurityUtils.sanitizeMessageContent(message);
+        
+        // Additional length check for color processing
         if (message.length() > 10000) {
             message = message.substring(0, 10000) + "...";
         }
