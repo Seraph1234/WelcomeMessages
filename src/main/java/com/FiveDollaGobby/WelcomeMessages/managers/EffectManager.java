@@ -6,22 +6,58 @@ import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EffectManager {
+public class EffectManager implements Listener {
 
     private final WelcomePlugin plugin;
+    private final Set<Firework> safeFireworks = new HashSet<>();
     // Using ThreadLocalRandom for better performance
 
     public EffectManager(WelcomePlugin plugin) {
         this.plugin = plugin;
+        // Register this class as an event listener
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public void reload() {
         // nothing to reload yet
+    }
+    
+    /**
+     * Add a firework to the safe fireworks set to prevent it from causing damage
+     */
+    public void addSafeFirework(Firework firework) {
+        safeFireworks.add(firework);
+        
+        // Remove the firework from the set after 10 seconds to prevent memory leaks
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                safeFireworks.remove(firework);
+            }
+        }.runTaskLater(plugin, 200L); // 10 seconds = 200 ticks
+    }
+    
+    /**
+     * Event handler to prevent damage from safe fireworks
+     */
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Firework) {
+            Firework firework = (Firework) event.getDamager();
+            if (safeFireworks.contains(firework)) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -222,6 +258,12 @@ public class EffectManager {
                 fwMeta.addEffect(effect);
                 fwMeta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
                 fw.setFireworkMeta(fwMeta);
+                
+                // Prevent firework from causing damage to players
+                fw.setShotAtAngle(false);
+                
+                // Store the firework in a set to track it for damage prevention
+                EffectManager.this.addSafeFirework(fw);
 
                 launched++;
             }

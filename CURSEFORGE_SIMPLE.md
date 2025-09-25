@@ -1,5 +1,5 @@
 ![https://i.postimg.cc/VLwf7Mjw/screenshot.png](https://i.postimg.cc/VLwf7Mjw/screenshot.png "https://i.postimg.cc/VLwf7Mjw/screenshot.png")
-# WelcomeMessages v1.3.1
+# WelcomeMessages v1.3.4
 
 **The Ultimate Welcome Plugin for Minecraft Servers**
 
@@ -12,25 +12,26 @@
 
 ---
 
-## 🎉 What's New in v1.3.1
+## 🎉 What's New in v1.3.4
 
-### 🔒 **Security Improvements**
-WelcomeMessages v1.3.1 includes various security improvements:
+### 🎆 **Firework Safety & Theme System Improvements**
+WelcomeMessages v1.3.4 focuses on making your server experience safer and more reliable:
 
+- **🎆 Firework Safety** - Fixed critical issue where welcome fireworks were causing damage to players
+- **🎨 Theme System Enhancement** - Completely overhauled theme conflict detection and resolution
+- **⏰ Time Range Fixes** - Resolved overlapping time-based theme conflicts for smoother transitions
+- **📅 Date Logic Improvements** - Better handling of seasonal themes that cross year boundaries
+- **🔍 Automatic Validation** - Plugin now detects and reports theme configuration conflicts on startup
+- **🛡️ Enhanced Error Handling** - Comprehensive validation for all date and time parsing
+- **⚡ Memory Management** - Improved cleanup system for firework effects to prevent memory leaks
+- **🔧 Code Quality** - Zero linter errors, improved documentation and code structure
+
+### 🚀 **Previous v1.3.1 Improvements**
 - **Security Fixes** - Fixed various security issues and improved code safety
 - **Rate Limiting** - Built-in command cooldowns to prevent spam and abuse
 - **Input Sanitization** - Protection against malicious input and injection attacks
-- **Memory Management** - Automatic cleanup system to prevent memory leaks
 - **Thread Safety** - All operations are now fully thread-safe
-- **Integer Overflow Protection** - Prevents crashes from large configuration values
-- **Null Pointer Safety** - Comprehensive null checks throughout the codebase
-- **Resource Leak Prevention** - Proper cleanup of all resources
-
-### 🚀 **Performance Improvements**
-- **ThreadLocalRandom** - Replaced all Random usage for better performance
-- **Memory Optimization** - Automatic cleanup of old data and animation tasks
-- **Error Handling** - Improved logging and error recovery
-- **Code Quality** - Zero linter errors, perfect code quality
+- **Performance Optimization** - ThreadLocalRandom usage and memory management improvements
 
 ---
 

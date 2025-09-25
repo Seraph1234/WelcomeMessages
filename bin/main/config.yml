@@ -114,19 +114,19 @@ themes:
     enabled: true
     morning:
       start: "06:00"
-      end: "12:00"
+      end: "11:59"
       priority: 1
     afternoon:
       start: "12:00"
-      end: "18:00"
+      end: "17:59"
       priority: 1
     evening:
       start: "18:00"
-      end: "22:00"
+      end: "21:59"
       priority: 1
     night:
       start: "22:00"
-      end: "06:00"
+      end: "05:59"
       priority: 1
 
 # Smart Player Recognition System

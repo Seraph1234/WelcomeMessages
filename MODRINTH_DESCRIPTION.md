@@ -6,6 +6,8 @@ A **simple, lightweight** welcome message plugin that actually works and doesn't
 
 ## ✨ Features
 
+![winter](https://i.ibb.co/hJLWHgTJ/2025-09-26-08-15-02.png)
+
 - **Smart Messages** - Different messages for new players vs returning ones
 - **Custom Rank System** - Define unlimited custom ranks with any names
 - **12 Text Animations** - typing, fade, slide, wave, rainbow, glitch, typewriter, bounce, shake, pulse, matrix, scramble
@@ -25,7 +27,9 @@ A **simple, lightweight** welcome message plugin that actually works and doesn't
 
 ## 🎮 What It Does
 
-Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.1:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
+![afternoon](https://i.ibb.co/d0gKKfJW/2025-09-26-08-15-10.png)
+
+Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.4:** Fixed firework damage issues and enhanced theme system with automatic conflict detection. **Previous v1.3.1:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
 
 ![IMG3](https://cdn.modrinth.com/data/cached_images/fa6e007fb779d4f6e34b805751654e39f44b5469.png)
 
@@ -150,6 +154,16 @@ Works with any plugin that supports PlaceholderAPI:
 - Cross-version compatibility (Spigot, Paper, Purpur, Pufferfish)
 
 ## 📋 Changelog
+
+### v1.3.4 - Theme System & Firework Safety Improvements
+- **🎆 FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
+- **🎨 IMPROVED: Theme System** - Enhanced theme conflict detection and resolution with automatic validation
+- **⏰ FIXED: Time Range Overlaps** - Resolved overlapping time-based theme conflicts (morning/afternoon/evening/night)
+- **📅 ENHANCED: Date Range Logic** - Improved year rollover handling for seasonal themes (winter, christmas, etc.)
+- **🔍 NEW: Theme Validation** - Automatic detection and reporting of theme configuration conflicts on startup
+- **🛡️ IMPROVED: Error Handling** - Better validation for date and time parsing with comprehensive error logging
+- **⚡ PERFORMANCE: Memory Management** - Enhanced cleanup system for firework effects to prevent memory leaks
+- **🔧 CODE QUALITY** - Zero linter errors, improved code structure and documentation
 
 ### v1.3.1 - Security & Performance Improvements
 - **🔒 Security Improvements** - Fixed various security issues and improved code safety

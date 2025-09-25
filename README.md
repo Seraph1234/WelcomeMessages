@@ -1,4 +1,4 @@
-# WelcomeMessages v1.3.1
+# WelcomeMessages v1.3.4
 ![Screenshot](images/screenshot.png)
 
 
@@ -255,6 +255,16 @@ cd WelcomeMessages
 The jar's in build/libs/
 
 ## Changelog
+
+### v1.3.4 - Theme System & Firework Safety Improvements
+- **🎆 FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
+- **🎨 IMPROVED: Theme System** - Enhanced theme conflict detection and resolution with automatic validation
+- **⏰ FIXED: Time Range Overlaps** - Resolved overlapping time-based theme conflicts (morning/afternoon/evening/night)
+- **📅 ENHANCED: Date Range Logic** - Improved year rollover handling for seasonal themes (winter, christmas, etc.)
+- **🔍 NEW: Theme Validation** - Automatic detection and reporting of theme configuration conflicts on startup
+- **🛡️ IMPROVED: Error Handling** - Better validation for date and time parsing with comprehensive error logging
+- **⚡ PERFORMANCE: Memory Management** - Enhanced cleanup system for firework effects to prevent memory leaks
+- **🔧 CODE QUALITY** - Zero linter errors, improved code structure and documentation
 
 ### v1.3.1 - Security & Performance Improvements
 - **NEW: Security Improvements** - Fixed various security issues and improved code safety
