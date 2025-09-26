@@ -89,6 +89,16 @@ public class WelcomePlugin extends JavaPlugin {
         if (dataManager != null) {
             dataManager.saveData();
         }
+        
+        // cleanup effect manager resources
+        if (effectManager != null) {
+            effectManager.cleanup();
+        }
+        
+        // cleanup animation tasks
+        if (messageManager != null && messageManager.getAnimationUtils() != null) {
+            messageManager.getAnimationUtils().cleanupAllAnimations();
+        }
 
         MessageUtils.sendConsole("&cWelcomeMessages has been disabled!");
     }

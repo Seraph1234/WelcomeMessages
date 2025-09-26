@@ -62,11 +62,13 @@ public class PlayerJoinListener implements Listener {
                 });
             }
 
-            // title
+            // title (with small delay to ensure player is fully loaded)
             if (plugin.getConfig().getBoolean("effects.title.enabled", true)) {
-                Bukkit.getScheduler().runTask(plugin, () -> {
-                    plugin.getEffectManager().sendTitle(player, isFirstJoin);
-                });
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    if (player.isOnline()) {
+                        plugin.getEffectManager().sendTitle(player, isFirstJoin);
+                    }
+                }, 5L); // 5 ticks delay (0.25 seconds)
             }
 
             // effects with delay

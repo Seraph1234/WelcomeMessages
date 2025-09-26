@@ -20,6 +20,7 @@ public class EffectManager implements Listener {
 
     private final WelcomePlugin plugin;
     private final Set<Firework> safeFireworks = new HashSet<>();
+    private final Set<BukkitRunnable> cleanupTasks = new HashSet<>();
     // Using ThreadLocalRandom for better performance
 
     public EffectManager(WelcomePlugin plugin) {
@@ -33,18 +34,36 @@ public class EffectManager implements Listener {
     }
     
     /**
+     * Clean up all resources when plugin is disabled
+     */
+    public void cleanup() {
+        // Cancel all cleanup tasks
+        for (BukkitRunnable task : cleanupTasks) {
+            if (!task.isCancelled()) {
+                task.cancel();
+            }
+        }
+        cleanupTasks.clear();
+        safeFireworks.clear();
+    }
+    
+    /**
      * Add a firework to the safe fireworks set to prevent it from causing damage
      */
     public void addSafeFirework(Firework firework) {
         safeFireworks.add(firework);
         
         // Remove the firework from the set after 10 seconds to prevent memory leaks
-        new BukkitRunnable() {
+        BukkitRunnable cleanupTask = new BukkitRunnable() {
             @Override
             public void run() {
                 safeFireworks.remove(firework);
+                cleanupTasks.remove(this);
             }
-        }.runTaskLater(plugin, 200L); // 10 seconds = 200 ticks
+        };
+        
+        cleanupTasks.add(cleanupTask);
+        cleanupTask.runTaskLater(plugin, 200L); // 10 seconds = 200 ticks
     }
     
     /**
@@ -94,8 +113,10 @@ public class EffectManager implements Listener {
             subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
         }
 
-        // Send the title
-        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        // Send the title (only if player is still online)
+        if (player.isOnline()) {
+            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
     }
     
     @SuppressWarnings("deprecation")
@@ -130,8 +151,10 @@ public class EffectManager implements Listener {
             subtitle = MessageUtils.colorize(subtitle.replace("{player}", player.getName()));
         }
 
-        // Using deprecated method for compatibility
-        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        // Using deprecated method for compatibility (only if player is still online)
+        if (player.isOnline()) {
+            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        }
     }
 
     public void playJoinSound(Player player, boolean isFirstJoin) {

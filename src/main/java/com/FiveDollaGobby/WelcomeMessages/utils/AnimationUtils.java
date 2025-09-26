@@ -59,6 +59,11 @@ public class AnimationUtils {
         if (message == null || message.isEmpty()) {
             return;
         }
+        
+        // Ensure minimum duration to prevent division by zero
+        if (duration <= 0) {
+            duration = 60; // Default to 3 seconds
+        }
 
         // Check if this is a multi-layer animation
         if (isMultiLayerAnimation(animationType)) {
@@ -275,7 +280,7 @@ public class AnimationUtils {
      */
     private void animateFade(Player player, String message, int duration) {
         int steps = 10;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -302,7 +307,7 @@ public class AnimationUtils {
     private void animateSlide(Player player, String message, int duration) {
         int maxSpaces = 20;
         int steps = maxSpaces;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -330,7 +335,7 @@ public class AnimationUtils {
     private void animateWave(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 20;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -366,7 +371,7 @@ public class AnimationUtils {
     private void animateRainbow(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 20;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -401,7 +406,7 @@ public class AnimationUtils {
     private void animateGlitch(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 15;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -500,7 +505,7 @@ public class AnimationUtils {
     private void animateBounce(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 20;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -536,7 +541,7 @@ public class AnimationUtils {
      */
     private void animateShake(Player player, String message, int duration) {
         int steps = 15;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -564,7 +569,7 @@ public class AnimationUtils {
      */
     private void animatePulse(Player player, String message, int duration) {
         int steps = 20;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -600,7 +605,7 @@ public class AnimationUtils {
     private void animateMatrix(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 25;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
@@ -641,7 +646,7 @@ public class AnimationUtils {
     private void animateScramble(Player player, String message, int duration) {
         String cleanMessage = MessageUtils.stripColors(message);
         int steps = 20;
-        int delay = duration / steps;
+        int delay = Math.max(1, duration / steps);
 
         new BukkitRunnable() {
             int currentStep = 0;
