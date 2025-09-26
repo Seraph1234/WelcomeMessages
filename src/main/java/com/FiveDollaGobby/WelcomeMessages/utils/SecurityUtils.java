@@ -178,8 +178,7 @@ public class SecurityUtils {
         
         // Don't escape HTML characters for Minecraft messages as it corrupts color codes
         // Only escape potentially dangerous characters that could cause issues
-        sanitized = sanitized.replace("\"", "&quot;")
-                            .replace("'", "&#x27;");
+        // Note: Not escaping quotes and apostrophes as they're safe in Minecraft chat
         
         return sanitized;
     }

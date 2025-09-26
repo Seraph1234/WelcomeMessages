@@ -13,10 +13,24 @@ public class MessageUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("<gradient:(#[A-Fa-f0-9]{6}):(#[A-Fa-f0-9]{6})>(.*?)</gradient>");
     private static final Pattern RAINBOW_PATTERN = Pattern.compile("<rainbow>(.*?)</rainbow>");
+    
+    // Clean up HTML entities that might have been introduced
+    private static String cleanHtmlEntities(String message) {
+        if (message == null) return "";
+        
+        return message.replace("&#x27;", "'")
+                     .replace("&quot;", "\"")
+                     .replace("&amp;", "&")
+                     .replace("&lt;", "<")
+                     .replace("&gt;", ">");
+    }
 
     // colorize with hex, gradient, and rainbow support
     public static String colorize(String message) {
         if (message == null) return "";
+        
+        // Clean up any existing HTML entities that might have been introduced
+        message = cleanHtmlEntities(message);
         
         // Enhanced security check using SecurityUtils
         message = SecurityUtils.sanitizeMessageContent(message);

@@ -256,6 +256,15 @@ The jar's in build/libs/
 
 ## Changelog
 
+### v1.3.5 - Critical Bug Fixes & Formatting Improvements
+- **🔧 FIXED: Title Display Issues** - Welcome titles now show consistently on player join with proper timing and online checks
+- **🎨 FIXED: Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
+- **🛡️ FIXED: Division by Zero** - Added safety checks to prevent crashes when animation duration is set to 0
+- **💾 FIXED: Memory Leaks** - Proper cleanup of firework tasks and animation resources when plugin disables
+- **🔍 IMPROVED: HTML Entity Handling** - Added automatic cleanup of HTML entities in messages
+- **⚡ ENHANCED: Resource Management** - Better cleanup system for all plugin resources
+- **🔧 CODE QUALITY** - Fixed deprecated method usage and improved error handling
+
 ### v1.3.4 - Theme System & Firework Safety Improvements
 - **🎆 FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
 - **🎨 IMPROVED: Theme System** - Enhanced theme conflict detection and resolution with automatic validation

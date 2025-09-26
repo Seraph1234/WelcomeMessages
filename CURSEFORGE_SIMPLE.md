@@ -1,5 +1,5 @@
 ![https://i.postimg.cc/VLwf7Mjw/screenshot.png](https://i.postimg.cc/VLwf7Mjw/screenshot.png "https://i.postimg.cc/VLwf7Mjw/screenshot.png")
-# WelcomeMessages v1.3.4
+# WelcomeMessages v1.3.5
 
 **The Ultimate Welcome Plugin for Minecraft Servers**
 
@@ -12,10 +12,21 @@
 
 ---
 
-## 🎉 What's New in v1.3.4
+## 🎉 What's New in v1.3.5
 
-### 🎆 **Firework Safety & Theme System Improvements**
-WelcomeMessages v1.3.4 focuses on making your server experience safer and more reliable:
+### 🔧 **Critical Bug Fixes & Formatting Improvements**
+WelcomeMessages v1.3.5 focuses on fixing critical issues and improving message formatting:
+
+- **🔧 Title Display Fixes** - Welcome titles now show consistently on player join with proper timing and online checks
+- **🎨 Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
+- **🛡️ Division by Zero Protection** - Added safety checks to prevent crashes when animation duration is set to 0
+- **💾 Memory Leak Fixes** - Proper cleanup of firework tasks and animation resources when plugin disables
+- **🔍 HTML Entity Handling** - Added automatic cleanup of HTML entities in messages
+- **⚡ Resource Management** - Better cleanup system for all plugin resources
+- **🔧 Code Quality** - Fixed deprecated method usage and improved error handling
+
+### 🎆 **Previous v1.3.4: Firework Safety & Theme System Improvements**
+WelcomeMessages v1.3.4 focused on making your server experience safer and more reliable:
 
 - **🎆 Firework Safety** - Fixed critical issue where welcome fireworks were causing damage to players
 - **🎨 Theme System Enhancement** - Completely overhauled theme conflict detection and resolution

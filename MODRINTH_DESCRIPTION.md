@@ -29,7 +29,7 @@ A **simple, lightweight** welcome message plugin that actually works and doesn't
 
 ![afternoon](https://i.ibb.co/d0gKKfJW/2025-09-26-08-15-10.png)
 
-Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.4:** Fixed firework damage issues and enhanced theme system with automatic conflict detection. **Previous v1.3.1:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
+Makes your server feel more alive with custom join/quit messages. First time players get a special welcome, regulars get their own messages, and your VIPs can have fancy entrances with fireworks and everything. **NEW in v1.3.5:** Fixed critical title display issues, message formatting bugs, and memory leaks. **Previous v1.3.4:** Fixed firework damage issues and enhanced theme system with automatic conflict detection. **Previous v1.3.1:** Enhanced security with rate limiting and input sanitization. **Previous v1.2.5:** 12 stunning text animations that play in the action bar (no chat spam!).
 
 ![IMG3](https://cdn.modrinth.com/data/cached_images/fa6e007fb779d4f6e34b805751654e39f44b5469.png)
 
@@ -154,6 +154,15 @@ Works with any plugin that supports PlaceholderAPI:
 - Cross-version compatibility (Spigot, Paper, Purpur, Pufferfish)
 
 ## 📋 Changelog
+
+### v1.3.5 - Critical Bug Fixes & Formatting Improvements
+- **🔧 FIXED: Title Display Issues** - Welcome titles now show consistently on player join with proper timing and online checks
+- **🎨 FIXED: Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
+- **🛡️ FIXED: Division by Zero** - Added safety checks to prevent crashes when animation duration is set to 0
+- **💾 FIXED: Memory Leaks** - Proper cleanup of firework tasks and animation resources when plugin disables
+- **🔍 IMPROVED: HTML Entity Handling** - Added automatic cleanup of HTML entities in messages
+- **⚡ ENHANCED: Resource Management** - Better cleanup system for all plugin resources
+- **🔧 CODE QUALITY** - Fixed deprecated method usage and improved error handling
 
 ### v1.3.4 - Theme System & Firework Safety Improvements
 - **🎆 FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
