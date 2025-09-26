@@ -176,8 +176,10 @@ public class SecurityUtils {
             sanitized = sanitized.substring(0, 997) + "...";
         }
         
-        // Escape HTML-like characters
-        sanitized = escapeHtml(sanitized);
+        // Don't escape HTML characters for Minecraft messages as it corrupts color codes
+        // Only escape potentially dangerous characters that could cause issues
+        sanitized = sanitized.replace("\"", "&quot;")
+                            .replace("'", "&#x27;");
         
         return sanitized;
     }

@@ -316,9 +316,9 @@ public class MessageManager {
             plugin.getConfig().getInt("animations.default-duration", 60));
     }
 
-    @SuppressWarnings("deprecation")
     private String getDisplayName(Player player) {
-        return player.getDisplayName();
+        // Use getName() instead of deprecated getDisplayName() for better compatibility
+        return player.getName();
     }
 
     /**
