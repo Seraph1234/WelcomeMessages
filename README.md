@@ -48,7 +48,7 @@ But honestly, you'll customize these anyway.
 4. Edit configs if you want
 5. You're done
 
-Requires Paper/Spigot 1.21.x and Java 21 (because Minecraft requires it, not me). Works on both Spigot and Paper.
+Requires Paper/Spigot 1.21.x (all versions from 1.21 to 1.21.9) and Java 21 (because Minecraft requires it, not me). Works on both Spigot and Paper with enhanced compatibility.
 
 ## Features That Actually Matter
 
@@ -256,24 +256,31 @@ The jar's in build/libs/
 
 ## Changelog
 
+### v1.3.6 - Full 1.21.x Compatibility & Enhanced Support
+- ** ENHANCED: Full 1.21.x Support** - Now compatible with all Minecraft 1.21.x versions (1.21 through 1.21.9)
+- ** IMPROVED: Spigot & Paper Compatibility** - Enhanced support for both Spigot and Paper servers across all 1.21.x versions
+- ** UPDATED: Dependencies** - Updated to latest Paper API 1.21.9 and Spigot API for maximum compatibility
+- ** ENHANCED: Version Detection** - Better server version detection and compatibility handling
+- ** UPDATED: Documentation** - Updated compatibility information and installation instructions
+
 ### v1.3.5 - Critical Bug Fixes & Formatting Improvements
-- **🔧 FIXED: Title Display Issues** - Welcome titles now show consistently on player join with proper timing and online checks
-- **🎨 FIXED: Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
-- **🛡️ FIXED: Division by Zero** - Added safety checks to prevent crashes when animation duration is set to 0
-- **💾 FIXED: Memory Leaks** - Proper cleanup of firework tasks and animation resources when plugin disables
-- **🔍 IMPROVED: HTML Entity Handling** - Added automatic cleanup of HTML entities in messages
-- **⚡ ENHANCED: Resource Management** - Better cleanup system for all plugin resources
-- **🔧 CODE QUALITY** - Fixed deprecated method usage and improved error handling
+- ** FIXED: Title Display Issues** - Welcome titles now show consistently on player join with proper timing and online checks
+- ** FIXED: Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
+- ** FIXED: Division by Zero** - Added safety checks to prevent crashes when animation duration is set to 0
+- ** FIXED: Memory Leaks** - Proper cleanup of firework tasks and animation resources when plugin disables
+- ** IMPROVED: HTML Entity Handling** - Added automatic cleanup of HTML entities in messages
+- ** ENHANCED: Resource Management** - Better cleanup system for all plugin resources
+- ** CODE QUALITY** - Fixed deprecated method usage and improved error handling
 
 ### v1.3.4 - Theme System & Firework Safety Improvements
-- **🎆 FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
-- **🎨 IMPROVED: Theme System** - Enhanced theme conflict detection and resolution with automatic validation
-- **⏰ FIXED: Time Range Overlaps** - Resolved overlapping time-based theme conflicts (morning/afternoon/evening/night)
-- **📅 ENHANCED: Date Range Logic** - Improved year rollover handling for seasonal themes (winter, christmas, etc.)
-- **🔍 NEW: Theme Validation** - Automatic detection and reporting of theme configuration conflicts on startup
-- **🛡️ IMPROVED: Error Handling** - Better validation for date and time parsing with comprehensive error logging
-- **⚡ PERFORMANCE: Memory Management** - Enhanced cleanup system for firework effects to prevent memory leaks
-- **🔧 CODE QUALITY** - Zero linter errors, improved code structure and documentation
+- ** FIXED: Firework Damage Issue** - Fireworks no longer cause damage to players during welcome effects
+- ** IMPROVED: Theme System** - Enhanced theme conflict detection and resolution with automatic validation
+- ** FIXED: Time Range Overlaps** - Resolved overlapping time-based theme conflicts (morning/afternoon/evening/night)
+- ** ENHANCED: Date Range Logic** - Improved year rollover handling for seasonal themes (winter, christmas, etc.)
+- ** NEW: Theme Validation** - Automatic detection and reporting of theme configuration conflicts on startup
+- ** IMPROVED: Error Handling** - Better validation for date and time parsing with comprehensive error logging
+- ** PERFORMANCE: Memory Management** - Enhanced cleanup system for firework effects to prevent memory leaks
+- ** CODE QUALITY** - Zero linter errors, improved code structure and documentation
 
 ### v1.3.1 - Security & Performance Improvements
 - **NEW: Security Improvements** - Fixed various security issues and improved code safety

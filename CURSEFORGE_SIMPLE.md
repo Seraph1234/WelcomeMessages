@@ -1,5 +1,5 @@
 ![https://i.postimg.cc/VLwf7Mjw/screenshot.png](https://i.postimg.cc/VLwf7Mjw/screenshot.png "https://i.postimg.cc/VLwf7Mjw/screenshot.png")
-# WelcomeMessages v1.3.5
+# WelcomeMessages v1.3.6
 
 **The Ultimate Welcome Plugin for Minecraft Servers**
 
@@ -12,10 +12,19 @@
 
 ---
 
-## 🎉 What's New in v1.3.5
+## 🎉 What's New in v1.3.6
 
-### 🔧 **Critical Bug Fixes & Formatting Improvements**
-WelcomeMessages v1.3.5 focuses on fixing critical issues and improving message formatting:
+### 🌐 **Full 1.21.x Compatibility & Enhanced Support**
+WelcomeMessages v1.3.6 focuses on providing complete compatibility with all Minecraft 1.21.x versions:
+
+- **🌐 Full 1.21.x Support** - Now compatible with all Minecraft 1.21.x versions (1.21 through 1.21.9)
+- **🔧 Enhanced Spigot & Paper Compatibility** - Improved support for both Spigot and Paper servers across all 1.21.x versions
+- **📦 Updated Dependencies** - Updated to latest Paper API 1.21.9 and Spigot API for maximum compatibility
+- **🛡️ Better Version Detection** - Enhanced server version detection and compatibility handling
+- **📚 Updated Documentation** - Updated compatibility information and installation instructions
+
+### 🔧 **Previous v1.3.5: Critical Bug Fixes & Formatting Improvements**
+WelcomeMessages v1.3.5 focused on fixing critical issues and improving message formatting:
 
 - **🔧 Title Display Fixes** - Welcome titles now show consistently on player join with proper timing and online checks
 - **🎨 Message Formatting** - Resolved HTML entity corruption that was causing `mp:8` instead of `&8` color codes
@@ -220,9 +229,9 @@ If you have PlaceholderAPI installed, you can use these placeholders:
 
 ## 🛡️ Compatibility
 
-- **Minecraft:** 1.21.x
+- **Minecraft:** 1.21.x (all versions from 1.21 to 1.21.9)
 - **Java:** 21 (required by Minecraft)
-- **Server Software:** Spigot, Paper, Purpur, Pufferfish
+- **Server Software:** Spigot, Paper, Purpur, Pufferfish (enhanced compatibility)
 - **Permission Plugins:** LuckPerms, PEX, GroupManager, etc.
 - **Other Plugins:** PlaceholderAPI, bStats
 
@@ -272,6 +281,6 @@ If you have PlaceholderAPI installed, you can use these placeholders:
 ## 🔗 Links
 
 - **GitHub Repository:** [https://github.com/FiveDollaGobby/WelcomeMessages](https://github.com/FiveDollaGobby/WelcomeMessages)
-- **Latest Release:** [v1.2.5 Download](https://github.com/FiveDollaGobby/WelcomeMessages/releases/latest)
+- **Latest Release:** [v1.3.6 Download](https://github.com/FiveDollaGobby/WelcomeMessages/releases/latest)
 - **Report Issues:** [GitHub Issues](https://github.com/FiveDollaGobby/WelcomeMessages/issues)
 - **View Source Code:** [GitHub Code](https://github.com/FiveDollaGobby/WelcomeMessages)
